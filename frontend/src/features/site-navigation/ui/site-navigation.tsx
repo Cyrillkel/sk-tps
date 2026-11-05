@@ -6,7 +6,7 @@ import { useEffect, useRef, useState } from "react";
 
 import { company } from "@/entities/company";
 import { services } from "@/entities/service";
-import { Container } from "@/shared/ui";
+import { CloseIcon, Container, MenuIcon } from "@/shared/ui";
 
 const navigation = [
   { href: "/", label: "Главная" },
@@ -72,9 +72,7 @@ export function SiteNavigation() {
         onClick={() => setIsOpen((open) => !open)}
         className="flex size-11 items-center justify-center rounded-lg border border-border text-foreground transition-colors hover:bg-background xl:hidden"
       >
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" aria-hidden="true">
-          {isOpen ? <path d="m6 6 12 12M6 18 18 6" /> : <path d="M4 6h16M4 12h16M4 18h16" />}
-        </svg>
+        {isOpen ? <CloseIcon /> : <MenuIcon />}
       </button>
 
       <nav
