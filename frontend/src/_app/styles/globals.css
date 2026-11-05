@@ -1,0 +1,26 @@
+@import "tailwindcss";
+
+@theme {
+  --color-background: #f8f9fb;
+  --color-surface: #ffffff;
+  --color-foreground: #18242e;
+  --color-muted: #5b6873;
+  --color-border: #e2e7eb;
+  --color-accent: #b94420;
+  --color-accent-hover: #973719;
+  --color-header-strip: #182d3d;
+  --font-sans: Arial, Helvetica, sans-serif;
+  --container-site: 90rem;
+}
+
+@layer base {
+  :focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 4px;
+  }
+
+  button:not(:disabled),
+  summary {
+    cursor: pointer;
+  }
+}

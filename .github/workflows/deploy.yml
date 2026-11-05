@@ -1,0 +1,103 @@
+name: Deploy demo to VPS
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - frontend/**
+      - deploy/**
+      - .github/workflows/deploy.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: sk-tps-demo
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    env:
+      NEXT_TELEMETRY_DISABLED: "1"
+    defaults:
+      run:
+        shell: bash
+        working-directory: frontend
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
+
+      - name: Set up pnpm
+        uses: pnpm/action-setup@73e46992e05b19abd31f2f3c20e0e7370d762115 # v6
+        with:
+          package_json_file: frontend/package.json
+
+      - name: Set up Node.js
+        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7
+        with:
+          node-version: "24"
+          cache: pnpm
+          cache-dependency-path: frontend/pnpm-lock.yaml
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Check code
+        run: |
+          pnpm lint
+          pnpm typecheck
+
+      - name: Check deployment scripts
+        working-directory: .
+        run: |
+          python3 -B -m unittest discover -s deploy -p 'test_*.py'
+          bash -n deploy/bootstrap.sh
+
+      - name: Build static site
+        run: pnpm build:static
+
+      - name: Publish to VPS
+        working-directory: .
+        env:
+          DEPLOY_SSH_KEY: ${{ secrets.SK_TPS_DEPLOY_KEY }}
+          RELEASE_ID: ${{ github.sha }}-${{ github.run_id }}-${{ github.run_attempt }}
+        run: |
+          set -euo pipefail
+          if [[ -z "$DEPLOY_SSH_KEY" ]]; then
+            echo "Add the SK_TPS_DEPLOY_KEY repository secret before deployment." >&2
+            exit 1
+          fi
+
+          test -f frontend/out/index.html
+          test -f frontend/out/404.html
+          tar -C frontend/out -czf "$RUNNER_TEMP/sk-tps-site.tar.gz" .
+
+          eval "$(ssh-agent -s)" > /dev/null
+          trap 'ssh-agent -k > /dev/null' EXIT
+          printf '%s\n' "$DEPLOY_SSH_KEY" | ssh-add - > /dev/null 2>&1
+          unset DEPLOY_SSH_KEY
+
+          ssh -F /dev/null -T \
+            -o IdentityFile=none \
+            -o BatchMode=yes \
+            -o StrictHostKeyChecking=yes \
+            -o UserKnownHostsFile="$GITHUB_WORKSPACE/deploy/known_hosts" \
+            -o ConnectTimeout=15 \
+            -o ServerAliveInterval=15 \
+            -o ServerAliveCountMax=4 \
+            deploy-sk-tps@177.203.49.191 "publish $RELEASE_ID" \
+            < "$RUNNER_TEMP/sk-tps-site.tar.gz"
+
+          curl --fail --silent --show-error --max-time 15 \
+            --retry 5 --retry-delay 2 --retry-connrefused \
+            http://177.203.49.191/__deployment.json \
+            | python3 -c 'import json, sys; assert json.load(sys.stdin)["release"] == sys.argv[1], "Unexpected release"' "$RELEASE_ID"
+
+          printf 'Demo deployed: http://177.203.49.191/\n' >> "$GITHUB_STEP_SUMMARY"
