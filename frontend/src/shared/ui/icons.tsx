@@ -73,6 +73,15 @@ export function MaxIcon(props: IconProps) {
   );
 }
 
+export function WhatsAppIcon(props: IconProps) {
+  return (
+    <SvgIcon {...props}>
+      <path d="M20.5 11.6a8.5 8.5 0 0 1-12.6 7.5L3 20.5l1.4-4.8a8.5 8.5 0 1 1 16.1-4.1Z" />
+      <path d="m8.2 7.3 1.1 2.4-.8 1a10 10 0 0 0 3.8 3.8l1-.8 2.4 1.1c.3.2.3.5.2.8-.4 1.1-1.4 1.7-2.5 1.4-3.9-1-7-4.1-8-8-.3-1.1.3-2.1 1.4-2.5.3-.1.6-.1.8.2Z" transform="translate(1 0) scale(.95)" />
+    </SvgIcon>
+  );
+}
+
 export function SunIcon(props: IconProps) {
   return <SvgIcon {...props}><circle cx="12" cy="12" r="4" /><path d="M12 2v2m0 16v2M2 12h2m16 0h2M4.9 4.9l1.4 1.4m11.4 11.4 1.4 1.4M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4" /></SvgIcon>;
 }

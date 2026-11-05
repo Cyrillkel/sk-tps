@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useEffect, useRef, useState, type ReactNode } from "react";
 
 import { company } from "@/entities/company";
-import { ChevronDownIcon, CloseIcon, Container, MenuIcon } from "@/shared/ui";
+import { ChevronDownIcon, CloseIcon, Container, MenuIcon, WhatsAppIcon } from "@/shared/ui";
 
 import { ServiceLinks } from "./service-links";
 
@@ -112,6 +112,9 @@ export function MobileNavigation({ controls, logo }: { controls: ReactNode; logo
               <div className="flex flex-col items-start gap-3 border-t border-border pt-6">
                 <a href={company.phoneHref} className="text-xl font-semibold text-primary">{company.phone}</a>
                 <a href={`mailto:${company.email}`} className="text-sm text-muted">{company.email}</a>
+                <a href={company.whatsapp} target="_blank" rel="noopener noreferrer" className="flex min-h-11 items-center gap-2 text-sm font-semibold text-primary hover:text-accent">
+                  <WhatsAppIcon className="size-6" /> Написать в WhatsApp
+                </a>
                 <p className="mt-2 text-xs text-muted">{company.region}</p>
               </div>
             </div>

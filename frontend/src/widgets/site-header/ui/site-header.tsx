@@ -4,7 +4,7 @@ import Link from "next/link";
 import { company } from "@/entities/company";
 import { SiteNavigation } from "@/features/site-navigation";
 import { ThemeToggle } from "@/features/theme-toggle";
-import { Container, MaxIcon, PhoneIcon, TelegramIcon } from "@/shared/ui";
+import { Container, MaxIcon, PhoneIcon, TelegramIcon, WhatsAppIcon } from "@/shared/ui";
 
 export function SiteHeader() {
   return (
@@ -44,6 +44,15 @@ export function SiteHeader() {
           </a>
         </div>
         <div className="hidden items-center gap-3 text-primary xl:flex">
+          <a
+            href={company.whatsapp}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Написать в WhatsApp"
+            className="transition-opacity hover:opacity-70"
+          >
+            <WhatsAppIcon className="size-7" />
+          </a>
           <a
             href={company.max}
             target="_blank"
