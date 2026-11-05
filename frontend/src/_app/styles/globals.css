@@ -24,6 +24,8 @@
 
 @layer base {
   :root {
+    --site-header-height: 80px;
+    --header-glass: #ffffffb8;
     color-scheme: light;
     --hero-overlay: linear-gradient(90deg, #eff3f5 0%, #eff3f5f2 22%, #eff3f5b8 48%, #eff3f512 100%), linear-gradient(0deg, #eff3f5f5 0%, transparent 65%);
     --hero-overlay-mobile: linear-gradient(90deg, #eff3f5f2, #eff3f5a6), linear-gradient(0deg, #eff3f5 0%, #eff3f5b8 70%, transparent 100%);
@@ -31,6 +33,7 @@
   }
 
   .dark {
+    --header-glass: #101f2bb8;
     color-scheme: dark;
     --color-background: #09151e;
     --color-surface: #101f2b;
@@ -67,6 +70,64 @@
 }
 
 @layer components {
+  .site-header {
+    position: fixed;
+    inset: 0 0 auto;
+    z-index: 50;
+    height: var(--site-header-height);
+    border-bottom: 1px solid var(--color-hero-border);
+    background: var(--header-glass);
+    backdrop-filter: blur(18px) saturate(140%);
+  }
+
+  .header-logo {
+    width: clamp(140px, 43vw, 260px);
+    height: auto;
+  }
+
+  .header-icon-button {
+    display: inline-flex;
+    width: 36px;
+    height: 40px;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    color: var(--color-primary);
+  }
+
+  .header-icon-button:hover {
+    background: var(--color-background);
+  }
+
+  .site-main {
+    padding-top: var(--site-header-height);
+  }
+
+  .mobile-menu {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    max-width: none;
+    height: 100dvh;
+    max-height: none;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    background: var(--color-surface);
+    color: var(--color-foreground);
+    overflow: hidden;
+  }
+
+  .mobile-menu[open] {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .mobile-menu-toolbar {
+    min-height: var(--site-header-height);
+  }
+
   .button-brand {
     display: inline-flex;
     align-items: center;
@@ -86,7 +147,8 @@
     position: relative;
     isolation: isolate;
     overflow: hidden;
-    min-height: calc(100svh - 96px);
+    min-height: 100svh;
+    margin-top: calc(-1 * var(--site-header-height));
     background: var(--color-hero);
     color: var(--color-hero-foreground);
   }
@@ -94,6 +156,10 @@
   .hero-photo {
     position: absolute;
     inset: 0 0 0 16%;
+  }
+
+  .hero-content {
+    padding-top: calc(var(--site-header-height) + clamp(48px, 6vw, 88px));
   }
 
   .hero-shade {
@@ -132,6 +198,7 @@
   .work-stages {
     position: relative;
     padding-top: .5rem;
+    --stage-indent: 20%;
   }
 
   .stage-tab {
@@ -155,27 +222,112 @@
   }
 
   .stage-dot {
-    width: 7px;
-    height: 7px;
+    position: absolute;
+    left: 20px;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 21px;
+    height: 21px;
     flex-shrink: 0;
+    border: 1px solid var(--color-hero-foreground);
     border-radius: 50%;
-    background: var(--color-hero-muted);
-    box-shadow: 0 0 0 5px var(--color-hero-tab), 0 0 0 6px var(--color-hero-border);
+    background: var(--color-hero);
   }
 
-  .stage-tab-active .stage-dot {
+  .stage-dot::after {
+    content: "";
+    position: absolute;
+    inset: 7px;
+    border-radius: 50%;
+    background: var(--color-hero-foreground);
+  }
+
+  .stage-tab-active .stage-dot::after {
     background: var(--color-accent);
+  }
+
+  .stage-connector {
+    display: none;
   }
 
   .stage-panel {
     margin-top: 24px;
     border: 1px solid var(--color-hero-border);
-    border-left: 2px solid var(--color-accent);
+    border-left: 3px solid var(--color-accent);
     border-radius: 5px;
     padding: 22px;
     background: var(--color-hero-panel);
     backdrop-filter: blur(10px);
   }
+}
+
+@media (min-width: 1280px) {
+  :root { --site-header-height: 96px; }
+}
+
+@media (min-width: 1024px) {
+  .stage-tabs {
+    position: relative;
+    margin-left: var(--stage-indent);
+  }
+
+  .stage-tabs::before {
+    content: "";
+    position: absolute;
+    top: 22px;
+    bottom: 0;
+    left: 20px;
+    width: 1px;
+    background: var(--color-accent);
+  }
+
+  .stage-tab { padding-left: 48px; }
+
+  .stage-connector {
+    position: relative;
+    display: block;
+    height: 44px;
+  }
+
+  .stage-connector::before, .stage-connector::after {
+    content: "";
+    position: absolute;
+    background: var(--color-accent);
+  }
+
+  .stage-connector::before {
+    left: calc(var(--stage-indent) + 20px);
+    width: 1px;
+    height: 28px;
+  }
+
+  .stage-connector::after {
+    top: 28px;
+    left: 42px;
+    width: calc(var(--stage-indent) - 22px);
+    height: 1px;
+  }
+
+  .stage-connector > i {
+    position: absolute;
+    top: 24px;
+    left: 38px;
+    width: 9px;
+    height: 9px;
+    border: 1px solid var(--color-accent);
+    border-radius: 50%;
+    background: var(--color-hero);
+  }
+
+  .stage-connector > i::after {
+    content: "";
+    position: absolute;
+    inset: 2px;
+    border-radius: 50%;
+    background: var(--color-accent);
+  }
+
+  .stage-panel { margin-top: 0; }
 }
 
 @media (max-width: 1023px) {

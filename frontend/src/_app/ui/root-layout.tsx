@@ -29,7 +29,7 @@ export function RootLayout({ children }: Readonly<{ children: ReactNode }>) {
           Перейти к содержимому
         </a>
         <SiteHeader />
-        <main id="main-content" tabIndex={-1} className="flex-1 focus:outline-none">
+        <main id="main-content" tabIndex={-1} className="site-main flex-1 focus:outline-none">
           {children}
         </main>
       </body>

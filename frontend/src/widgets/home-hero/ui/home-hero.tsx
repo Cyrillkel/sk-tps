@@ -13,7 +13,7 @@ export function HomeHero() {
       </div>
       <div className="hero-shade" aria-hidden="true" />
       <div className="hero-grid" aria-hidden="true"><span /><span /><span /></div>
-      <Container className="relative z-10 flex min-h-[inherit] flex-col pt-14 pb-8 sm:pt-20 lg:pt-24 lg:pb-8">
+      <Container className="hero-content relative z-10 flex min-h-[inherit] flex-col pb-8">
         <div className="grid items-start gap-10 lg:grid-cols-[1.8fr_1fr] lg:gap-12">
           <div className="pb-2 lg:pt-2">
             <p className="mb-6 flex items-center gap-3 text-[11px] font-medium tracking-[0.08em] text-hero-muted sm:text-sm sm:tracking-wide">

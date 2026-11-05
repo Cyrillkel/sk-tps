@@ -28,7 +28,7 @@ export function WorkStages() {
 
   return (
     <div className="work-stages">
-      <div role="tablist" aria-label="Этапы работы" className="grid grid-cols-2 gap-2 lg:grid-cols-1 lg:gap-3">
+      <div role="tablist" aria-label="Этапы работы" className="stage-tabs grid grid-cols-2 gap-2 lg:grid-cols-1 lg:gap-4">
         {workStages.map((item, index) => (
           <button
             key={item.label}
@@ -49,15 +49,16 @@ export function WorkStages() {
           </button>
         ))}
       </div>
+      <div className="stage-connector" aria-hidden="true"><i /></div>
       {workStages.map((item, index) => (
         <div key={item.label} id={`stage-panel-${index}`} role="tabpanel" aria-labelledby={`stage-tab-${index}`} hidden={activeIndex !== index} tabIndex={0} className="stage-panel">
-          <div className="mb-4 flex items-center gap-4">
+          <div className="mb-3 flex items-center gap-3">
             <span className="text-sm font-semibold text-accent">0{index + 1}</span>
             <h2 className="flex-1 text-lg font-bold text-hero-foreground sm:text-xl">{item.title}</h2>
-            <span className="hidden text-[10px] whitespace-nowrap text-hero-muted sm:inline">{index + 1} из {workStages.length}</span>
+            <span className="hidden text-[10px] whitespace-nowrap text-hero-muted sm:inline">Этап {index + 1} из {workStages.length}</span>
           </div>
           <p className="text-sm leading-relaxed text-hero-muted">{item.description}</p>
-          <button type="button" onClick={() => selectStage((activeIndex + 1) % workStages.length, true)} aria-label={`Следующий этап: ${workStages[(activeIndex + 1) % workStages.length]?.label ?? stage.label}`} className="mt-5 ml-auto flex min-h-10 items-center gap-3 text-xs text-hero-muted hover:text-accent">
+          <button type="button" onClick={() => selectStage((activeIndex + 1) % workStages.length, true)} aria-label={`Следующий этап: ${workStages[(activeIndex + 1) % workStages.length]?.label ?? stage.label}`} className="mt-3 ml-auto flex min-h-8 items-center gap-3 text-xs text-hero-muted hover:text-accent">
             0{(activeIndex + 1) % workStages.length + 1} <ArrowRightIcon className="size-5 text-accent" />
           </button>
         </div>
