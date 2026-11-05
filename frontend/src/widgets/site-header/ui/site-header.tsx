@@ -49,9 +49,9 @@ export function SiteHeader() {
             target="_blank"
             rel="noopener noreferrer"
             aria-label="Написать в WhatsApp"
-            className="transition-opacity hover:opacity-70"
+            className="flex size-7 items-center justify-center rounded-full bg-primary text-surface transition-opacity hover:opacity-70"
           >
-            <WhatsAppIcon className="size-7" />
+            <WhatsAppIcon className="size-4.5" />
           </a>
           <a
             href={company.max}
