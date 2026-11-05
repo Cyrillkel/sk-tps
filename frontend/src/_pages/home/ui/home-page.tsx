@@ -1,5 +1,5 @@
-import { company } from "@/entities/company";
+import { HomeHero } from "@/widgets/home-hero";
 
 export function HomePage() {
-  return <h1 className="sr-only">Строительная компания «{company.name}»</h1>;
+  return <HomeHero />;
 }

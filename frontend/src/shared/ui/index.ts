@@ -1,2 +1,2 @@
 export { Container } from "./container";
-export { CloseIcon, MailIcon, MenuIcon, PhoneIcon } from "./icons";
+export { ArrowRightIcon, ArrowUpRightIcon, ChevronDownIcon, CloseIcon, MailIcon, MaxIcon, MenuIcon, MoonIcon, PhoneIcon, SunIcon, TelegramIcon } from "./icons";
