@@ -17,7 +17,7 @@ export function ThemeToggle() {
       aria-pressed={theme === "dark"}
       title={label}
       onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-      className="flex size-9 shrink-0 items-center justify-center rounded-lg border border-border bg-surface text-primary transition-colors hover:bg-background lg:size-10"
+      className="flex size-9 shrink-0 items-center justify-center rounded-full bg-primary/5 text-muted transition-colors hover:bg-primary/10 hover:text-primary lg:size-10 dark:border dark:border-border dark:bg-surface dark:text-primary dark:hover:bg-background"
     >
       <MoonIcon className="size-4.5 dark:hidden" />
       <SunIcon className="hidden size-4.5 dark:block" />
