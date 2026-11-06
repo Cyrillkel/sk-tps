@@ -35,7 +35,6 @@
     --hero-overlay: linear-gradient(90deg, #eff3f5 0%, #eff3f5f2 22%, #eff3f5b8 48%, #eff3f512 100%), linear-gradient(0deg, #eff3f5f5 0%, transparent 65%);
     --hero-overlay-mobile: linear-gradient(90deg, #eff3f5f2, #eff3f5a6), linear-gradient(0deg, #eff3f5 0%, #eff3f5b8 70%, transparent 100%);
     --hero-active: #ffffffed;
-    --service-card-outline: #ffffff40;
     --service-card-shadow: 0 2px 6px #17365014, 0 12px 28px -14px #17365059;
   }
 
@@ -59,7 +58,6 @@
     --hero-overlay: linear-gradient(90deg, #071923 0%, #071923ed 22%, #071923a6 48%, #07192312 100%), linear-gradient(0deg, #071923e8 0%, transparent 65%);
     --hero-overlay-mobile: linear-gradient(90deg, #071923eb, #07192366), linear-gradient(0deg, #071923 0%, #07192380 70%, transparent 100%);
     --hero-active: #071923b8;
-    --service-card-outline: #a8c3d14d;
     --service-card-shadow: 0 2px 8px #00000033, 0 14px 30px -12px #00000080;
   }
 
@@ -282,23 +280,11 @@
     min-height: 340px;
     flex-direction: column;
     overflow: hidden;
-    border: 1px solid transparent;
     border-radius: 16px;
     padding: 20px;
     background: var(--color-service-card);
     box-shadow: var(--service-card-shadow);
     transition: transform 180ms ease;
-  }
-
-  .service-card::after {
-    content: "";
-    position: absolute;
-    inset: -1px;
-    z-index: 20;
-    border: 1px solid var(--service-card-outline);
-    border-radius: inherit;
-    pointer-events: none;
-    transition: border-color 180ms ease;
   }
 
   .service-card-shade {
@@ -319,10 +305,6 @@
 
   .service-card:hover, .service-card:focus-visible {
     transform: translateY(-3px);
-  }
-
-  .service-card:hover::after, .service-card:focus-visible::after {
-    border-color: var(--color-accent);
   }
 
   .service-card-symbol {
