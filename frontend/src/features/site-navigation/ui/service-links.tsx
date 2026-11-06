@@ -1,12 +1,12 @@
 import Link from "next/link";
 
-import { services } from "@/entities/service";
+import { navigationServices } from "@/entities/service";
 import { ArrowUpRightIcon } from "@/shared/ui";
 
 export function ServiceLinks({ onNavigate, mobile = false }: { onNavigate: () => void; mobile?: boolean }) {
   return (
     <ul className={mobile ? "grid gap-1" : "grid grid-cols-2 gap-x-3 gap-y-1"}>
-      {services.map((service, index) => (
+      {navigationServices.map((service, index) => (
         <li key={service.slug}>
           <Link
             href={`/${service.slug}`}

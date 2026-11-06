@@ -1,1 +1,1 @@
-export { services } from "./model/services";
+export { navigationServices, services } from "./model/services";

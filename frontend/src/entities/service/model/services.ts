@@ -1,4 +1,38 @@
+export const navigationServices = [
+  {
+    slug: "promyshlennye-sistemy",
+    navigationLabel: "Промышленные системы",
+    title: "Монтаж, ремонт и реконструкция промышленных систем",
+  },
+  {
+    slug: "tekhnologicheskie-truboprovody",
+    navigationLabel: "Технологические трубопроводы и паропроводы",
+    title: "Монтаж, ремонт и реконструкция технологических трубопроводов и паропроводов",
+  },
+  {
+    slug: "elektromontazh",
+    navigationLabel: "Электромонтажные работы",
+    title: "Электромонтажные работы",
+  },
+  {
+    slug: "teploizolyaciya",
+    navigationLabel: "Теплоизоляционные работы",
+    title: "Теплоизоляционные работы",
+  },
+  {
+    slug: "servisnoe-obsluzhivanie",
+    navigationLabel: "Комплексное сервисное обслуживание",
+    title: "Обслуживание инженерных систем",
+  },
+  {
+    slug: "prochistka-kanalizacii",
+    navigationLabel: "Обслуживание инженерных систем канализации",
+    title: "Прочистка и обслуживание канализации",
+  },
+] as const;
+
 export const services = [
+  ...navigationServices,
   {
     slug: "otoplenie",
     navigationLabel: "Отопление",
@@ -15,11 +49,6 @@ export const services = [
     title: "Монтаж и реконструкция канализации",
   },
   {
-    slug: "elektromontazh",
-    navigationLabel: "Электромонтаж",
-    title: "Электромонтажные работы",
-  },
-  {
     slug: "paroprovody",
     navigationLabel: "Паропроводы",
     title: "Монтаж и реконструкция паропроводов",
@@ -33,20 +62,5 @@ export const services = [
     slug: "nerzhaveyushchie-truboprovody",
     navigationLabel: "Нержавеющие трубопроводы",
     title: "Монтаж нержавеющих трубопроводов",
-  },
-  {
-    slug: "teploizolyaciya",
-    navigationLabel: "Теплоизоляция",
-    title: "Теплоизоляционные работы",
-  },
-  {
-    slug: "servisnoe-obsluzhivanie",
-    navigationLabel: "Сервисное обслуживание",
-    title: "Обслуживание инженерных систем",
-  },
-  {
-    slug: "prochistka-kanalizacii",
-    navigationLabel: "Прочистка канализации",
-    title: "Прочистка и обслуживание канализации",
   },
 ] as const;

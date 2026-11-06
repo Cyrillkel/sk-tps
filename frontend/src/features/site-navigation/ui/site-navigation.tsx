@@ -5,7 +5,7 @@ import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState, type ReactNode } from "react";
 
 import { services } from "@/entities/service";
-import { ArrowRightIcon, ChevronDownIcon } from "@/shared/ui";
+import { ChevronDownIcon } from "@/shared/ui";
 
 import { MobileNavigation } from "./mobile-navigation";
 import { ServiceLinks } from "./service-links";
@@ -81,7 +81,6 @@ export function SiteNavigation({ mobileControls, mobileLogo }: SiteNavigationPro
                 <div className="max-h-[70dvh] overflow-y-auto rounded-xl border border-border bg-surface p-5 shadow-[0_18px_60px_-15px_#17365040]">
                   <p className="mb-3 px-3 text-[10px] font-semibold tracking-[0.12em] text-muted uppercase">Инженерные и технологические системы</p>
                   <ServiceLinks onNavigate={closeServices} />
-                  <Link href="/seti" onClick={closeServices} className="mt-3 flex items-center justify-between border-t border-border px-3 pt-4 text-sm font-semibold text-primary hover:text-accent">Все услуги <ArrowRightIcon className="size-4" /></Link>
                 </div>
               </div>
             </li>

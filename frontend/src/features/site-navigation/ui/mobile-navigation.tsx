@@ -95,17 +95,16 @@ export function MobileNavigation({ controls, logo }: { controls: ReactNode; logo
           <Container className="flex min-h-full flex-col py-7 sm:py-10">
             <nav aria-label="Мобильная навигация">
               <ul className="space-y-2 text-primary">
-                <li><Link href="/" onClick={closeMenu} className="block rounded-lg py-4 text-2xl font-semibold hover:text-accent">Главная</Link></li>
+                <li><Link href="/" onClick={closeMenu} className="block rounded-lg py-3 text-xl font-semibold hover:text-accent">Главная</Link></li>
                 <li>
-                  <button ref={servicesRef} type="button" aria-expanded={servicesOpen} aria-controls="mobile-services" onClick={() => setServicesOpen((open) => !open)} className="flex w-full items-center justify-between rounded-lg py-4 text-2xl font-semibold hover:text-accent">
+                  <button ref={servicesRef} type="button" aria-expanded={servicesOpen} aria-controls="mobile-services" onClick={() => setServicesOpen((open) => !open)} className="flex w-full items-center justify-between rounded-lg py-3 text-xl font-semibold hover:text-accent">
                     Услуги <ChevronDownIcon className={`size-5 transition-transform ${servicesOpen ? "rotate-180" : ""}`} />
                   </button>
                   <div id="mobile-services" hidden={!servicesOpen} className="mb-4 rounded-lg border border-border bg-background p-2">
                     <ServiceLinks mobile onNavigate={closeMenu} />
-                    <Link href="/seti" onClick={closeMenu} className="block border-t border-border px-3 pt-4 pb-3 text-sm font-semibold">Все услуги</Link>
                   </div>
                 </li>
-                <li><Link href="/contacts" onClick={closeMenu} className="block rounded-lg py-4 text-2xl font-semibold hover:text-accent">Контакты</Link></li>
+                <li><Link href="/contacts" onClick={closeMenu} className="block rounded-lg py-3 text-xl font-semibold hover:text-accent">Контакты</Link></li>
               </ul>
             </nav>
             <div className="mt-auto pt-10">
