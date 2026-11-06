@@ -26,12 +26,6 @@ export function HomeServices() {
   return (
     <section id="services" aria-labelledby="services-title" className="home-services py-16 sm:py-20 lg:py-28">
       <Container>
-        <div className="mb-8 flex items-center justify-between gap-4 sm:mb-10">
-          <p className="flex items-center gap-3 text-[11px] font-semibold tracking-[0.12em] text-muted uppercase">
-            <span className="h-px w-8 bg-accent" aria-hidden="true" /> Наши направления
-          </p>
-          <span className="font-mono text-xs text-muted" aria-hidden="true">01 — 06</span>
-        </div>
 
         <div className="mb-9 grid gap-5 lg:mb-12 lg:grid-cols-[1.3fr_1fr] lg:items-end lg:gap-16">
           <h2 id="services-title" className="text-3xl leading-[1.1] font-semibold tracking-[-0.035em] text-primary sm:text-4xl lg:text-5xl">
@@ -58,8 +52,7 @@ export function HomeServices() {
                     className="service-card-image object-cover"
                   />
                   <span className="service-card-shade" aria-hidden="true" />
-                  <div className="relative z-10 flex items-start justify-between gap-4">
-                    <span className="font-mono text-xs text-service-muted">/ {String(index + 1).padStart(2, "0")}</span>
+                  <div className="relative z-10 flex items-start justify-end gap-4">
                     <span className="service-card-symbol" aria-hidden="true"><Icon className="size-9" strokeWidth={1.2} /></span>
                   </div>
 
