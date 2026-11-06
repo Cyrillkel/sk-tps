@@ -50,7 +50,6 @@ export function HomeServices() {
                     sizes={featured ? "(min-width: 768px) 50vw, 100vw" : "(min-width: 1280px) 25vw, (min-width: 768px) 50vw, 100vw"}
                     className="service-card-image object-cover"
                   />
-                  <span className="service-card-shade" aria-hidden="true" />
                   <div className="relative z-10 flex items-start justify-end gap-4">
                     <span className="service-card-symbol" aria-hidden="true"><Icon className="size-9" strokeWidth={1.2} /></span>
                   </div>

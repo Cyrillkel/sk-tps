@@ -19,7 +19,7 @@
   --color-hero-border: #17365030;
   --color-hero-panel: #fffffff0;
   --color-hero-tab: #ffffff8a;
-  --color-service-card: #102735;
+  --color-service-card: #071923;
   --color-service-foreground: #f4f7fb;
   --color-service-muted: #d1dce3;
   --color-service-border: #ffffff35;
@@ -287,14 +287,9 @@
     transition: transform 180ms ease;
   }
 
-  .service-card-shade {
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(180deg, #07192370 0%, #07192380 20%, #071923ed 55%, #071923fc 100%);
-    pointer-events: none;
-  }
-
   .service-card-image {
+    /* Fade the photo before rounded clipping to prevent bright corner seams. */
+    mask-image: linear-gradient(180deg, #0000008f 0%, #0000007f 20%, #00000012 55%, #00000003 100%);
     transition: transform 500ms ease;
   }
 
