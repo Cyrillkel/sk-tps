@@ -24,10 +24,9 @@ const serviceIcons = {
 
 export function HomeServices() {
   return (
-    <section id="services" aria-labelledby="services-title" className="home-services py-16 sm:py-20 lg:py-28">
+    <section id="services" aria-labelledby="services-title" className="home-services py-12 sm:py-16 lg:py-20">
       <Container>
-
-        <div className="mb-9 grid gap-5 lg:mb-12 lg:grid-cols-[1.3fr_1fr] lg:items-end lg:gap-16">
+        <div className="mb-6 grid gap-4 sm:mb-8 sm:gap-5 lg:mb-10 lg:grid-cols-[1.3fr_1fr] lg:items-end lg:gap-16">
           <h2 id="services-title" className="text-3xl leading-[1.1] font-semibold tracking-[-0.035em] text-primary sm:text-4xl lg:text-5xl">
             Инженерные системы<br className="hidden sm:block" /> для вашего объекта
           </h2>
@@ -56,14 +55,14 @@ export function HomeServices() {
                     <span className="service-card-symbol" aria-hidden="true"><Icon className="size-9" strokeWidth={1.2} /></span>
                   </div>
 
-                  <div className="service-card-copy relative z-10 mt-auto pt-8">
+                  <div className="service-card-copy relative z-10 mt-auto pt-6 sm:pt-8">
                     <h3 className={`font-semibold tracking-tight text-service-foreground ${featured ? "text-[22px] leading-tight sm:text-[28px]" : "text-xl leading-snug"}`}>
                       {service.navigationLabel}
                     </h3>
-                    <p className="mt-3 max-w-md text-sm leading-relaxed text-service-muted">{service.description}</p>
+                    <p className="mt-2 max-w-md text-sm leading-relaxed text-service-muted sm:mt-3">{service.description}</p>
                   </div>
 
-                  <div className="relative z-10 mt-6 flex items-center justify-between gap-4 border-t border-service-border pt-4">
+                  <div className="relative z-10 mt-5 flex items-center justify-between gap-4 border-t border-service-border pt-4 sm:mt-6">
                     <span className="text-xs font-semibold text-service-foreground">Подробнее об услуге</span>
                     <span className="service-card-arrow"><ArrowUpRightIcon className="size-4" /></span>
                   </div>
@@ -73,7 +72,7 @@ export function HomeServices() {
           })}
         </ul>
 
-        <div className="mt-8 flex flex-col items-start gap-4 border-t border-border pt-6 sm:flex-row sm:items-center sm:justify-between lg:mt-10">
+        <div className="mt-6 flex flex-col items-start gap-2 border-t border-border pt-5 sm:mt-8 sm:flex-row sm:items-center sm:justify-between sm:gap-4 sm:pt-6 lg:mt-10">
           <p className="text-sm leading-relaxed text-muted">На объекте несколько систем? Обсудим состав работ вместе.</p>
           <Link href="/contacts" className="inline-flex min-h-11 shrink-0 items-center gap-3 text-sm font-semibold text-accent hover:text-accent-hover">
             Обсудить задачу <ArrowUpRightIcon className="size-4" />

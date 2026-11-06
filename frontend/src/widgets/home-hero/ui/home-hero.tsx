@@ -25,9 +25,9 @@ export function HomeHero() {
         <span />
         <span />
       </div>
-      <Container className="relative z-10 flex min-h-[inherit] flex-col pt-14 pb-8 sm:pt-20 lg:pt-24 lg:pb-8">
-        <div className="grid items-start gap-10 lg:grid-cols-[1.8fr_1fr] lg:gap-12">
-          <div className="pb-2 lg:pt-2">
+      <Container className="hero-content relative z-10 flex min-h-[inherit] flex-col pb-8 sm:pb-10 lg:pb-8">
+        <div className="grid items-start gap-8 sm:gap-10 lg:grid-cols-[1.8fr_1fr] lg:gap-12">
+          <div className="lg:pt-2">
             <h1 id="hero-title" className="hero-title">
               <span>Монтаж и обслуживание</span>
               <span>инженерных и технологических</span>
@@ -39,11 +39,11 @@ export function HomeHero() {
                 />
               </span>
             </h1>
-            <p className="mt-6 max-w-2xl text-base leading-relaxed text-hero-muted sm:text-lg">
+            <p className="mt-4 max-w-2xl text-base leading-relaxed text-hero-muted sm:mt-6 sm:text-lg">
               Инженерные сети предприятий и коммерческих объектов. От нового
               монтажа до ремонта и сервисного обслуживания.
             </p>
-            <div className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-5 sm:mt-9">
+            <div className="mt-6 flex flex-wrap items-center gap-x-6 gap-y-4 sm:mt-8 sm:gap-y-5">
               <Link
                 href="/contacts"
                 className="button-brand min-h-14 gap-6 px-7 text-sm sm:px-8"
@@ -58,7 +58,7 @@ export function HomeHero() {
           </div>
           <WorkStages />
         </div>
-        <div className="mt-12 border-t border-hero-border pt-6 lg:mt-auto lg:w-[64%] lg:pt-6">
+        <div className="mt-8 border-t border-hero-border pt-5 sm:mt-10 sm:pt-6 lg:mt-auto lg:w-[64%]">
           <dl className="grid grid-cols-3 gap-4 sm:gap-7">
             <div className="border-r border-hero-border pr-3">
               <dt className="text-lg font-bold text-hero-foreground sm:text-[27px]">
