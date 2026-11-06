@@ -21,11 +21,11 @@ export const navigationServices = [
     image: "/images/services/electrical.webp",
   },
   {
-    slug: "teploizolyaciya",
-    navigationLabel: "Теплоизоляционные работы",
-    title: "Теплоизоляционные работы",
-    description: "Теплоизоляция оборудования и ёмкостей, в том числе с высотным монтажом.",
-    image: "/images/services/insulation.webp",
+    slug: "prochistka-kanalizacii",
+    navigationLabel: "Обслуживание инженерных систем канализации",
+    title: "Прочистка и обслуживание канализации",
+    description: "Прочистка, промывка и устранение засоров. Телеинспекция трубопроводов.",
+    image: "/images/services/drainage.webp",
   },
   {
     slug: "servisnoe-obsluzhivanie",
@@ -35,11 +35,11 @@ export const navigationServices = [
     image: "/images/services/maintenance.webp",
   },
   {
-    slug: "prochistka-kanalizacii",
-    navigationLabel: "Обслуживание инженерных систем канализации",
-    title: "Прочистка и обслуживание канализации",
-    description: "Прочистка, промывка и устранение засоров. Телеинспекция трубопроводов.",
-    image: "/images/services/drainage.webp",
+    slug: "teploizolyaciya",
+    navigationLabel: "Теплоизоляционные работы",
+    title: "Теплоизоляционные работы",
+    description: "Теплоизоляция оборудования и ёмкостей, в том числе с высотным монтажом.",
+    image: "/images/services/insulation.webp",
   },
 ] as const;
 
