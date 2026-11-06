@@ -77,7 +77,7 @@ export function SiteNavigation({ mobileControls, mobileLogo }: SiteNavigationPro
               >
                 УСЛУГИ <ChevronDownIcon className={`size-3.5 transition-transform ${servicesOpen ? "rotate-180" : ""}`} />
               </button>
-              <div id="desktop-services" hidden={!servicesOpen} className="absolute top-full left-1/2 w-[620px] -translate-x-1/2 pt-5 font-normal tracking-normal">
+              <div id="desktop-services" hidden={!servicesOpen} className="absolute top-full left-0 w-[360px] pt-5 font-normal tracking-normal">
                 <div className="max-h-[70dvh] overflow-y-auto rounded-xl border border-border bg-surface p-5 shadow-[0_18px_60px_-15px_#17365040]">
                   <p className="mb-3 px-3 text-[10px] font-semibold tracking-[0.12em] text-muted uppercase">Инженерные и технологические системы</p>
                   <ServiceLinks onNavigate={closeServices} />

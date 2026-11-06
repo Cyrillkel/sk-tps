@@ -57,6 +57,61 @@ export function ArrowUpRightIcon(props: IconProps) {
   return <SvgIcon {...props}><path d="M6 18 18 6M6 6h12v12" /></SvgIcon>;
 }
 
+export function HeatingIcon(props: IconProps) {
+  return (
+    <SvgIcon {...props}>
+      <rect x="4" y="8" width="16" height="12" rx="2" />
+      <path d="M8 8v12m4-12v12m4-12v12M2 11h2m16 6h2M8 2v2m4-2v2m4-2v2M7 20v2m10-2v2" />
+    </SvgIcon>
+  );
+}
+
+export function PipelineIcon(props: IconProps) {
+  return (
+    <SvgIcon {...props}>
+      <path d="M2 7h10a5 5 0 0 1 5 5v10M2 13h8a1 1 0 0 1 1 1v8M5 5v10m-3-10h6m5 12h6m-7 3h6M14 2v5m-3-5h6" />
+      <circle cx="14" cy="9" r="2" />
+    </SvgIcon>
+  );
+}
+
+export function ElectricalIcon(props: IconProps) {
+  return (
+    <SvgIcon {...props}>
+      <rect x="4" y="2" width="16" height="20" rx="2" />
+      <path d="m13 6-5 7h4l-1 5 5-7h-4l1-5ZM7 2v-1m10 1v-1M7 22v1m10-1v1" />
+    </SvgIcon>
+  );
+}
+
+export function InsulationIcon(props: IconProps) {
+  return (
+    <SvgIcon {...props}>
+      <ellipse cx="12" cy="7" rx="9" ry="4" />
+      <ellipse cx="12" cy="7" rx="4" ry="1.5" />
+      <path d="M3 7v10c0 2.2 4 4 9 4s9-1.8 9-4V7M7 11v8m10-8v8M3 13c0 2.2 4 4 9 4s9-1.8 9-4" />
+    </SvgIcon>
+  );
+}
+
+export function MaintenanceIcon(props: IconProps) {
+  return (
+    <SvgIcon {...props}>
+      <path d="M14.5 3.5a6 6 0 0 0-7.8 7.8L2.6 16a3.2 3.2 0 0 0 4.5 4.5l4.7-4.1a6 6 0 0 0 7.7-7.9L16 12l-4-4 2.5-4.5Z" />
+      <circle cx="5.5" cy="17.5" r=".7" />
+    </SvgIcon>
+  );
+}
+
+export function DrainageIcon(props: IconProps) {
+  return (
+    <SvgIcon {...props}>
+      <path d="M3 3v9a6 6 0 0 0 6 6h12M9 3v8a1 1 0 0 0 1 1h11M1 5h10m8 5v10M14 2c0 2-2 2.7-2 4a2 2 0 0 0 4 0c0-1.3-2-2-2-4Z" />
+      <path d="m13 15 2 1.5-2 1.5" />
+    </SvgIcon>
+  );
+}
+
 export function TelegramIcon(props: IconProps) {
   return (
     <SvgIcon fill="currentColor" stroke="none" {...props}>

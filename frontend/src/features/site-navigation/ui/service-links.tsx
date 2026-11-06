@@ -5,7 +5,7 @@ import { ArrowUpRightIcon } from "@/shared/ui";
 
 export function ServiceLinks({ onNavigate, mobile = false }: { onNavigate: () => void; mobile?: boolean }) {
   return (
-    <ul className={mobile ? "grid gap-1" : "grid grid-cols-2 gap-x-3 gap-y-1"}>
+    <ul className={mobile ? "grid gap-1" : "grid grid-cols-1 gap-1"}>
       {navigationServices.map((service, index) => (
         <li key={service.slug}>
           <Link

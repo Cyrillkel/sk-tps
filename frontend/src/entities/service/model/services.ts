@@ -3,31 +3,43 @@ export const navigationServices = [
     slug: "promyshlennye-sistemy",
     navigationLabel: "Промышленные системы",
     title: "Монтаж, ремонт и реконструкция промышленных систем",
+    description: "Отопление, водоснабжение и канализация для предприятий и коммерческих объектов.",
+    image: "/images/services/industrial.webp",
   },
   {
     slug: "tekhnologicheskie-truboprovody",
     navigationLabel: "Технологические трубопроводы и паропроводы",
     title: "Монтаж, ремонт и реконструкция технологических трубопроводов и паропроводов",
+    description: "Паропроводы, пищевые и нержавеющие трубопроводы. От монтажа до ремонта и реконструкции.",
+    image: "/images/services/pipelines.webp",
   },
   {
     slug: "elektromontazh",
     navigationLabel: "Электромонтажные работы",
     title: "Электромонтажные работы",
+    description: "Электропроводка, линии электропередач, распределительные щиты и освещение.",
+    image: "/images/services/electrical.webp",
   },
   {
     slug: "teploizolyaciya",
     navigationLabel: "Теплоизоляционные работы",
     title: "Теплоизоляционные работы",
+    description: "Теплоизоляция оборудования и ёмкостей, в том числе с высотным монтажом.",
+    image: "/images/services/insulation.webp",
   },
   {
     slug: "servisnoe-obsluzhivanie",
     navigationLabel: "Комплексное сервисное обслуживание",
     title: "Обслуживание инженерных систем",
+    description: "Ремонт инженерных сетей и коммуникаций. Техническая поддержка производства.",
+    image: "/images/services/maintenance.webp",
   },
   {
     slug: "prochistka-kanalizacii",
     navigationLabel: "Обслуживание инженерных систем канализации",
     title: "Прочистка и обслуживание канализации",
+    description: "Прочистка, промывка и устранение засоров. Телеинспекция трубопроводов.",
+    image: "/images/services/drainage.webp",
   },
 ] as const;
 
