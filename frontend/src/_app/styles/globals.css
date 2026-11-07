@@ -502,6 +502,10 @@
 
 @media (min-width: 1280px) {
   :root { --site-header-height: 96px; }
+
+  .header-logo {
+    width: clamp(200px, 17vw, 260px);
+  }
 }
 
 @media (min-width: 1024px) {

@@ -1,20 +1,25 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
-import { services } from "@/entities/service";
+import { serviceDirections, services } from "@/entities/service";
 import { Container } from "@/shared/ui";
 
 type ServicePageProps = {
   params: Promise<{ slug: string }>;
 };
 
+const servicePages = [
+  ...services,
+  ...serviceDirections.filter((direction) => direction.slug !== "seti"),
+];
+
 export function generateStaticParams() {
-  return services.map(({ slug }) => ({ slug }));
+  return servicePages.map(({ slug }) => ({ slug }));
 }
 
 export async function generateMetadata({ params }: ServicePageProps): Promise<Metadata> {
   const { slug } = await params;
-  const service = services.find((item) => item.slug === slug);
+  const service = servicePages.find((item) => item.slug === slug);
 
   if (!service) notFound();
 
@@ -23,7 +28,7 @@ export async function generateMetadata({ params }: ServicePageProps): Promise<Me
 
 export async function ServicePage({ params }: ServicePageProps) {
   const { slug } = await params;
-  const service = services.find((item) => item.slug === slug);
+  const service = servicePages.find((item) => item.slug === slug);
 
   if (!service) notFound();
 

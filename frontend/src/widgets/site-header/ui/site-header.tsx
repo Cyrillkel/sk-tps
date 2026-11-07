@@ -9,7 +9,7 @@ import { Container, MaxIcon, PhoneIcon, TelegramIcon, WhatsAppIcon } from "@/sha
 export function SiteHeader() {
   return (
     <header className="site-header">
-      <Container className="flex h-full items-center justify-between gap-2 sm:gap-4 xl:gap-6">
+      <Container className="flex h-full items-center justify-between gap-2 sm:gap-4">
         <Link
           href="/"
           aria-label={`${company.name} — главная`}
@@ -74,7 +74,7 @@ export function SiteHeader() {
         </div>
         <Link
           href="/contacts"
-          className="button-brand hidden min-h-12 shrink-0 px-5 text-[11px] tracking-wide uppercase xl:inline-flex"
+          className="button-brand hidden min-h-12 shrink-0 px-5 text-[11px] tracking-wide uppercase 2xl:inline-flex"
         >
           Заказать звонок
         </Link>

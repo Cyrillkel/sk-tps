@@ -4,11 +4,11 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState, type ReactNode } from "react";
 
-import { services } from "@/entities/service";
+import { serviceDirections, services, type ServiceDirectionSlug } from "@/entities/service";
 import { ChevronDownIcon } from "@/shared/ui";
 
 import { MobileNavigation } from "./mobile-navigation";
-import { ServiceLinks } from "./service-links";
+import { DirectionLinks } from "./direction-links";
 
 type SiteNavigationProps = {
   mobileControls: ReactNode;
@@ -17,74 +17,113 @@ type SiteNavigationProps = {
 
 export function SiteNavigation({ mobileControls, mobileLogo }: SiteNavigationProps) {
   const pathname = usePathname().replace(/\/$/, "") || "/";
-  const [servicesOpen, setServicesOpen] = useState(false);
+  const [openDirection, setOpenDirection] = useState<ServiceDirectionSlug | null>(null);
   const menuRef = useRef<HTMLDivElement>(null);
-  const servicesRef = useRef<HTMLButtonElement>(null);
-  const isServicePage = pathname === "/seti" || services.some((service) => pathname === `/${service.slug}`);
+  const buttonsRef = useRef<Partial<Record<ServiceDirectionSlug, HTMLButtonElement | null>>>({});
+  const activeDirection = serviceDirections.find((direction) => pathname === `/${direction.slug}`)?.slug
+    ?? (services.some((service) => pathname === `/${service.slug}`) ? "seti" : null);
 
-  function closeServices() {
-    setServicesOpen(false);
+  function closeDirection() {
+    setOpenDirection(null);
+  }
+
+  function focusSubmenu(slug: ServiceDirectionSlug) {
+    setOpenDirection(slug);
+    requestAnimationFrame(() => menuRef.current?.querySelector<HTMLAnchorElement>(`#desktop-${slug} a`)?.focus());
   }
 
   useEffect(() => {
-    if (!servicesOpen) return;
+    if (!openDirection) return;
+    const desktop = window.matchMedia("(min-width: 1280px)");
     function onKeyDown(event: KeyboardEvent) {
       if (event.key === "Escape") {
-        setServicesOpen(false);
-        servicesRef.current?.focus();
+        setOpenDirection(null);
+        if (openDirection) buttonsRef.current[openDirection]?.focus();
       }
     }
     function onPointerDown(event: PointerEvent) {
-      if (event.target instanceof Node && !menuRef.current?.contains(event.target)) setServicesOpen(false);
+      if (event.target instanceof Node && !menuRef.current?.contains(event.target)) setOpenDirection(null);
+    }
+    function onBreakpointChange() {
+      if (!desktop.matches) setOpenDirection(null);
     }
     document.addEventListener("keydown", onKeyDown);
     document.addEventListener("pointerdown", onPointerDown);
+    desktop.addEventListener("change", onBreakpointChange);
     return () => {
       document.removeEventListener("keydown", onKeyDown);
       document.removeEventListener("pointerdown", onPointerDown);
+      desktop.removeEventListener("change", onBreakpointChange);
     };
-  }, [servicesOpen]);
+  }, [openDirection]);
 
   return (
     <div className="ml-auto xl:mx-auto">
-      <div ref={menuRef} onBlur={(event) => { if (!event.currentTarget.contains(event.relatedTarget)) closeServices(); }} className="hidden xl:block">
+      <div
+        ref={menuRef}
+        onBlur={(event) => { if (!event.currentTarget.contains(event.relatedTarget)) closeDirection(); }}
+        onMouseLeave={(event) => {
+          if (!event.currentTarget.contains(document.activeElement)) closeDirection();
+        }}
+        className="hidden xl:block"
+      >
         <nav aria-label="Основная навигация">
-          <ul className="flex items-center gap-8 text-[13px] font-semibold tracking-[0.045em] text-primary">
-            <li><Link href="/" aria-current={pathname === "/" ? "page" : undefined} className="py-4 hover:text-accent">ГЛАВНАЯ</Link></li>
-            <li
-              className="relative"
-              onMouseLeave={(event) => {
-                if (!event.currentTarget.contains(document.activeElement)) closeServices();
-              }}
-              onBlur={(event) => {
-                if (!event.currentTarget.contains(event.relatedTarget)) closeServices();
-              }}
-            >
-              <button
-                ref={servicesRef}
-                type="button"
-                aria-expanded={servicesOpen}
-                aria-controls="desktop-services"
-                onClick={() => setServicesOpen((open) => !open)}
-                onKeyDown={(event) => {
-                  if (event.key === "ArrowDown") {
-                    event.preventDefault();
-                    setServicesOpen(true);
-                    requestAnimationFrame(() => menuRef.current?.querySelector<HTMLAnchorElement>("#desktop-services a")?.focus());
-                  }
+          <ul className="grid grid-cols-[repeat(3,auto)] items-center gap-x-4 text-xs font-semibold tracking-[0.025em] text-primary uppercase 2xl:gap-x-5 min-[1920px]:flex">
+            <li className="hidden min-[1920px]:block"><Link href="/" aria-current={pathname === "/" ? "page" : undefined} className="block py-4 hover:text-accent">Главная</Link></li>
+            {serviceDirections.map((direction) => (
+              <li
+                key={direction.slug}
+                className="relative"
+                onPointerEnter={(event) => {
+                  if (event.pointerType === "mouse") setOpenDirection(direction.slug);
                 }}
-                className={`flex items-center gap-1.5 py-4 hover:text-accent ${isServicePage ? "text-accent" : ""}`}
+                onBlur={(event) => {
+                  if (!event.currentTarget.contains(event.relatedTarget)) closeDirection();
+                }}
               >
-                УСЛУГИ <ChevronDownIcon className={`size-3.5 transition-transform ${servicesOpen ? "rotate-180" : ""}`} />
-              </button>
-              <div id="desktop-services" hidden={!servicesOpen} className="absolute top-full left-0 w-[360px] pt-5 font-normal tracking-normal">
-                <div className="max-h-[70dvh] overflow-y-auto rounded-xl border border-border bg-surface p-5 shadow-[0_18px_60px_-15px_#17365040]">
-                  <p className="mb-3 px-3 text-[10px] font-semibold tracking-[0.12em] text-muted uppercase">Инженерные и технологические системы</p>
-                  <ServiceLinks onNavigate={closeServices} />
+                <div className={`flex items-center gap-1 ${activeDirection === direction.slug ? "text-accent" : ""}`}>
+                  <Link
+                    href={`/${direction.slug}`}
+                    aria-current={pathname === `/${direction.slug}` ? "page" : undefined}
+                    onClick={closeDirection}
+                    onKeyDown={(event) => {
+                      if (event.key === "ArrowDown") {
+                        event.preventDefault();
+                        focusSubmenu(direction.slug);
+                      }
+                    }}
+                    className="max-w-36 py-1.5 leading-snug hover:text-accent min-[1920px]:py-4"
+                  >
+                    {direction.navigationLabel}
+                  </Link>
+                  <button
+                    ref={(element) => { buttonsRef.current[direction.slug] = element; }}
+                    type="button"
+                    aria-label={`Подменю: ${direction.navigationLabel}`}
+                    aria-expanded={openDirection === direction.slug}
+                    aria-controls={`desktop-${direction.slug}`}
+                    onClick={() => setOpenDirection((current) => current === direction.slug ? null : direction.slug)}
+                    onKeyDown={(event) => {
+                      if (event.key === "ArrowDown") {
+                        event.preventDefault();
+                        focusSubmenu(direction.slug);
+                      }
+                    }}
+                    className="flex min-h-11 w-6 shrink-0 items-center justify-center hover:text-accent"
+                  >
+                    <ChevronDownIcon className={`size-3.5 transition-transform ${openDirection === direction.slug ? "rotate-180" : ""}`} />
+                  </button>
                 </div>
-              </div>
-            </li>
-            <li><Link href="/contacts" aria-current={pathname === "/contacts" ? "page" : undefined} className="py-4 hover:text-accent">КОНТАКТЫ</Link></li>
+                <div id={`desktop-${direction.slug}`} hidden={openDirection !== direction.slug} className={`absolute top-[calc(100%+1.75rem)] left-1/2 -translate-x-1/2 pt-4 text-left font-normal tracking-normal normal-case min-[1920px]:top-full min-[1920px]:pt-7 ${direction.slug === "seti" ? "w-[680px]" : "w-[400px]"}`}>
+                  <div className="max-h-[calc(100dvh-8rem)] overflow-y-auto overscroll-contain rounded-xl border border-border bg-surface p-4 shadow-[0_18px_60px_-15px_#17365040] sm:p-5">
+                    <DirectionLinks direction={direction} onNavigate={closeDirection} />
+                  </div>
+                </div>
+              </li>
+            ))}
+            <li><Link href="/#about" onClick={closeDirection} className="block py-1.5 hover:text-accent min-[1920px]:py-4">О компании</Link></li>
+            <li><Link href="/#documents" onClick={closeDirection} className="block py-1.5 hover:text-accent min-[1920px]:py-4">Документы</Link></li>
+            <li><Link href="/contacts" aria-current={pathname === "/contacts" ? "page" : undefined} className="block py-1.5 hover:text-accent min-[1920px]:py-4">Контакты</Link></li>
           </ul>
         </nav>
       </div>

@@ -9,7 +9,7 @@ export function HomeCredentials() {
       aria-labelledby="documents-title"
       className="home-credentials border-t border-border py-16 sm:py-20 lg:py-24"
     >
-      <Container className="mx-auto max-w-[1280px]">
+      <Container className="mx-auto max-w-[1440px]">
         <div className="mb-10 sm:mb-12 lg:mb-14">
           <h2 id="documents-title" className="text-3xl leading-[1.12] font-semibold tracking-[-0.035em] text-primary sm:text-4xl lg:text-5xl">
             Допуски и лицензии
