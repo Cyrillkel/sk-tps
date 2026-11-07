@@ -23,7 +23,7 @@ export const serviceDirections = [
   },
   {
     slug: "seti",
-    navigationLabel: "Инженерные системы",
+    navigationLabel: "Инженерные и технологические системы",
     title: "Инженерные и технологические системы",
     overviewLabel: "Об инженерных системах",
     projectsHref: "https://sk-tps.ru/seti",
@@ -36,7 +36,7 @@ export const serviceDirections = [
   },
   {
     slug: "remont",
-    navigationLabel: "Реконструкция и ремонт",
+    navigationLabel: "Реконструкция и капитальный ремонт",
     title: "Реконструкция и капитальный ремонт",
     overviewLabel: "О реконструкции и ремонте",
     projectsHref: "https://sk-tps.ru/remont",

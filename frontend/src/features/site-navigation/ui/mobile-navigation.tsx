@@ -1,35 +1,36 @@
 "use client";
 
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState, type ReactNode } from "react";
 
 import { company } from "@/entities/company";
-import { serviceDirections, type ServiceDirectionSlug } from "@/entities/service";
 import { ChevronDownIcon, CloseIcon, Container, MaxIcon, MenuIcon, TelegramIcon, WhatsAppIcon } from "@/shared/ui";
 
 import { DirectionLinks } from "./direction-links";
 
 export function MobileNavigation({ controls, logo }: { controls: ReactNode; logo: ReactNode }) {
+  const pathname = usePathname().replace(/\/$/, "") || "/";
   const [isOpen, setIsOpen] = useState(false);
-  const [openDirection, setOpenDirection] = useState<ServiceDirectionSlug | null>(null);
+  const [isServicesOpen, setIsServicesOpen] = useState(false);
   const dialogRef = useRef<HTMLDialogElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
   const closeRef = useRef<HTMLButtonElement>(null);
-  const directionButtonsRef = useRef<Partial<Record<ServiceDirectionSlug, HTMLButtonElement | null>>>({});
+  const servicesButtonRef = useRef<HTMLButtonElement>(null);
 
   function closeMenu() {
     dialogRef.current?.close();
   }
 
-  function collapseDirection() {
-    if (!openDirection) return;
-    setOpenDirection(null);
-    directionButtonsRef.current[openDirection]?.focus();
+  function collapseServices() {
+    if (!isServicesOpen) return;
+    setIsServicesOpen(false);
+    servicesButtonRef.current?.focus();
   }
 
   function openMenu() {
     dialogRef.current?.showModal();
-    setOpenDirection(null);
+    setIsServicesOpen(false);
     setIsOpen(true);
     requestAnimationFrame(() => closeRef.current?.focus());
   }
@@ -78,21 +79,21 @@ export function MobileNavigation({ controls, logo }: { controls: ReactNode; logo
         aria-label="Мобильное меню"
         className="mobile-menu"
         onKeyDown={(event) => {
-          if (event.key === "Escape" && openDirection) {
+          if (event.key === "Escape" && isServicesOpen) {
             event.preventDefault();
             event.stopPropagation();
-            collapseDirection();
+            collapseServices();
           }
         }}
         onClose={() => {
           setIsOpen(false);
-          setOpenDirection(null);
+          setIsServicesOpen(false);
           if (!window.matchMedia("(min-width: 1280px)").matches) buttonRef.current?.focus();
         }}
         onCancel={(event) => {
-          if (openDirection) {
+          if (isServicesOpen) {
             event.preventDefault();
-            collapseDirection();
+            collapseServices();
           }
         }}
       >
@@ -109,24 +110,22 @@ export function MobileNavigation({ controls, logo }: { controls: ReactNode; logo
             <nav aria-label="Мобильная навигация">
               <ul className="space-y-2 text-primary">
                 <li><Link href="/" onClick={closeMenu} className="block rounded-lg py-3 text-xl font-semibold hover:text-accent">Главная</Link></li>
-                {serviceDirections.map((direction) => (
-                  <li key={direction.slug}>
-                    <button
-                      ref={(element) => { directionButtonsRef.current[direction.slug] = element; }}
-                      type="button"
-                      aria-expanded={openDirection === direction.slug}
-                      aria-controls={`mobile-${direction.slug}`}
-                      onClick={() => setOpenDirection((current) => current === direction.slug ? null : direction.slug)}
-                      className="flex min-h-12 w-full items-center justify-between gap-4 rounded-lg py-3 text-left text-xl font-semibold hover:text-accent"
-                    >
-                      {direction.navigationLabel}
-                      <ChevronDownIcon className={`size-5 shrink-0 transition-transform ${openDirection === direction.slug ? "rotate-180" : ""}`} />
-                    </button>
-                    <div id={`mobile-${direction.slug}`} hidden={openDirection !== direction.slug} className="mb-4 rounded-lg border border-border bg-surface p-3">
-                      <DirectionLinks direction={direction} mobile onNavigate={closeMenu} />
-                    </div>
-                  </li>
-                ))}
+                <li>
+                  <button
+                    ref={servicesButtonRef}
+                    type="button"
+                    aria-expanded={isServicesOpen}
+                    aria-controls="mobile-services"
+                    onClick={() => setIsServicesOpen((current) => !current)}
+                    className="flex min-h-12 w-full items-center justify-between gap-4 rounded-lg py-3 text-left text-xl font-semibold hover:text-accent"
+                  >
+                    Услуги
+                    <ChevronDownIcon className={`size-5 shrink-0 transition-transform ${isServicesOpen ? "rotate-180" : ""}`} />
+                  </button>
+                  <div id="mobile-services" hidden={!isServicesOpen} className="mb-4 rounded-lg border border-border bg-surface p-2">
+                    <DirectionLinks pathname={pathname} onNavigate={closeMenu} />
+                  </div>
+                </li>
                 <li><Link href="/#about" onClick={closeMenu} className="block rounded-lg py-3 text-xl font-semibold hover:text-accent">О компании</Link></li>
                 <li><Link href="/#documents" onClick={closeMenu} className="block rounded-lg py-3 text-xl font-semibold hover:text-accent">Документы</Link></li>
                 <li><Link href="/contacts" onClick={closeMenu} className="block rounded-lg py-3 text-xl font-semibold hover:text-accent">Контакты</Link></li>
