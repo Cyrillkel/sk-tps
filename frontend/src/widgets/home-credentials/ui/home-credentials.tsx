@@ -11,10 +11,6 @@ export function HomeCredentials() {
     >
       <Container className="mx-auto max-w-[1280px]">
         <div className="mb-10 sm:mb-12 lg:mb-14">
-          <p className="mb-5 flex items-center gap-3 text-xs font-semibold tracking-[0.18em] text-muted uppercase">
-            <span className="h-px w-10 bg-accent" aria-hidden="true" />
-            Документы компании
-          </p>
           <h2 id="documents-title" className="text-3xl leading-[1.12] font-semibold tracking-[-0.035em] text-primary sm:text-4xl lg:text-5xl">
             Допуски и лицензии
           </h2>

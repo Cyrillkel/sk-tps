@@ -49,8 +49,7 @@ export function HomeAbout() {
           </div>
 
           <div className="order-1 lg:order-2">
-            <p className="mb-5 flex items-center gap-3 text-xs font-semibold tracking-[0.18em] text-muted uppercase sm:mb-6">
-              <span className="h-px w-10 bg-accent" aria-hidden="true" />
+            <p className="mb-5 text-xs font-semibold tracking-[0.18em] text-muted uppercase sm:mb-6">
               О компании
             </p>
             <h2
