@@ -7,7 +7,7 @@ import { useEffect, useRef, useState, type ReactNode } from "react";
 import { company } from "@/entities/company";
 import { ChevronDownIcon, CloseIcon, Container, MaxIcon, MenuIcon, TelegramIcon, WhatsAppIcon } from "@/shared/ui";
 
-import { DirectionLinks } from "./direction-links";
+import { ServiceLinks } from "./service-links";
 
 export function MobileNavigation({ controls, logo }: { controls: ReactNode; logo: ReactNode }) {
   const pathname = usePathname().replace(/\/$/, "") || "/";
@@ -123,7 +123,7 @@ export function MobileNavigation({ controls, logo }: { controls: ReactNode; logo
                     <ChevronDownIcon className={`size-5 shrink-0 transition-transform ${isServicesOpen ? "rotate-180" : ""}`} />
                   </button>
                   <div id="mobile-services" hidden={!isServicesOpen} className="mb-4 rounded-lg border border-border bg-surface p-2">
-                    <DirectionLinks pathname={pathname} onNavigate={closeMenu} />
+                    <ServiceLinks pathname={pathname} onNavigate={closeMenu} />
                   </div>
                 </li>
                 <li><Link href="/#about" onClick={closeMenu} className="block rounded-lg py-3 text-xl font-semibold hover:text-accent">О компании</Link></li>

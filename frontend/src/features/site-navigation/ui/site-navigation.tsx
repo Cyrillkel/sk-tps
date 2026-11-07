@@ -4,11 +4,11 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState, type ReactNode } from "react";
 
-import { serviceDirections, services } from "@/entities/service";
+import { services } from "@/entities/service";
 import { ChevronDownIcon } from "@/shared/ui";
 
 import { MobileNavigation } from "./mobile-navigation";
-import { DirectionLinks } from "./direction-links";
+import { ServiceLinks } from "./service-links";
 
 type SiteNavigationProps = {
   mobileControls: ReactNode;
@@ -20,8 +20,7 @@ export function SiteNavigation({ mobileControls, mobileLogo }: SiteNavigationPro
   const [isServicesOpen, setIsServicesOpen] = useState(false);
   const menuRef = useRef<HTMLLIElement>(null);
   const servicesButtonRef = useRef<HTMLButtonElement>(null);
-  const isServicePage = serviceDirections.some((direction) => pathname === `/${direction.slug}`)
-    || services.some((service) => pathname === `/${service.slug}`);
+  const isServicePage = pathname === "/seti" || services.some((service) => pathname === `/${service.slug}`);
 
   function closeServices() {
     setIsServicesOpen(false);
@@ -93,9 +92,9 @@ export function SiteNavigation({ mobileControls, mobileLogo }: SiteNavigationPro
                 Услуги
                 <ChevronDownIcon className={`size-3.5 transition-transform ${isServicesOpen ? "rotate-180" : ""}`} />
               </button>
-              <div id="desktop-services" hidden={!isServicesOpen} className="absolute top-full left-1/2 w-80 -translate-x-1/2 pt-7 text-left tracking-normal normal-case">
+              <div id="desktop-services" hidden={!isServicesOpen} className="absolute top-full left-1/2 w-96 -translate-x-1/2 pt-7 text-left tracking-normal normal-case">
                 <div className="max-h-[calc(100dvh-8rem)] overflow-y-auto overscroll-contain rounded-xl border border-border bg-surface p-2 shadow-[0_18px_60px_-15px_#17365040]">
-                  <DirectionLinks pathname={pathname} onNavigate={closeServices} />
+                  <ServiceLinks pathname={pathname} onNavigate={closeServices} />
                 </div>
               </div>
             </li>

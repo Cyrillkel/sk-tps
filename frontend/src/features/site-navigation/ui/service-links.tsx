@@ -1,21 +1,24 @@
 import Link from "next/link";
 
 import { navigationServices } from "@/entities/service";
-import { ArrowUpRightIcon } from "@/shared/ui";
 
-export function ServiceLinks({ onNavigate, mobile = false }: { onNavigate: () => void; mobile?: boolean }) {
+type ServiceLinksProps = {
+  pathname: string;
+  onNavigate: () => void;
+};
+
+export function ServiceLinks({ pathname, onNavigate }: ServiceLinksProps) {
   return (
-    <ul className={mobile ? "grid gap-1" : "grid grid-cols-1 gap-1"}>
-      {navigationServices.map((service, index) => (
+    <ul className="space-y-1">
+      {navigationServices.map((service) => (
         <li key={service.slug}>
           <Link
             href={`/${service.slug}`}
+            aria-current={pathname === `/${service.slug}` ? "page" : undefined}
             onClick={onNavigate}
-            className="group flex min-h-12 items-center gap-3 rounded-lg px-3 py-3 text-sm text-primary transition-colors hover:bg-background hover:text-accent"
+            className={`flex min-h-11 items-center rounded-lg px-4 py-3 text-sm leading-relaxed font-semibold hover:bg-background hover:text-accent ${pathname === `/${service.slug}` ? "bg-background text-accent" : "text-primary"}`}
           >
-            <span className="text-[10px] text-muted/70">{String(index + 1).padStart(2, "0")}</span>
-            <span className="flex-1 font-medium">{service.navigationLabel}</span>
-            <ArrowUpRightIcon className="size-3.5 shrink-0 text-muted/60 transition-colors group-hover:text-accent" />
+            {service.navigationLabel}
           </Link>
         </li>
       ))}
