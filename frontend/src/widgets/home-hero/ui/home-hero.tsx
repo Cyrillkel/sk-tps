@@ -51,7 +51,7 @@ export function HomeHero() {
                 Запросить КП <ArrowRightIcon className="size-5" />
               </Link>
               <p className="border-l border-hero-border pl-4 text-xs leading-relaxed text-hero-muted">
-                Работаем в Калужской
+                Работаем в Калужской, Тульской
                 <br />и Московской областях
               </p>
             </div>
