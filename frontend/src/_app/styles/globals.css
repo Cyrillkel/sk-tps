@@ -1255,3 +1255,92 @@
     .clients-logo[aria-hidden="true"] { display: none; }
   }
 }
+
+@layer components {
+  /* Reviews */
+  .home-reviews {
+    border-top: 1px solid var(--color-border);
+    background:
+      radial-gradient(ellipse at 0% 100%, color-mix(in srgb, var(--color-cyan) 7%, transparent), transparent 50%),
+      var(--color-background);
+  }
+
+  .reviews-frame {
+    overflow: hidden;
+    border: 1px solid var(--color-border);
+    border-radius: 20px;
+    background: #ffffff;
+  }
+
+  .reviews-frame iframe {
+    display: block;
+    border: 0;
+  }
+
+  /* Footer */
+  .site-footer {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    border-top: 1px solid var(--color-border);
+    background:
+      radial-gradient(ellipse at 100% 0%, color-mix(in srgb, var(--color-brand) 9%, transparent), transparent 45%),
+      var(--color-service-card);
+    color: var(--color-service-foreground);
+  }
+
+  .footer-heading {
+    margin-bottom: 18px;
+    color: var(--color-service-muted);
+    font-size: .75rem;
+    font-weight: 600;
+    letter-spacing: .18em;
+    text-transform: uppercase;
+  }
+
+  .footer-link {
+    display: inline-block;
+    padding-block: 6px;
+    color: var(--color-service-foreground);
+    font-size: .9375rem;
+    line-height: 1.4;
+    transition: color .2s;
+  }
+
+  .footer-link:hover,
+  .footer-contact:hover {
+    color: var(--color-brand);
+  }
+
+  .footer-contact {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    color: var(--color-service-foreground);
+    transition: color .2s;
+  }
+
+  .footer-social {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    border: 1px solid var(--color-service-border);
+    border-radius: 999px;
+    color: var(--color-service-foreground);
+    transition: background-color .2s, border-color .2s, color .2s;
+  }
+
+  .footer-social:hover {
+    border-color: var(--color-brand);
+    background: var(--color-brand);
+    color: #173650;
+  }
+
+  .site-footer :focus-visible {
+    outline: 2px solid var(--color-brand);
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+}

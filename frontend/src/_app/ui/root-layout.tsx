@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import type { ReactNode } from "react";
 
 import { company } from "@/entities/company";
+import { SiteFooter } from "@/widgets/site-footer";
 import { SiteHeader } from "@/widgets/site-header";
 
 import { themeScript } from "../model/theme-script";
@@ -14,7 +15,7 @@ export const metadata: Metadata = {
     template: `%s — ${company.name}`,
   },
   description:
-    "Монтаж, ремонт и обслуживание инженерных и технологических систем в Калужской и Московской областях. Техпромстрой.",
+    "Монтаж, ремонт и обслуживание инженерных и технологических систем в Калужской, Тульской и Московской областях. Техпромстрой.",
 };
 
 export function RootLayout({ children }: Readonly<{ children: ReactNode }>) {
@@ -32,6 +33,7 @@ export function RootLayout({ children }: Readonly<{ children: ReactNode }>) {
         <main id="main-content" tabIndex={-1} className="site-main flex-1 focus:outline-none">
           {children}
         </main>
+        <SiteFooter />
       </body>
     </html>
   );

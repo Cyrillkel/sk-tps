@@ -1,12 +1,20 @@
 export const company = {
   name: "Техпромстрой",
+  legalName: "ООО СК «ТПС»",
+  inn: "4000020950",
+  foundedYear: 2020,
   phone: "+7 (484) 397-23-20",
   phoneHref: "tel:+74843972320",
   email: "info@sk-tps.ru",
   privacyPolicyUrl: "/soglasie",
-  region: "Калужская и Московская области",
+  region: "Калужская, Тульская и Московская области",
   address: "Калужская область, Жуковский муниципальный округ, деревня Корсакова, Садовая улица, 79",
   telegram: "https://t.me/filchagovm",
   whatsapp: "https://wa.me/79605219988",
   max: "https://max.ru/u/f9LHodD0cOLqLlSG2kt-P4jTFfC2bVV3fSQ20mK-MUCJq04L-JR9q85m0JY",
+  yandexMaps: {
+    orgUrl: "https://yandex.ru/maps/org/sk_tekhpromstroy/203205770137/",
+    reviewsWidget: "https://yandex.ru/maps-reviews-widget/203205770137?comments",
+    mapWidget: "https://yandex.ru/map-widget/v1/?z=12&ol=biz&oid=203205770137",
+  },
 } as const;
