@@ -3,6 +3,7 @@ export const company = {
   phone: "+7 (484) 397-23-20",
   phoneHref: "tel:+74843972320",
   email: "info@sk-tps.ru",
+  privacyPolicyUrl: "/soglasie",
   region: "Калужская и Московская области",
   address: "Калужская область, Жуковский муниципальный округ, деревня Корсакова, Садовая улица, 79",
   telegram: "https://t.me/filchagovm",

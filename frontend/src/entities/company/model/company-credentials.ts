@@ -4,6 +4,7 @@ export type CompanyDocument = {
   alt: string;
   width: number;
   height: number;
+  caption?: string;
 };
 
 export const companyCredentials = [

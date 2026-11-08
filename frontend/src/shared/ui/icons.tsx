@@ -227,3 +227,44 @@ export function ShieldCheckIcon(props: IconProps) {
     </SvgIcon>
   );
 }
+
+export function KeyIcon(props: IconProps) {
+  return (
+    <SvgIcon {...props}>
+      <circle cx="7.5" cy="15.5" r="4.5" />
+      <path d="m10.7 12.3 9.8-9.8M17 6l3 3m-5.5-.5 2 2" />
+    </SvgIcon>
+  );
+}
+
+export function VanIcon(props: IconProps) {
+  return (
+    <SvgIcon {...props}>
+      <path d="M14 17V6H3a1 1 0 0 0-1 1v10h3m9-8h4l3 4v4h-2M9 17h6" />
+      <circle cx="7" cy="17.5" r="2" />
+      <circle cx="17" cy="17.5" r="2" />
+    </SvgIcon>
+  );
+}
+
+export function CertificateIcon(props: IconProps) {
+  return (
+    <SvgIcon {...props}>
+      <path d="M12 16H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v7M7 7.5h10M7 11h5" />
+      <circle cx="17" cy="15" r="3" />
+      <path d="m15.5 17.6-.8 3.9 2.3-1.3 2.3 1.3-.8-3.9" />
+    </SvgIcon>
+  );
+}
+
+export function BoltIcon(props: IconProps) {
+  return <SvgIcon {...props}><path d="M13 2 4 14h7l-1 8 9-12h-7l1-8Z" /></SvgIcon>;
+}
+
+export function ClockIcon(props: IconProps) {
+  return <SvgIcon {...props}><circle cx="12" cy="12" r="9" /><path d="M12 7v5l3 2" /></SvgIcon>;
+}
+
+export function SendIcon(props: IconProps) {
+  return <SvgIcon {...props}><path d="M21 3 10 14M21 3l-7 18-4-7-7-4 18-7Z" /></SvgIcon>;
+}

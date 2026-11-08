@@ -9,9 +9,16 @@ import { ArrowRightIcon, ArrowUpRightIcon, CloseIcon } from "@/shared/ui";
 type DocumentGalleryProps = {
   documents: readonly CompanyDocument[];
   title: string;
+  itemLabel?: string;
 };
 
-export function DocumentGallery({ documents, title }: DocumentGalleryProps) {
+function gridColumns(count: number) {
+  if (count > 4) return "sm:grid-cols-3 lg:grid-cols-6";
+  if (count > 2) return "sm:grid-cols-4";
+  return "sm:max-w-[360px]";
+}
+
+export function DocumentGallery({ documents, title, itemLabel = "Лист" }: DocumentGalleryProps) {
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
   const [isZoomed, setIsZoomed] = useState(false);
   const dialogRef = useRef<HTMLDialogElement>(null);
@@ -56,7 +63,7 @@ export function DocumentGallery({ documents, title }: DocumentGalleryProps) {
 
   return (
     <>
-      <ul className={`grid grid-cols-2 gap-3 sm:gap-4 ${documents.length > 2 ? "sm:grid-cols-4" : "sm:max-w-[360px]"}`}>
+      <ul className={`grid grid-cols-2 gap-3 sm:gap-4 ${gridColumns(documents.length)}`}>
         {documents.map((document, index) => (
           <li key={document.src}>
             <button
@@ -84,10 +91,16 @@ export function DocumentGallery({ documents, title }: DocumentGalleryProps) {
                   <ArrowUpRightIcon className="size-4" />
                 </span>
               </span>
-              <span className="mt-3 flex min-h-6 items-center gap-2 text-xs font-medium text-muted group-hover:text-accent group-focus-visible:text-accent">
-                Лист {index + 1}
-                <span className="h-px flex-1 bg-border" aria-hidden="true" />
-              </span>
+              {document.caption ? (
+                <span className="mt-3 block border-l-2 border-border pl-2.5 text-xs leading-snug font-medium text-muted group-hover:border-accent group-hover:text-accent group-focus-visible:border-accent group-focus-visible:text-accent">
+                  {document.caption}
+                </span>
+              ) : (
+                <span className="mt-3 flex min-h-6 items-center gap-2 text-xs font-medium text-muted group-hover:text-accent group-focus-visible:text-accent">
+                  {itemLabel} {index + 1}
+                  <span className="h-px flex-1 bg-border" aria-hidden="true" />
+                </span>
+              )}
             </button>
           </li>
         ))}
@@ -110,7 +123,7 @@ export function DocumentGallery({ documents, title }: DocumentGalleryProps) {
         <div className="flex max-h-[calc(100dvh-24px)] flex-col">
           <div className="flex shrink-0 flex-wrap items-center gap-x-4 gap-y-3 border-b border-border p-4 sm:px-6">
             <h2 id={titleId} className="order-1 min-w-0 flex-1 text-sm font-semibold text-primary sm:text-base">
-              {title}
+              {activeDocument?.caption ?? title}
             </h2>
             <div className="order-3 flex basis-full items-center gap-3 sm:order-2 sm:basis-auto">
               <button
@@ -149,13 +162,13 @@ export function DocumentGallery({ documents, title }: DocumentGalleryProps) {
           </div>
 
           <div className="flex shrink-0 items-center justify-between gap-3 border-t border-border px-4 py-3 sm:px-6">
-            <button type="button" disabled={activeIndex === null || activeIndex === 0} aria-label="Предыдущий лист" onClick={() => activeIndex !== null && selectDocument(activeIndex - 1)} className="document-toolbar-button w-11">
+            <button type="button" disabled={activeIndex === null || activeIndex === 0} aria-label="Предыдущий документ" onClick={() => activeIndex !== null && selectDocument(activeIndex - 1)} className="document-toolbar-button w-11">
               <ArrowRightIcon className="size-5 rotate-180" />
             </button>
             <p aria-live="polite" className="text-sm text-muted">
-              Лист {(activeIndex ?? 0) + 1} из {documents.length}
+              {itemLabel} {(activeIndex ?? 0) + 1} из {documents.length}
             </p>
-            <button type="button" disabled={activeIndex === null || activeIndex === documents.length - 1} aria-label="Следующий лист" onClick={() => activeIndex !== null && selectDocument(activeIndex + 1)} className="document-toolbar-button w-11">
+            <button type="button" disabled={activeIndex === null || activeIndex === documents.length - 1} aria-label="Следующий документ" onClick={() => activeIndex !== null && selectDocument(activeIndex + 1)} className="document-toolbar-button w-11">
               <ArrowRightIcon className="size-5" />
             </button>
           </div>

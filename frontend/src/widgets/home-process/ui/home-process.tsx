@@ -69,7 +69,7 @@ export function HomeProcess() {
 
         <div className="mt-10 flex flex-col items-start gap-4 border-t border-service-border pt-6 sm:mt-12 sm:flex-row sm:items-center sm:justify-between sm:pt-8">
           <p className="text-sm leading-relaxed text-service-muted sm:text-base">Первый шаг — заявка. Ответим и проконсультируем.</p>
-          <Link href="/contacts" className="button-brand min-h-12 shrink-0 gap-7 px-6 text-sm sm:min-h-14 sm:px-7">
+          <Link href="#feedback" className="button-brand min-h-12 shrink-0 gap-7 px-6 text-sm sm:min-h-14 sm:px-7">
             Оставить заявку
             <ArrowUpRightIcon className="size-5" />
           </Link>
