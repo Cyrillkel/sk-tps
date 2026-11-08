@@ -28,13 +28,13 @@ function InlineContent({ content }: { content: readonly PolicyInline[] }) {
 export function PrivacyPolicyPage() {
   return (
     <section className="policy-page py-12 sm:py-16 lg:py-20">
-      <Container className="mx-auto max-w-[1440px]">
+      <Container>
         <p className="mb-5 text-xs font-semibold tracking-[0.18em] text-muted uppercase sm:mb-6">Документы</p>
         <h1 className="max-w-4xl text-3xl leading-[1.12] font-semibold tracking-[-0.035em] text-primary sm:text-4xl lg:text-5xl">
           {privacyPolicy.title}
         </h1>
 
-        <article className="policy-body mt-10 max-w-[860px] sm:mt-12">
+        <article className="policy-body mt-10 sm:mt-12">
           {privacyPolicy.blocks.map((block, index) => {
             if (block.type === "heading") return <h2 key={index}>{block.text}</h2>;
             if (block.type === "list") {

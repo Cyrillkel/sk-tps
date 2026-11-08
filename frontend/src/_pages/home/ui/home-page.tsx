@@ -14,12 +14,12 @@ export function HomePage() {
       <HomeHero />
       <HomeServices />
       <HomeAbout />
+      <HomeCredentials />
       <HomeCooperation />
       <HomeProcess />
       <HomeFeedback />
       <HomeAdvantages />
       <HomeLetters />
-      <HomeCredentials />
     </>
   );
 }
