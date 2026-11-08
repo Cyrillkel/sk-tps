@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@import "swiper/css" layer(components);
 
 @custom-variant dark (&:where(.dark, .dark *));
 
@@ -496,6 +497,102 @@
 
     .service-card-featured .service-card-copy {
       max-width: 440px;
+    }
+  }
+
+  /* Services: full-bleed slider on mobile with a peek of the next card. */
+  .services-slider .swiper-wrapper {
+    /* Room for the card shadow inside the overflow-hidden track. */
+    padding-bottom: 24px;
+    transition-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .services-slider .services-slide {
+    width: min(calc(100% - 72px), 420px);
+    height: auto;
+  }
+
+  .services-slide-inner {
+    height: 100%;
+    transform-origin: center;
+    transition: transform 450ms cubic-bezier(0.22, 1, 0.36, 1), opacity 450ms ease;
+  }
+
+  .services-slide:not(.swiper-slide-active, .swiper-slide-fully-visible) .services-slide-inner {
+    transform: scale(0.94);
+    opacity: 0.7;
+  }
+
+  .services-slider .service-card {
+    min-height: 380px;
+  }
+
+  .services-pagination {
+    display: flex;
+    justify-content: center;
+    gap: 6px;
+  }
+
+  .services-bullet {
+    width: 8px;
+    height: 8px;
+    border-radius: 999px;
+    background: color-mix(in srgb, var(--color-primary) 22%, transparent);
+    transition: width 300ms ease, background-color 300ms ease;
+  }
+
+  .services-bullet[aria-current="true"] {
+    width: 28px;
+    background: var(--color-accent);
+  }
+
+  .services-bullet:focus-visible {
+    outline-offset: 3px;
+  }
+
+  /* From md Swiper is disabled: the same slides become the grid.
+     !important beats inline transform/margin that Swiper keeps writing. */
+  @media (min-width: 768px) {
+    .services-slider {
+      overflow: visible;
+    }
+
+    .services-slider .swiper-wrapper {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+      padding-bottom: 0;
+      transform: none !important;
+    }
+
+    .services-slider .services-slide {
+      width: auto;
+      margin: 0 !important;
+    }
+
+    .services-slider .services-slide .services-slide-inner {
+      transform: none;
+      opacity: 1;
+    }
+
+    .services-slider .service-card {
+      min-height: 360px;
+    }
+
+    .services-slider .service-card-featured {
+      min-height: 400px;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .services-slider .swiper-wrapper {
+      gap: 16px;
+    }
+  }
+
+  @media (min-width: 1280px) {
+    .services-slider .swiper-wrapper {
+      grid-template-columns: repeat(12, minmax(0, 1fr));
     }
   }
 }
