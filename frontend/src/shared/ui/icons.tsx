@@ -144,3 +144,94 @@ export function SunIcon(props: IconProps) {
 export function MoonIcon(props: IconProps) {
   return <SvgIcon {...props}><path d="M20.5 13.2A8.5 8.5 0 0 1 10.8 3.5a8.5 8.5 0 1 0 9.7 9.7Z" /></SvgIcon>;
 }
+
+export function BlueprintIcon(props: IconProps) {
+  return (
+    <SvgIcon {...props}>
+      <path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9l-6-6Z" />
+      <path d="M14 3v6h6M8 18v-3a2 2 0 0 1 2-2h4a2 2 0 0 0 2-2" />
+      <circle cx="8" cy="18" r=".6" />
+    </SvgIcon>
+  );
+}
+
+export function ProjectEditIcon(props: IconProps) {
+  return (
+    <SvgIcon {...props}>
+      <path d="M11 21H6a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h8l5 5v3" />
+      <path d="M14 3v5h5M8 12h5M8 16h2m7.5-1.5 2 2L14 22h-2v-2l5.5-5.5Z" />
+    </SvgIcon>
+  );
+}
+
+export function CompassIcon(props: IconProps) {
+  return (
+    <SvgIcon {...props}>
+      <circle cx="12" cy="5" r="2" />
+      <path d="M11 7 5.5 21M13 7l5.5 14M4 13.5c2.4 1.6 5.1 2.4 8 2.4s5.6-.8 8-2.4M12 2V1" />
+    </SvgIcon>
+  );
+}
+
+export function ChatIcon(props: IconProps) {
+  return (
+    <SvgIcon {...props}>
+      <path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12Z" />
+      <path d="M8.5 10.5h7m-7 3h4" />
+    </SvgIcon>
+  );
+}
+
+export function SiteVisitIcon(props: IconProps) {
+  return (
+    <SvgIcon {...props}>
+      <path d="M12 21s-7-6.1-7-11.5a7 7 0 0 1 14 0C19 14.9 12 21 12 21Z" />
+      <circle cx="12" cy="9.5" r="2.5" />
+    </SvgIcon>
+  );
+}
+
+export function CalculatorIcon(props: IconProps) {
+  return (
+    <SvgIcon {...props}>
+      <rect x="5" y="2.5" width="14" height="19" rx="2" />
+      <path d="M8.5 6.5h7v3h-7zM8.5 13h.01M12 13h.01M15.5 13h.01M8.5 17h.01M12 17h.01M15.5 17h.01" />
+    </SvgIcon>
+  );
+}
+
+export function ContractIcon(props: IconProps) {
+  return (
+    <SvgIcon {...props}>
+      <path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9l-6-6Z" />
+      <path d="M14 3v6h6M8 13h5m-5 4c1-1.5 2-1.5 2.5 0s1.5 1.5 2.5 0 1.5-1 3 0" />
+    </SvgIcon>
+  );
+}
+
+export function HelmetIcon(props: IconProps) {
+  return (
+    <SvgIcon {...props}>
+      <path d="M3 18h18M4.5 18v-2a7.5 7.5 0 0 1 15 0v2M10 9V6h4v3M8 10.5V9m8 1.5V9" />
+    </SvgIcon>
+  );
+}
+
+export function ClipboardCheckIcon(props: IconProps) {
+  return (
+    <SvgIcon {...props}>
+      <path d="M9 4H7a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2h-2" />
+      <rect x="9" y="2.5" width="6" height="3.5" rx="1" />
+      <path d="m9 13.5 2 2 4-4" />
+    </SvgIcon>
+  );
+}
+
+export function ShieldCheckIcon(props: IconProps) {
+  return (
+    <SvgIcon {...props}>
+      <path d="M12 3 5 6v5c0 4.5 3 8.3 7 10 4-1.7 7-5.5 7-10V6l-7-3Z" />
+      <path d="m9 12 2 2 4-4" />
+    </SvgIcon>
+  );
+}

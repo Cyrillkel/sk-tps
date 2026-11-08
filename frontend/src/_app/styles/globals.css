@@ -615,3 +615,269 @@
     animation-duration: 0s !important;
   }
 }
+
+@layer components {
+  /* Cooperation options */
+  .home-cooperation {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    border-top: 1px solid var(--color-border);
+    background:
+      radial-gradient(ellipse at 100% 100%, color-mix(in srgb, var(--color-brand) 8%, transparent), transparent 55%),
+      radial-gradient(ellipse at 0% 0%, color-mix(in srgb, var(--color-cyan) 7%, transparent), transparent 50%),
+      var(--color-background);
+  }
+
+  .home-cooperation::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background-image: radial-gradient(color-mix(in srgb, var(--color-primary) 16%, transparent) 1px, transparent 1.4px);
+    background-size: 22px 22px;
+    mask-image: radial-gradient(ellipse at 85% 15%, #000, transparent 60%);
+    pointer-events: none;
+  }
+
+  .cooperation-lines {
+    position: absolute;
+    right: -6%;
+    bottom: -4%;
+    z-index: -1;
+    width: min(80vw, 900px);
+    color: color-mix(in srgb, var(--color-cyan) 22%, transparent);
+    pointer-events: none;
+  }
+
+  .cooperation-card {
+    position: relative;
+    overflow: hidden;
+    height: 100%;
+    border: 1px solid var(--color-border);
+    border-radius: 16px;
+    padding: 24px;
+    background: color-mix(in srgb, var(--color-surface) 88%, transparent);
+    backdrop-filter: blur(6px);
+    transition: border-color 200ms ease, transform 200ms ease, box-shadow 200ms ease;
+  }
+
+  .cooperation-card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 24px;
+    width: 48px;
+    height: 3px;
+    background: var(--color-brand);
+    transition: width 300ms ease;
+  }
+
+  .cooperation-card:hover {
+    border-color: color-mix(in srgb, var(--color-accent) 55%, var(--color-border));
+    box-shadow: 0 18px 40px -24px color-mix(in srgb, var(--color-primary) 45%, transparent);
+    transform: translateY(-3px);
+  }
+
+  .cooperation-card:hover::before {
+    width: calc(100% - 48px);
+  }
+
+  .cooperation-icon {
+    display: flex;
+    width: 56px;
+    height: 56px;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid color-mix(in srgb, var(--color-accent) 25%, var(--color-border));
+    border-radius: 14px;
+    background: color-mix(in srgb, var(--color-brand) 12%, var(--color-surface));
+    color: var(--color-accent);
+    transition: background 200ms ease, color 200ms ease;
+  }
+
+  .cooperation-card:hover .cooperation-icon {
+    background: var(--color-brand);
+    color: #173650;
+  }
+
+  .cooperation-number {
+    font-size: 56px;
+    line-height: .9;
+    font-weight: 700;
+    letter-spacing: -.05em;
+    color: transparent;
+    -webkit-text-stroke: 1px color-mix(in srgb, var(--color-primary) 22%, transparent);
+  }
+
+  .cooperation-guarantee {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    border: 1px solid var(--color-border);
+    border-left: 3px solid var(--color-accent);
+    border-radius: 12px;
+    padding: 16px 20px;
+    background: var(--color-surface);
+    color: var(--color-primary);
+    font-size: .875rem;
+    font-weight: 600;
+    line-height: 1.6;
+  }
+
+  /* Work process */
+  .home-process {
+    --process-node: 64px;
+    --process-gap: 28px;
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    border-top: 1px solid var(--color-border);
+    background:
+      radial-gradient(ellipse at 10% 0%, color-mix(in srgb, var(--color-cyan) 22%, transparent), transparent 50%),
+      radial-gradient(ellipse at 95% 100%, color-mix(in srgb, var(--color-brand) 14%, transparent), transparent 45%),
+      var(--color-service-card);
+    color: var(--color-service-foreground);
+  }
+
+  .home-process::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background-image:
+      linear-gradient(#ffffff0d 1px, transparent 1px),
+      linear-gradient(90deg, #ffffff0d 1px, transparent 1px);
+    background-size: 56px 56px;
+    mask-image: linear-gradient(180deg, #000, transparent 85%);
+    pointer-events: none;
+  }
+
+  .process-lines {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    width: 100%;
+    height: 100%;
+    color: #24a8ce2e;
+    pointer-events: none;
+  }
+
+  .process-steps {
+    display: grid;
+    gap: var(--process-gap);
+  }
+
+  .process-step {
+    position: relative;
+    display: grid;
+    grid-template-columns: var(--process-node) 1fr;
+    align-content: start;
+    align-items: start;
+    gap: 20px;
+  }
+
+  .process-step:not(:last-child)::after {
+    content: "";
+    position: absolute;
+    top: calc(var(--process-node) + 8px);
+    bottom: calc(-1 * var(--process-gap) + 8px);
+    left: calc(var(--process-node) / 2 - 1px);
+    width: 2px;
+    background: repeating-linear-gradient(180deg, var(--color-brand) 0 6px, transparent 6px 12px);
+    background-size: 2px 12px;
+    opacity: .7;
+    animation: process-flow-y 1.2s linear infinite;
+  }
+
+  .process-node {
+    position: relative;
+    display: flex;
+    width: var(--process-node);
+    height: var(--process-node);
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--color-service-border);
+    border-radius: 50%;
+    background: var(--color-service-panel);
+    color: var(--color-brand);
+    backdrop-filter: blur(8px);
+    box-shadow: 0 0 0 6px #24a8ce0f;
+    transition: background 200ms ease, color 200ms ease, box-shadow 200ms ease;
+  }
+
+  .process-step:hover .process-node,
+  .process-step:last-child .process-node {
+    border-color: transparent;
+    background: var(--color-brand);
+    color: var(--color-service-card);
+    box-shadow: 0 0 0 6px #ffb31b26, 0 10px 30px -8px #ffb31b80;
+  }
+
+  .process-index {
+    position: absolute;
+    top: -6px;
+    right: -10px;
+    border: 1px solid var(--color-service-border);
+    border-radius: 999px;
+    padding: 2px 7px;
+    background: var(--color-service-card);
+    color: var(--color-service-foreground);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: .08em;
+  }
+
+  @keyframes process-flow-y {
+    to { background-position: 0 12px; }
+  }
+
+  @keyframes process-flow-x {
+    to { background-position: 12px 0; }
+  }
+
+  @media (min-width: 640px) {
+    .cooperation-card { padding: 28px; }
+    .cooperation-guarantee { padding: 18px 24px; font-size: .9375rem; }
+  }
+
+  @media (min-width: 768px) and (max-width: 1279px) {
+    .process-steps {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      row-gap: 40px;
+    }
+
+    .process-step {
+      grid-template-columns: 1fr;
+    }
+
+    .process-step:not(:last-child)::after {
+      display: none;
+    }
+  }
+
+  @media (min-width: 1280px) {
+    .home-process { --process-gap: 24px; }
+
+    .process-steps {
+      grid-template-columns: repeat(6, minmax(0, 1fr));
+    }
+
+    .process-step {
+      grid-template-columns: 1fr;
+      gap: 24px;
+    }
+
+    .process-step:not(:last-child)::after {
+      top: calc(var(--process-node) / 2 - 1px);
+      bottom: auto;
+      left: calc(var(--process-node) + 12px);
+      right: calc(-1 * var(--process-gap) + 12px);
+      width: auto;
+      height: 2px;
+      background: repeating-linear-gradient(90deg, var(--color-brand) 0 6px, transparent 6px 12px);
+      background-size: 12px 2px;
+      animation-name: process-flow-x;
+    }
+  }
+}
