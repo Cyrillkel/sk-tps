@@ -87,7 +87,7 @@ export function HomeAbout() {
               href="/contacts"
               className="button-brand mt-7 min-h-12 gap-7 px-6 text-sm sm:mt-8 sm:min-h-14 sm:px-7"
             >
-              Обсудить ваш проект
+              Обсудить вашу задачу
               <ArrowUpRightIcon className="size-5" />
             </Link>
           </div>

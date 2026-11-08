@@ -1,10 +1,10 @@
 import { cooperationGuarantee, cooperationOptions } from "@/entities/company";
-import { BlueprintIcon, CompassIcon, Container, ProjectEditIcon, ShieldCheckIcon } from "@/shared/ui";
+import { BlueprintIcon, Container, MaintenanceIcon, ServiceCycleIcon, ShieldCheckIcon } from "@/shared/ui";
 
 const optionIcons = {
   "client-project": BlueprintIcon,
-  "project-adaptation": ProjectEditIcon,
-  "custom-project": CompassIcon,
+  reconstruction: MaintenanceIcon,
+  maintenance: ServiceCycleIcon,
 } satisfies Record<(typeof cooperationOptions)[number]["id"], typeof BlueprintIcon>;
 
 export function HomeCooperation() {
@@ -29,7 +29,7 @@ export function HomeCooperation() {
             </h2>
           </div>
           <p className="max-w-lg text-sm leading-relaxed text-muted sm:text-base">
-            Работаем по готовой документации, дорабатываем существующий проект или разрабатываем решение с нуля.
+            Монтируем системы по документации заказчика, реконструируем действующие сети и берём их на обслуживание.
           </p>
         </div>
 

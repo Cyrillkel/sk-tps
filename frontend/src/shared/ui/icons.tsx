@@ -155,20 +155,12 @@ export function BlueprintIcon(props: IconProps) {
   );
 }
 
-export function ProjectEditIcon(props: IconProps) {
-  return (
-    <SvgIcon {...props}>
-      <path d="M11 21H6a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h8l5 5v3" />
-      <path d="M14 3v5h5M8 12h5M8 16h2m7.5-1.5 2 2L14 22h-2v-2l5.5-5.5Z" />
-    </SvgIcon>
-  );
-}
 
-export function CompassIcon(props: IconProps) {
+export function ServiceCycleIcon(props: IconProps) {
   return (
     <SvgIcon {...props}>
-      <circle cx="12" cy="5" r="2" />
-      <path d="M11 7 5.5 21M13 7l5.5 14M4 13.5c2.4 1.6 5.1 2.4 8 2.4s5.6-.8 8-2.4M12 2V1" />
+      <path d="M20 11a8 8 0 0 0-14.6-4.5M4 13a8 8 0 0 0 14.6 4.5M5 2.5V7h4.5M19 21.5V17h-4.5" />
+      <path d="m10.5 10.5 3 3M14.8 8.6a2 2 0 0 1-2.4 2.4m-.8 2-2 2" />
     </SvgIcon>
   );
 }
