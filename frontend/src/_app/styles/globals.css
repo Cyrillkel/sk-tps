@@ -1184,3 +1184,74 @@
     .policy-body { padding: 40px 48px; }
   }
 }
+
+@layer components {
+  /* Clients marquee */
+  .home-clients {
+    border-top: 1px solid var(--color-border);
+    background: var(--color-background);
+    overflow: hidden;
+  }
+
+  .clients-marquee {
+    display: grid;
+    gap: 16px;
+    mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+  }
+
+  .clients-row {
+    display: flex;
+    overflow: hidden;
+  }
+
+  .clients-track {
+    --clients-gap: 16px;
+    display: flex;
+    flex-shrink: 0;
+    gap: var(--clients-gap);
+    padding-right: var(--clients-gap);
+    animation: clients-scroll 50s linear infinite;
+  }
+
+  .clients-row[data-direction="reverse"] .clients-track {
+    animation-direction: reverse;
+  }
+
+  .clients-marquee:hover .clients-track {
+    animation-play-state: paused;
+  }
+
+  .clients-logo {
+    display: flex;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+    width: 180px;
+    height: 96px;
+    padding: 14px 20px;
+    border: 1px solid var(--color-border);
+    border-radius: 16px;
+    background: #ffffff;
+  }
+
+  .dark .clients-logo {
+    border-color: transparent;
+  }
+
+  @keyframes clients-scroll {
+    to { transform: translateX(-50%); }
+  }
+
+  @media (min-width: 768px) {
+    .clients-marquee { gap: 20px; }
+    .clients-track { --clients-gap: 20px; }
+    .clients-logo { width: 220px; height: 116px; padding: 18px 26px; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .clients-marquee { mask-image: none; padding-inline: 16px; }
+    .clients-row { justify-content: center; }
+    .clients-track { animation: none; flex-wrap: wrap; justify-content: center; flex-shrink: 1; padding-right: 0; }
+    .clients-logo[aria-hidden="true"] { display: none; }
+  }
+}

@@ -1,6 +1,7 @@
 export { company } from "./model/company";
 export { companyAbout } from "./model/company-about";
 export { companyAdvantages } from "./model/company-advantages";
+export { companyClients, type CompanyClient } from "./model/company-clients";
 export { companyCredentials, type CompanyDocument } from "./model/company-credentials";
 export { companyLetters } from "./model/company-letters";
 export { cooperationGuarantee, cooperationOptions } from "./model/cooperation-options";

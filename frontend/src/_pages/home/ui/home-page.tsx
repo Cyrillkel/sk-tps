@@ -1,5 +1,6 @@
 import { HomeAbout } from "@/widgets/home-about";
 import { HomeAdvantages } from "@/widgets/home-advantages";
+import { HomeClients } from "@/widgets/home-clients";
 import { HomeCooperation } from "@/widgets/home-cooperation";
 import { HomeCredentials } from "@/widgets/home-credentials";
 import { HomeFeedback } from "@/widgets/home-feedback";
@@ -20,6 +21,7 @@ export function HomePage() {
       <HomeFeedback />
       <HomeAdvantages />
       <HomeLetters />
+      <HomeClients />
     </>
   );
 }
