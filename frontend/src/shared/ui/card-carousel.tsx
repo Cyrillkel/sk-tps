@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useId, useRef, useState, useSyncExternalStore, type KeyboardEvent, type ReactNode } from "react";
+import { useEffect, useId, useRef, useSyncExternalStore, type KeyboardEvent, type ReactNode } from "react";
 import type { Swiper as SwiperInstance } from "swiper";
 import { A11y, Autoplay } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -34,13 +34,12 @@ function serverMotion() {
 export function CardCarousel({ slides, label }: CardCarouselProps) {
   const id = useId();
   const swiperRef = useRef<SwiperInstance | null>(null);
-  const [isAutoplayPaused, setIsAutoplayPaused] = useState(false);
   const reducedMotion = useSyncExternalStore(subscribeMotion, prefersReducedMotion, serverMotion);
   const canSlide = slides.length > 1;
-  const autoplayEnabled = canSlide && !reducedMotion && !isAutoplayPaused;
+  const autoplayEnabled = canSlide && !reducedMotion;
   // Swiper needs at least ceil(slidesPerView) + slidesPerGroup items for a seamless loop.
   const cycles = canSlide ? Math.max(1, Math.ceil(minimumLoopSlides / slides.length)) : 1;
-  const speed = reducedMotion ? 0 : 600;
+  const speed = reducedMotion ? 0 : 1800;
 
   useEffect(() => {
     const swiper = swiperRef.current;
@@ -120,17 +119,6 @@ export function CardCarousel({ slides, label }: CardCarouselProps) {
           <button type="button" className="card-carousel-button card-carousel-next" aria-label="Следующая карточка" aria-controls={id} onClick={() => move("next")}>
             <ArrowRightIcon className="size-5" />
           </button>
-          {!reducedMotion && (
-            <button
-              type="button"
-              className="card-carousel-button card-carousel-autoplay"
-              aria-label={isAutoplayPaused ? "Продолжить автоматическое перелистывание" : "Приостановить автоматическое перелистывание"}
-              aria-controls={id}
-              onClick={() => setIsAutoplayPaused((paused) => !paused)}
-            >
-              {isAutoplayPaused ? "Продолжить" : "Пауза"}
-            </button>
-          )}
         </div>
       )}
     </div>
