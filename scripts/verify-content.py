@@ -1,0 +1,157 @@
+"""Check the migrated photo inventory and, optionally, the static export.
+
+Run from any directory: python3 scripts/verify-content.py [--build]
+Only Python's standard library is required.
+"""
+
+import argparse
+from collections import Counter
+import hashlib
+from html.parser import HTMLParser
+import json
+from pathlib import Path
+import re
+from urllib.parse import urlparse
+import xml.etree.ElementTree as ET
+
+ROOT = Path(__file__).resolve().parents[1]
+SITE_URL = "https://sk-tps.ru"
+
+
+class Page(HTMLParser):
+    def __init__(self, source):
+        super().__init__()
+        self.h1_count = 0
+        self.images = []
+        self.links = []
+        self.canonicals = []
+        self.descriptions = []
+        self.title = ""
+        self.in_title = False
+        self.feed(source)
+
+    def handle_starttag(self, tag, attributes):
+        attrs = dict(attributes)
+        if tag == "h1":
+            self.h1_count += 1
+        elif tag == "img":
+            self.images.append(attrs.get("src", ""))
+        elif tag == "a":
+            self.links.append(attrs.get("href", ""))
+        elif tag == "link" and attrs.get("rel") == "canonical":
+            self.canonicals.append(attrs.get("href"))
+        elif tag == "meta" and attrs.get("name") == "description":
+            self.descriptions.append(attrs.get("content", ""))
+        elif tag == "title":
+            self.in_title = True
+
+    def handle_endtag(self, tag):
+        if tag == "title":
+            self.in_title = False
+
+    def handle_data(self, data):
+        if self.in_title:
+            self.title += data
+
+
+def require(condition, message):
+    if not condition:
+        raise ValueError(message)
+
+
+def verify_inventory():
+    audit = json.loads((ROOT / "docs/project-photo-manifest.json").read_text())
+    projects = json.loads((ROOT / "frontend/src/entities/project/model/projects.json").read_text())
+    services_source = (ROOT / "frontend/src/entities/service/model/services.ts").read_text()
+    service_slugs = re.findall(r'slug: "([^"]+)"', services_source)
+    require(audit["status"] == "complete" and not audit["failures"], "Incomplete source inventory")
+    require(len(projects) == audit["counts"]["projects"] == 23, "Missing source projects")
+    require(len({project["slug"] for project in projects}) == len(projects), "Duplicate project paths")
+    require(len({project["title"] for project in projects}) == len(projects), "Duplicate project titles")
+
+    source_by_url = {project["sourceUrl"]: project for project in audit["projects"]}
+    all_originals = set()
+    files = set()
+    for project in projects:
+        source = source_by_url[project["sourceUrl"]]
+        require(source["complete"] and not source["missingGalleryOriginalUrls"], f"Incomplete source: {project['slug']}")
+        source_photos = {photo["originalUrl"]: photo for photo in source["photos"]}
+        require({photo["originalUrl"] for photo in project["photos"]} == set(source_photos), f"Omitted photos: {project['slug']}")
+        require(set(source["galleryOriginalUrls"]) <= set(source_photos), f"Missing gallery: {project['slug']}")
+        require(source["coverOriginalUrl"] in source_photos or not source["coverOriginalUrl"], f"Missing cover: {project['slug']}")
+        require(project["coverSrc"] in {photo["src"] for photo in project["photos"]}, f"Invalid cover: {project['slug']}")
+        require(set(project["serviceSlugs"]) <= set(service_slugs), f"Unknown service: {project['slug']}")
+        old_path = urlparse(project["sourceUrl"]).path.strip("/")
+        if not old_path.endswith(".html"):
+            require(project["slug"] == old_path, f"Legacy project path changed: {old_path}")
+
+        for photo in project["photos"]:
+            original = source_photos[photo["originalUrl"]]
+            all_originals.add(photo["originalUrl"])
+            for field, hash_field in (("src", "fullSha256"), ("preview", "previewSha256")):
+                relative = photo[field]
+                require(relative == original[field], f"Changed photo reference: {relative}")
+                path = ROOT / "frontend/public" / relative.lstrip("/")
+                data = path.read_bytes()
+                require(data[:4] == b"RIFF" and data[8:12] == b"WEBP", f"Invalid WebP file: {path}")
+                require(hashlib.sha256(data).hexdigest() == original[hash_field], f"Photo checksum mismatch: {path}")
+                files.add(relative)
+            for dimension in ("width", "height", "previewWidth", "previewHeight"):
+                require(photo[dimension] == original[dimension] > 0, f"Incorrect image size: {photo['src']}")
+
+    require(len(all_originals) == audit["counts"]["sourceOriginalUrls"] == 205, "Missing source image URLs")
+    require(len(files) == audit["counts"]["webpFiles"] == 410, "Missing WebP variants")
+    actual_files = {"/" + str(path.relative_to(ROOT / "frontend/public")) for path in (ROOT / "frontend/public/images/projects").glob("*.webp")}
+    require(files == actual_files, "Unexpected or missing WebP files")
+    print(f"PASS: {len(projects)} projects, {len(all_originals)} source photographs, {len(files)} verified WebP files")
+    return projects, service_slugs
+
+
+def verify_build(projects, service_slugs):
+    output = ROOT / "frontend/out"
+    paths = ["/", "/seti/", "/proekty/", "/contacts/", "/soglasie/"]
+    paths += [f"/{slug}/" for slug in service_slugs]
+    paths += [f"/{project['slug']}/" for project in projects]
+    pages = {}
+    titles = []
+    for path in paths:
+        html = output / path.lstrip("/") / "index.html"
+        page = Page(html.read_text())
+        require(page.h1_count == 1, f"Expected one h1: {path}")
+        require(page.canonicals == [SITE_URL + path], f"Incorrect canonical: {path}")
+        require(len(page.descriptions) == 1 and bool(page.descriptions[0].strip()), f"Missing description: {path}")
+        require(not any("/goroda/" in link for link in page.links), f"Premature city links: {path}")
+        for image in page.images:
+            require(image.startswith("/"), f"Remote runtime image: {image}")
+            require((output / urlparse(image).path.lstrip("/")).is_file(), f"Missing exported image: {image}")
+        pages[path] = page
+        titles.append(page.title)
+    require(all(title.strip() for title in titles), "Missing page title")
+    require(not [title for title, count in Counter(titles).items() if count > 1], "Duplicate page titles")
+
+    for project in projects:
+        page = pages[f"/{project['slug']}/"]
+        require({photo["preview"] for photo in project["photos"]} <= set(page.images), f"Gallery photos omitted from HTML: {project['slug']}")
+    require(all(f"/{project['slug']}/" in pages["/proekty/"].links or f"/{project['slug']}" in pages["/proekty/"].links for project in projects), "Project missing from portfolio")
+
+    home_source = (output / "index.html").read_text()
+    geography = re.search(r'<section[^>]+id="geography".*?</section>', home_source, re.DOTALL)
+    require(geography is not None, "Missing homepage geography")
+    require(geography[0].count('class="geography-region"') == 3, "Missing work regions")
+    require(len(re.findall(r'<li\b', geography[0])) == 22, "Missing city names")
+    require(not (output / "goroda").exists(), "Draft city routes must not be exported")
+    require(not (output / "prochistka-kanalizacii").exists(), "Removed standalone sewer maintenance route was exported")
+
+    sitemap = ET.parse(output / "sitemap.xml")
+    urls = [element.text for element in sitemap.iter("{http://www.sitemaps.org/schemas/sitemap/0.9}loc")]
+    require(set(urls) == {SITE_URL + path for path in paths} and len(urls) == len(paths), "Sitemap differs from published pages")
+    print(f"PASS: {len(paths)} static pages, unique titles, self canonicals, complete galleries and sitemap; no draft city routes")
+
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--build", action="store_true", help="also check frontend/out after pnpm build:static")
+    args = parser.parse_args()
+    data, slugs = verify_inventory()
+    if args.build:
+        verify_build(data, slugs)

@@ -1,9 +1,8 @@
-import type { Metadata } from "next";
-
 import { privacyPolicy, type PolicyInline } from "@/entities/company";
+import { pageMetadata } from "@/shared/lib";
 import { Container } from "@/shared/ui";
 
-export const metadata: Metadata = { title: "Политика обработки персональных данных" };
+export const metadata = pageMetadata({ title: "Политика обработки персональных данных", description: "Политика обработки персональных данных ООО СК «ТПС» и условия использования информации посетителей сайта.", path: "/soglasie/" });
 
 function InlineContent({ content }: { content: readonly PolicyInline[] }) {
   return content.map((part, index) => {

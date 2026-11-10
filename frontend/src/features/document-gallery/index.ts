@@ -1,1 +1,1 @@
-export { DocumentGallery } from "./ui/document-gallery";
+export { DocumentGallery, PhotoGallery, type GalleryImage } from "./ui/document-gallery";

@@ -2,13 +2,22 @@
 
 import { useEffect, useId, useRef, useState, type KeyboardEvent, type TouchEvent } from "react";
 
-import type { CompanyDocument } from "@/entities/company";
 import { ArrowRightIcon, ArrowUpRightIcon, CloseIcon, ImageWithSkeleton } from "@/shared/ui";
 
+export type GalleryImage = {
+  src: string;
+  preview: string;
+  alt: string;
+  width: number;
+  height: number;
+  caption?: string;
+};
+
 type DocumentGalleryProps = {
-  documents: readonly CompanyDocument[];
+  documents: readonly GalleryImage[];
   title: string;
   itemLabel?: string;
+  variant?: "document" | "photo";
 };
 
 function gridColumns(count: number) {
@@ -17,7 +26,10 @@ function gridColumns(count: number) {
   return "sm:max-w-[360px]";
 }
 
-export function DocumentGallery({ documents, title, itemLabel = "Лист" }: DocumentGalleryProps) {
+export function DocumentGallery({ documents, title, itemLabel = "Лист", variant = "document" }: DocumentGalleryProps) {
+  const isPhoto = variant === "photo";
+  const previousLabel = isPhoto ? "Предыдущее фото" : "Предыдущий документ";
+  const nextLabel = isPhoto ? "Следующее фото" : "Следующий документ";
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
   const [isZoomed, setIsZoomed] = useState(false);
   const dialogRef = useRef<HTMLDialogElement>(null);
@@ -84,7 +96,7 @@ export function DocumentGallery({ documents, title, itemLabel = "Лист" }: Do
 
   return (
     <>
-      <ul className={`grid grid-cols-2 gap-3 sm:gap-4 ${gridColumns(documents.length)}`}>
+      <ul className={`grid gap-3 sm:gap-4 ${isPhoto ? "project-photo-grid grid-cols-2 lg:grid-cols-3" : `grid-cols-2 ${gridColumns(documents.length)}`}`}>
         {documents.map((document, index) => (
           <li key={document.src}>
             <button
@@ -105,8 +117,8 @@ export function DocumentGallery({ documents, title, itemLabel = "Лист" }: Do
                   alt={document.alt}
                   width={document.width}
                   height={document.height}
-                  sizes="(min-width: 1024px) 180px, (min-width: 640px) 25vw, 50vw"
-                  className="aspect-[1680/2384] h-auto w-full object-contain"
+                  sizes={isPhoto ? "(min-width: 1024px) 33vw, 50vw" : "(min-width: 1024px) 180px, (min-width: 640px) 25vw, 50vw"}
+                  className={isPhoto ? "aspect-[4/3] h-auto w-full object-cover" : "aspect-[1680/2384] h-auto w-full object-contain"}
                 />
                 <span className="document-open absolute right-2 bottom-2 flex size-8 items-center justify-center rounded-full bg-primary text-surface shadow-sm" aria-hidden="true">
                   <ArrowUpRightIcon className="size-4" />
@@ -116,7 +128,7 @@ export function DocumentGallery({ documents, title, itemLabel = "Лист" }: Do
                 <span className="mt-3 block border-l-2 border-border pl-2.5 text-xs leading-snug font-medium text-muted group-hover:border-accent group-hover:text-accent group-focus-visible:border-accent group-focus-visible:text-accent">
                   {document.caption}
                 </span>
-              ) : (
+              ) : !isPhoto && (
                 <span className="mt-3 flex min-h-6 items-center gap-2 text-xs font-medium text-muted group-hover:text-accent group-focus-visible:text-accent">
                   {itemLabel} {index + 1}
                   <span className="h-px flex-1 bg-border" aria-hidden="true" />
@@ -130,7 +142,7 @@ export function DocumentGallery({ documents, title, itemLabel = "Лист" }: Do
       <dialog
         ref={dialogRef}
         aria-labelledby={titleId}
-        className="document-dialog"
+        className={`document-dialog ${isPhoto ? "photo-dialog" : ""}`}
         onKeyDown={handleKeyDown}
         onClick={(event) => {
           if (event.target === event.currentTarget) dialogRef.current?.close();
@@ -161,7 +173,7 @@ export function DocumentGallery({ documents, title, itemLabel = "Лист" }: Do
               </button>
               {activeDocument && (
                 <a href={activeDocument.src} target="_blank" rel="noopener noreferrer" className="document-toolbar-button gap-2 px-3 text-xs font-semibold">
-                  Оригинал <ArrowUpRightIcon className="size-4" />
+                  {isPhoto ? "Открыть фото" : "Оригинал"} <ArrowUpRightIcon className="size-4" />
                 </a>
               )}
             </div>
@@ -173,7 +185,7 @@ export function DocumentGallery({ documents, title, itemLabel = "Лист" }: Do
           <div
             ref={scrollRef}
             tabIndex={0}
-            aria-label="Просмотр скана документа"
+            aria-label={isPhoto ? "Просмотр фотографии проекта" : "Просмотр скана документа"}
             className="document-viewport min-h-0 overflow-auto overscroll-contain bg-background p-3 sm:p-6"
             data-zoomed={isZoomed}
             onTouchStart={handleTouchStart}
@@ -186,7 +198,7 @@ export function DocumentGallery({ documents, title, itemLabel = "Лист" }: Do
             {activeDocument && (
               <div
                 key={activeDocument.src}
-                className={`document-paper relative mx-auto overflow-hidden ${isZoomed ? "max-w-none" : "w-full"}`}
+                className={`document-paper ${isPhoto ? "photo-media" : ""} relative mx-auto overflow-hidden ${isZoomed ? "max-w-none" : "w-full"}`}
                 style={isZoomed ? { width: activeDocument.width } : undefined}
               >
                 <ImageWithSkeleton
@@ -203,13 +215,13 @@ export function DocumentGallery({ documents, title, itemLabel = "Лист" }: Do
           </div>
 
           <div className="flex shrink-0 items-center justify-between gap-3 border-t border-border px-4 py-3 sm:px-6">
-            <button type="button" disabled={activeIndex === null || documents.length < 2} aria-label="Предыдущий документ" onClick={() => activeIndex !== null && selectDocument(activeIndex - 1)} className="document-toolbar-button w-11">
+            <button type="button" disabled={activeIndex === null || documents.length < 2} aria-label={previousLabel} onClick={() => activeIndex !== null && selectDocument(activeIndex - 1)} className="document-toolbar-button w-11">
               <ArrowRightIcon className="size-5 rotate-180" />
             </button>
             <p aria-live="polite" className="text-sm text-muted">
               {itemLabel} {(activeIndex ?? 0) + 1} из {documents.length}
             </p>
-            <button type="button" disabled={activeIndex === null || documents.length < 2} aria-label="Следующий документ" onClick={() => activeIndex !== null && selectDocument(activeIndex + 1)} className="document-toolbar-button w-11">
+            <button type="button" disabled={activeIndex === null || documents.length < 2} aria-label={nextLabel} onClick={() => activeIndex !== null && selectDocument(activeIndex + 1)} className="document-toolbar-button w-11">
               <ArrowRightIcon className="size-5" />
             </button>
           </div>
@@ -217,4 +229,8 @@ export function DocumentGallery({ documents, title, itemLabel = "Лист" }: Do
       </dialog>
     </>
   );
+}
+
+export function PhotoGallery({ images, title }: { images: readonly GalleryImage[]; title: string }) {
+  return <DocumentGallery documents={images} title={title} itemLabel="Фото" variant="photo" />;
 }

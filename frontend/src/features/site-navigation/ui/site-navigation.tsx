@@ -98,6 +98,7 @@ export function SiteNavigation({ mobileControls, mobileLogo }: SiteNavigationPro
                 </div>
               </div>
             </li>
+            <li><Link href="/proekty" aria-current={pathname === "/proekty" ? "page" : undefined} className="block py-4 hover:text-accent">Проекты</Link></li>
             <li><Link href="/#about" className="block py-4 hover:text-accent">О компании</Link></li>
             <li><Link href="/#documents" className="block py-4 hover:text-accent">Документы</Link></li>
             <li><Link href="/contacts" aria-current={pathname === "/contacts" ? "page" : undefined} className="block py-4 hover:text-accent">Контакты</Link></li>

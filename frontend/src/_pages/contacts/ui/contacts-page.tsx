@@ -1,9 +1,8 @@
-import type { Metadata } from "next";
-
 import { company } from "@/entities/company";
+import { pageMetadata } from "@/shared/lib";
 import { Container } from "@/shared/ui";
 
-export const metadata: Metadata = { title: "Контакты" };
+export const metadata = pageMetadata({ title: "Контакты", description: `Контакты компании «${company.name}». ${company.region}. Телефон: ${company.phone}.`, path: "/contacts/" });
 
 export function ContactsPage() {
   return (

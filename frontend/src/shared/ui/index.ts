@@ -1,4 +1,6 @@
 export { Container } from "./container";
+export { Breadcrumbs } from "./breadcrumbs";
+export { StructuredData } from "./structured-data";
 export { ImageWithSkeleton } from "./image-with-skeleton";
 export { Skeleton } from "./skeleton";
 export {

@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
-import { services } from "@/entities/service";
-import { Container } from "@/shared/ui";
+import { serviceContent, services } from "@/entities/service";
+import { pageMetadata } from "@/shared/lib";
+import { HomeFeedback } from "@/widgets/home-feedback";
+import { ServiceDetails } from "@/widgets/service-details";
 
 type ServicePageProps = {
   params: Promise<{ slug: string }>;
@@ -18,7 +20,8 @@ export async function generateMetadata({ params }: ServicePageProps): Promise<Me
 
   if (!service) notFound();
 
-  return { title: service.title };
+  const content = serviceContent[service.slug];
+  return pageMetadata({ title: service.title, description: content.lead, path: `/${service.slug}/`, image: content.image });
 }
 
 export async function ServicePage({ params }: ServicePageProps) {
@@ -28,13 +31,9 @@ export async function ServicePage({ params }: ServicePageProps) {
   if (!service) notFound();
 
   return (
-    <Container className="py-12 sm:py-20">
-      <h1 className="max-w-4xl text-3xl font-semibold tracking-tight text-balance sm:text-5xl">
-        {service.title}
-      </h1>
-      {service.slug === "servisnoe-obsluzhivanie" && (
-        <p className="mt-6 max-w-2xl text-lg leading-relaxed text-muted">{service.description}</p>
-      )}
-    </Container>
+    <>
+      <ServiceDetails service={service} />
+      <HomeFeedback />
+    </>
   );
 }
