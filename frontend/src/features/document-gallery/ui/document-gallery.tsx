@@ -185,7 +185,7 @@ export function DocumentGallery({ documents, title, itemLabel = "Лист", vari
           <div
             ref={scrollRef}
             tabIndex={0}
-            aria-label={isPhoto ? "Просмотр фотографии проекта" : "Просмотр скана документа"}
+            aria-label={isPhoto ? "Просмотр фотографии объекта" : "Просмотр скана документа"}
             className="document-viewport min-h-0 overflow-auto overscroll-contain bg-background p-3 sm:p-6"
             data-zoomed={isZoomed}
             onTouchStart={handleTouchStart}

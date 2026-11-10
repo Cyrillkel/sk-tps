@@ -127,7 +127,7 @@ export function MobileNavigation({ controls, logo }: { controls: ReactNode; logo
                     <ServiceLinks pathname={pathname} onNavigate={closeMenu} />
                   </div>
                 </li>
-                <li><Link href="/proekty" onClick={closeMenu} className="block rounded-lg py-3 text-xl font-semibold hover:text-accent">Проекты</Link></li>
+                <li><Link href="/proekty" onClick={closeMenu} className="block rounded-lg py-3 text-xl font-semibold hover:text-accent">Наши работы</Link></li>
                 <li><Link href="/#geography" onClick={closeMenu} className="block rounded-lg py-3 text-xl font-semibold hover:text-accent">География работ</Link></li>
                 <li><Link href="/#about" onClick={closeMenu} className="block rounded-lg py-3 text-xl font-semibold hover:text-accent">О компании</Link></li>
                 <li><Link href="/#documents" onClick={closeMenu} className="block rounded-lg py-3 text-xl font-semibold hover:text-accent">Документы</Link></li>

@@ -26,7 +26,7 @@ export function ServiceDetails({ service }: { service: Service }) {
               <h1 id="service-title" className="detail-title">{service.title}</h1>
               <p className="detail-lead">{content.lead}</p>
               <a href="#feedback" className="button-brand mt-7 min-h-14 gap-7 px-7 text-sm">Обсудить задачу <ArrowUpRightIcon className="size-5" /></a>
-              <p className="mt-5 max-w-lg text-xs leading-relaxed text-muted">{company.region}. Работаем по проектной документации заказчика.</p>
+              <p className="mt-5 max-w-lg text-xs leading-relaxed text-muted">{company.region}. Работаем по готовой проектной документации заказчика.</p>
             </div>
             <div className="detail-hero-photo relative overflow-hidden rounded-2xl bg-service-card">
               <ImageWithSkeleton src={cover?.src ?? content.image} alt={cover?.alt ?? content.imageAlt} fill sizes="(min-width: 1024px) 45vw, 100vw" loading="eager" fetchPriority="high" className="object-cover" skeletonClassName="skeleton-on-dark" />
@@ -62,8 +62,8 @@ export function ServiceDetails({ service }: { service: Service }) {
         <section className="detail-section border-t border-border" aria-labelledby="service-projects-title">
           <Container>
             <div className="mb-8 flex flex-wrap items-end justify-between gap-5 sm:mb-10">
-              <h2 id="service-projects-title" className="section-title">Выполненные проекты</h2>
-              <Link href="/proekty" className="text-sm font-semibold text-accent hover:text-accent-hover">Все проекты компании →</Link>
+              <h2 id="service-projects-title" className="section-title">Выполненные работы</h2>
+              <Link href="/proekty" className="text-sm font-semibold text-accent hover:text-accent-hover">Все работы компании →</Link>
             </div>
             <div className="project-grid">{completed.map((project) => <ProjectCard key={project.slug} project={project} />)}</div>
           </Container>

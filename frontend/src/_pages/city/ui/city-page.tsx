@@ -51,7 +51,7 @@ export function CityPage({ content }: { content: CityLandingContent }) {
       </section>
       {localProjects.length > 0 && (
         <section className="detail-section border-t border-border" aria-labelledby="city-projects-title">
-          <Container><h2 id="city-projects-title" className="section-title mb-8">Проекты в регионе</h2><div className="project-grid">{localProjects.map((project) => <ProjectCard key={project.slug} project={project} />)}</div><Link href="/proekty" className="mt-7 inline-flex min-h-11 items-center text-sm font-semibold text-accent">Все выполненные проекты →</Link></Container>
+          <Container><h2 id="city-projects-title" className="section-title mb-8">Выполненные работы в регионе</h2><div className="project-grid">{localProjects.map((project) => <ProjectCard key={project.slug} project={project} />)}</div><Link href="/proekty" className="mt-7 inline-flex min-h-11 items-center text-sm font-semibold text-accent">Все выполненные работы →</Link></Container>
         </section>
       )}
       <HomeFeedback />

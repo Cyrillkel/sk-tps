@@ -60,7 +60,7 @@ export function SiteNavigation({ mobileControls, mobileLogo }: SiteNavigationPro
     <div className="ml-auto xl:mx-auto">
       <div className="hidden xl:block">
         <nav aria-label="Основная навигация">
-          <ul className="flex items-center gap-4 text-xs font-semibold tracking-[0.025em] text-primary uppercase 2xl:gap-5">
+          <ul className="flex items-center gap-4 text-xs font-semibold tracking-[0.025em] whitespace-nowrap text-primary uppercase 2xl:gap-5">
             <li><Link href="/" aria-current={pathname === "/" ? "page" : undefined} className="block py-4 hover:text-accent">Главная</Link></li>
             <li
               ref={menuRef}
@@ -98,7 +98,7 @@ export function SiteNavigation({ mobileControls, mobileLogo }: SiteNavigationPro
                 </div>
               </div>
             </li>
-            <li><Link href="/proekty" aria-current={pathname === "/proekty" ? "page" : undefined} className="block py-4 hover:text-accent">Проекты</Link></li>
+            <li><Link href="/proekty" aria-current={pathname === "/proekty" ? "page" : undefined} className="block py-4 hover:text-accent">Наши работы</Link></li>
             <li><Link href="/#about" className="block py-4 hover:text-accent">О компании</Link></li>
             <li><Link href="/#documents" className="block py-4 hover:text-accent">Документы</Link></li>
             <li><Link href="/contacts" aria-current={pathname === "/contacts" ? "page" : undefined} className="block py-4 hover:text-accent">Контакты</Link></li>

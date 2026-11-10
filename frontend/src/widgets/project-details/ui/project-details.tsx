@@ -16,12 +16,12 @@ export function ProjectDetails({ project }: { project: Project }) {
       <StructuredData data={{ "@context": "https://schema.org", "@type": "ImageGallery", name: project.title, url: `${siteUrl}/${project.slug}/`, image: project.photos.map((photo) => ({ "@type": "ImageObject", contentUrl: `${siteUrl}${photo.src}`, thumbnailUrl: `${siteUrl}${photo.preview}`, caption: photo.alt, width: photo.width, height: photo.height })) }} />
       <section className="detail-hero" aria-labelledby="project-title">
         <Container>
-          <Breadcrumbs items={[{ label: "Главная", href: "/" }, { label: "Проекты", href: "/proekty" }, { label: project.title }]} />
+          <Breadcrumbs items={[{ label: "Главная", href: "/" }, { label: "Наши работы", href: "/proekty" }, { label: project.title }]} />
           <div className="detail-hero-grid">
             <div>
               <p className="section-eyebrow">{projectCategoryLabels[project.category]}</p>
               <h1 id="project-title" className="detail-title">{project.title}</h1>
-              <p className="detail-lead">{project.description || "Выполненный проект компании «Техпромстрой». Фотографии объекта и проведённых работ."}</p>
+              <p className="detail-lead">{project.description || "Фотографии объекта и работ, выполненных компанией «Техпромстрой»."}</p>
               {project.paragraphs.map((paragraph) => <p key={paragraph} className="mt-4 text-sm leading-relaxed text-muted">{paragraph}</p>)}
               <a href="#project-photos" className="button-brand mt-7 min-h-14 gap-7 px-7 text-sm">Фотографии объекта <ArrowUpRightIcon className="size-5" /></a>
               {relatedServices.length > 0 && <ul className="mt-6 flex flex-wrap gap-x-5 gap-y-2 text-sm text-accent">{relatedServices.map((service) => <li key={service.slug}><Link href={`/${service.slug}`} className="underline underline-offset-4 hover:text-accent-hover">{service.navigationLabel}</Link></li>)}</ul>}
@@ -42,7 +42,7 @@ export function ProjectDetails({ project }: { project: Project }) {
         <section className="detail-section border-t border-border" aria-labelledby="more-projects-title">
           <Container>
             <div className="mb-8 flex flex-wrap items-end justify-between gap-5 sm:mb-10">
-              <h2 id="more-projects-title" className="section-title">Другие проекты</h2>
+              <h2 id="more-projects-title" className="section-title">Другие выполненные работы</h2>
               <Link href="/proekty" className="text-sm font-semibold text-accent hover:text-accent-hover">Все выполненные работы →</Link>
             </div>
             <div className="project-grid">{moreProjects.map((item) => <ProjectCard key={item.slug} project={item} />)}</div>

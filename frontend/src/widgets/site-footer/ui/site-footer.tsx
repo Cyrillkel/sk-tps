@@ -8,7 +8,7 @@ import { Container, MailIcon, MaxIcon, PhoneIcon, TelegramIcon, WhatsAppIcon } f
 const navigationLinks = [
   { href: "/", label: "Главная" },
   { href: "/seti", label: "Услуги" },
-  { href: "/proekty", label: "Проекты" },
+  { href: "/proekty", label: "Наши работы" },
   { href: "/#geography", label: "География работ" },
   { href: "/#about", label: "О компании" },
   { href: "/#documents", label: "Документы" },

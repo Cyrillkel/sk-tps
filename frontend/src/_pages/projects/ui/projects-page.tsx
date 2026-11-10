@@ -3,18 +3,18 @@ import { pageMetadata } from "@/shared/lib";
 import { Breadcrumbs, Container } from "@/shared/ui";
 import { HomeFeedback } from "@/widgets/home-feedback";
 
-export const metadata = pageMetadata({ title: "Выполненные проекты", description: "Проекты компании «Техпромстрой»: инженерные сети, технологические системы и другие выполненные работы. Фотографии объектов и монтажа.", path: "/proekty/" });
+export const metadata = pageMetadata({ title: "Выполненные работы", description: "Выполненные работы компании «Техпромстрой»: инженерные сети, технологические системы и другие объекты. Фотографии монтажа, ремонта и реконструкции.", path: "/proekty/" });
 
 export function ProjectsPage() {
   return (
     <>
       <section className="detail-hero pb-0" aria-labelledby="projects-page-title">
         <Container>
-          <Breadcrumbs items={[{ label: "Главная", href: "/" }, { label: "Проекты" }]} />
+          <Breadcrumbs items={[{ label: "Главная", href: "/" }, { label: "Наши работы" }]} />
           <p className="section-eyebrow">Работы компании</p>
-          <h1 id="projects-page-title" className="detail-title max-w-4xl">Выполненные проекты</h1>
+          <h1 id="projects-page-title" className="detail-title max-w-4xl">Выполненные работы</h1>
           <p className="detail-lead max-w-3xl">Объекты, инженерные сети и технологические системы. Посмотрите фотографии монтажа, ремонта и реконструкции.</p>
-          <nav aria-label="Разделы проектов" className="mt-7 flex flex-wrap gap-3">
+          <nav aria-label="Разделы выполненных работ" className="mt-7 flex flex-wrap gap-3">
             <a href="#engineering-projects" className="catalog-anchor">Инженерные системы</a>
             <a href="#other-projects" className="catalog-anchor">Другие выполненные работы</a>
           </nav>
