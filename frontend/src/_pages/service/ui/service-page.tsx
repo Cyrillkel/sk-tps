@@ -32,6 +32,9 @@ export async function ServicePage({ params }: ServicePageProps) {
       <h1 className="max-w-4xl text-3xl font-semibold tracking-tight text-balance sm:text-5xl">
         {service.title}
       </h1>
+      {service.slug === "servisnoe-obsluzhivanie" && (
+        <p className="mt-6 max-w-2xl text-lg leading-relaxed text-muted">{service.description}</p>
+      )}
     </Container>
   );
 }

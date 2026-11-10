@@ -27,12 +27,16 @@ export function HomeServices() {
 
               return {
                 key: service.slug,
-                className: featured ? "xl:col-span-6" : "xl:col-span-3",
+                className: featured
+                  ? "xl:col-span-6"
+                  : `${index === navigationServices.length - 1 ? "md:col-span-2 " : ""}xl:col-span-4`,
                 content: (
                   <ServiceCard
                     service={service}
                     featured={featured}
-                    sizes={featured ? "(min-width: 768px) 50vw, 90vw" : "(min-width: 1280px) 25vw, (min-width: 768px) 50vw, 90vw"}
+                    sizes={featured
+                      ? "(min-width: 768px) 50vw, 90vw"
+                      : `(min-width: 1280px) 33vw, (min-width: 768px) ${index === navigationServices.length - 1 ? "100vw" : "50vw"}, 90vw`}
                   />
                 ),
               };

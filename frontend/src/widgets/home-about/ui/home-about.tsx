@@ -1,8 +1,7 @@
-import Image from "next/image";
 import Link from "next/link";
 
 import { company, companyAbout } from "@/entities/company";
-import { ArrowUpRightIcon, Container } from "@/shared/ui";
+import { ArrowUpRightIcon, Container, ImageWithSkeleton } from "@/shared/ui";
 
 export function HomeAbout() {
   return (
@@ -29,12 +28,13 @@ export function HomeAbout() {
           <div className="order-2 relative pl-3 pb-3 sm:pl-5 sm:pb-5 lg:order-1">
             <div className="about-photo-frame" aria-hidden="true" />
             <figure className="about-photo relative isolate overflow-hidden rounded-2xl bg-service-card">
-              <Image
+              <ImageWithSkeleton
                 src="/images/services/pipelines.webp"
                 alt="Технологические трубопроводы и насосное оборудование"
                 fill
                 sizes="(min-width: 1440px) 580px, (min-width: 1024px) 42vw, (min-width: 640px) calc(100vw - 84px), calc(100vw - 52px)"
                 className="object-cover object-[42%_center]"
+                skeletonClassName="skeleton-on-dark"
               />
               <div className="about-photo-shade absolute inset-0" aria-hidden="true" />
               <figcaption className="absolute inset-x-0 bottom-0 flex items-end gap-4 p-5 sm:p-8">

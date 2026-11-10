@@ -1,10 +1,9 @@
 "use client";
 
-import Image from "next/image";
-import { useEffect, useId, useRef, useState, type KeyboardEvent } from "react";
+import { useEffect, useId, useRef, useState, type KeyboardEvent, type TouchEvent } from "react";
 
 import type { CompanyDocument } from "@/entities/company";
-import { ArrowRightIcon, ArrowUpRightIcon, CloseIcon } from "@/shared/ui";
+import { ArrowRightIcon, ArrowUpRightIcon, CloseIcon, ImageWithSkeleton } from "@/shared/ui";
 
 type DocumentGalleryProps = {
   documents: readonly CompanyDocument[];
@@ -25,6 +24,7 @@ export function DocumentGallery({ documents, title, itemLabel = "Лист" }: Do
   const closeRef = useRef<HTMLButtonElement>(null);
   const triggerRef = useRef<HTMLButtonElement | null>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
+  const touchStartRef = useRef<{ id: number; x: number; y: number } | null>(null);
   const titleId = useId();
   const isOpen = activeIndex !== null;
   const activeDocument = activeIndex === null ? undefined : documents[activeIndex];
@@ -44,10 +44,31 @@ export function DocumentGallery({ documents, title, itemLabel = "Лист" }: Do
   }, [isOpen]);
 
   function selectDocument(index: number) {
-    if (!documents[index]) return;
-    setActiveIndex(index);
+    if (!documents.length) return;
+    setActiveIndex((index + documents.length) % documents.length);
     setIsZoomed(false);
+    touchStartRef.current = null;
     scrollRef.current?.scrollTo({ top: 0, left: 0 });
+  }
+
+  function handleTouchStart(event: TouchEvent<HTMLDivElement>) {
+    const touch = event.touches[0];
+    touchStartRef.current = !isZoomed && event.touches.length === 1 && touch
+      ? { id: touch.identifier, x: touch.clientX, y: touch.clientY }
+      : null;
+  }
+
+  function handleTouchEnd(event: TouchEvent<HTMLDivElement>) {
+    const start = touchStartRef.current;
+    touchStartRef.current = null;
+    if (!start || isZoomed || activeIndex === null || event.touches.length) return;
+
+    const touch = Array.from(event.changedTouches).find((item) => item.identifier === start.id);
+    if (!touch) return;
+    const deltaX = touch.clientX - start.x;
+    const deltaY = touch.clientY - start.y;
+    if (Math.abs(deltaX) < 50 || Math.abs(deltaX) < Math.abs(deltaY) * 1.5) return;
+    selectDocument(activeIndex + (deltaX < 0 ? 1 : -1));
   }
 
   function handleKeyDown(event: KeyboardEvent<HTMLDialogElement>) {
@@ -79,7 +100,7 @@ export function DocumentGallery({ documents, title, itemLabel = "Лист" }: Do
               }}
             >
               <span className="document-paper relative block overflow-hidden rounded-lg border border-border">
-                <Image
+                <ImageWithSkeleton
                   src={document.preview}
                   alt={document.alt}
                   width={document.width}
@@ -117,6 +138,7 @@ export function DocumentGallery({ documents, title, itemLabel = "Лист" }: Do
         onClose={() => {
           setActiveIndex(null);
           setIsZoomed(false);
+          touchStartRef.current = null;
           triggerRef.current?.focus();
         }}
       >
@@ -130,7 +152,10 @@ export function DocumentGallery({ documents, title, itemLabel = "Лист" }: Do
                 type="button"
                 aria-pressed={isZoomed}
                 className="document-toolbar-button px-3 text-xs font-semibold"
-                onClick={() => setIsZoomed((zoomed) => !zoomed)}
+                onClick={() => {
+                  touchStartRef.current = null;
+                  setIsZoomed((zoomed) => !zoomed);
+                }}
               >
                 {isZoomed ? "Уменьшить" : "Увеличить"}
               </button>
@@ -145,30 +170,46 @@ export function DocumentGallery({ documents, title, itemLabel = "Лист" }: Do
             </button>
           </div>
 
-          <div ref={scrollRef} tabIndex={0} aria-label="Просмотр скана документа" className="min-h-0 overflow-auto overscroll-contain bg-background p-3 sm:p-6">
+          <div
+            ref={scrollRef}
+            tabIndex={0}
+            aria-label="Просмотр скана документа"
+            className="document-viewport min-h-0 overflow-auto overscroll-contain bg-background p-3 sm:p-6"
+            data-zoomed={isZoomed}
+            onTouchStart={handleTouchStart}
+            onTouchMove={(event) => {
+              if (event.touches.length !== 1) touchStartRef.current = null;
+            }}
+            onTouchEnd={handleTouchEnd}
+            onTouchCancel={() => { touchStartRef.current = null; }}
+          >
             {activeDocument && (
-              <Image
+              <div
                 key={activeDocument.src}
-                src={activeDocument.src}
-                alt={activeDocument.alt}
-                width={activeDocument.width}
-                height={activeDocument.height}
-                unoptimized
-                loading="eager"
-                className={`document-paper mx-auto block h-auto ${isZoomed ? "max-w-none" : "w-full"}`}
+                className={`document-paper relative mx-auto overflow-hidden ${isZoomed ? "max-w-none" : "w-full"}`}
                 style={isZoomed ? { width: activeDocument.width } : undefined}
-              />
+              >
+                <ImageWithSkeleton
+                  src={activeDocument.src}
+                  alt={activeDocument.alt}
+                  width={activeDocument.width}
+                  height={activeDocument.height}
+                  unoptimized
+                  loading="eager"
+                  className="block h-auto w-full"
+                />
+              </div>
             )}
           </div>
 
           <div className="flex shrink-0 items-center justify-between gap-3 border-t border-border px-4 py-3 sm:px-6">
-            <button type="button" disabled={activeIndex === null || activeIndex === 0} aria-label="Предыдущий документ" onClick={() => activeIndex !== null && selectDocument(activeIndex - 1)} className="document-toolbar-button w-11">
+            <button type="button" disabled={activeIndex === null || documents.length < 2} aria-label="Предыдущий документ" onClick={() => activeIndex !== null && selectDocument(activeIndex - 1)} className="document-toolbar-button w-11">
               <ArrowRightIcon className="size-5 rotate-180" />
             </button>
             <p aria-live="polite" className="text-sm text-muted">
               {itemLabel} {(activeIndex ?? 0) + 1} из {documents.length}
             </p>
-            <button type="button" disabled={activeIndex === null || activeIndex === documents.length - 1} aria-label="Следующий документ" onClick={() => activeIndex !== null && selectDocument(activeIndex + 1)} className="document-toolbar-button w-11">
+            <button type="button" disabled={activeIndex === null || documents.length < 2} aria-label="Следующий документ" onClick={() => activeIndex !== null && selectDocument(activeIndex + 1)} className="document-toolbar-button w-11">
               <ArrowRightIcon className="size-5" />
             </button>
           </div>

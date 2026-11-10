@@ -1,6 +1,9 @@
 export { Container } from "./container";
+export { ImageWithSkeleton } from "./image-with-skeleton";
+export { Skeleton } from "./skeleton";
 export {
   ArrowRightIcon,
+  ArrowUpIcon,
   ArrowUpRightIcon,
   BlueprintIcon,
   BoltIcon,

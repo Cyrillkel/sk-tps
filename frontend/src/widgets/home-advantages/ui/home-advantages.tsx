@@ -1,7 +1,6 @@
-import Image from "next/image";
 
 import { company, companyAdvantages } from "@/entities/company";
-import { BoltIcon, CertificateIcon, ClockIcon, Container, KeyIcon, ShieldCheckIcon, VanIcon } from "@/shared/ui";
+import { BoltIcon, CertificateIcon, ClockIcon, Container, ImageWithSkeleton, KeyIcon, ShieldCheckIcon, VanIcon } from "@/shared/ui";
 
 const advantageIcons = {
   turnkey: KeyIcon,
@@ -30,12 +29,13 @@ export function HomeAdvantages() {
 
         <div className="grid gap-3 lg:grid-cols-[0.8fr_2fr] lg:gap-5">
           <figure className="advantages-photo relative isolate overflow-hidden rounded-2xl bg-service-card">
-            <Image
+            <ImageWithSkeleton
               src="/images/advantages.webp"
               alt="Специалист на промышленном объекте"
               fill
               sizes="(min-width: 1440px) 400px, (min-width: 1024px) 28vw, 100vw"
               className="object-cover"
+              skeletonClassName="skeleton-on-dark"
             />
             <div className="advantages-photo-shade absolute inset-0" aria-hidden="true" />
             <figcaption className="absolute inset-x-0 bottom-0 p-6 sm:p-8">

@@ -14,6 +14,10 @@
   --color-accent-hover: #784200;
   --color-brand: #ffb31b;
   --color-cyan: #24a8ce;
+  --color-messenger-foreground: #ffffff;
+  --color-messenger-telegram: #168ac0;
+  --color-messenger-whatsapp: #128c5a;
+  --color-messenger-max: #4267d5;
   --color-hero: #eff3f5;
   --color-hero-foreground: #173650;
   --color-hero-muted: #506572;
@@ -68,6 +72,7 @@
   }
 
   html {
+    scroll-behavior: smooth;
     scroll-padding-top: 7rem;
   }
 
@@ -91,6 +96,164 @@
   .header-logo {
     width: clamp(140px, 43vw, 260px);
     height: auto;
+  }
+
+  /* Skeleton (shadcn/ui API): pulse until the content is ready. */
+  .skeleton {
+    border-radius: 8px;
+    background: color-mix(in srgb, var(--color-primary) 9%, var(--color-surface));
+    animation: skeleton-pulse 1.6s ease-in-out infinite;
+    transition: opacity 300ms ease;
+  }
+
+  .skeleton-on-dark {
+    background: color-mix(in srgb, var(--color-service-foreground) 12%, var(--color-service-card));
+  }
+
+  .skeleton[data-loaded="true"] {
+    opacity: 0;
+    animation: none;
+  }
+
+  @keyframes skeleton-pulse {
+    50% { opacity: 0.55; }
+  }
+
+  .header-logo-link {
+    border-radius: 6px;
+    transition: opacity 200ms ease;
+  }
+
+  .header-logo-link:hover {
+    opacity: 0.75;
+  }
+
+  .floating-controls {
+    position: fixed;
+    right: max(20px, env(safe-area-inset-right));
+    bottom: max(20px, env(safe-area-inset-bottom));
+    z-index: 40;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .contact-messengers {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .contact-messengers-list {
+    display: grid;
+    gap: 12px;
+    margin-bottom: 12px;
+  }
+
+  .contact-messengers-list[hidden] {
+    display: none;
+  }
+
+  .contact-toggle,
+  .contact-messenger {
+    position: relative;
+    display: inline-flex;
+    width: 56px;
+    height: 56px;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    box-shadow: var(--service-card-shadow);
+    transition: transform 180ms ease, background-color 180ms ease, color 180ms ease;
+  }
+
+  .contact-toggle {
+    border: 1px solid var(--color-brand);
+    background: var(--color-brand);
+    color: var(--color-service-card);
+  }
+
+  .contact-toggle[aria-expanded="true"] {
+    border-color: var(--color-border);
+    background: var(--color-surface);
+    color: var(--color-primary);
+  }
+
+  .contact-messenger {
+    background: var(--messenger-color);
+    color: var(--color-messenger-foreground);
+  }
+
+  .contact-telegram { --messenger-color: var(--color-messenger-telegram); }
+  .contact-whatsapp { --messenger-color: var(--color-messenger-whatsapp); }
+  .contact-max { --messenger-color: var(--color-messenger-max); }
+
+  .contact-toggle:hover,
+  .contact-messenger:hover {
+    transform: translateY(-2px);
+  }
+
+  .contact-messenger-label {
+    position: absolute;
+    right: calc(100% + 12px);
+    padding: 8px 12px;
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    background: var(--color-surface);
+    color: var(--color-primary);
+    font-size: 12px;
+    font-weight: 600;
+    white-space: nowrap;
+    box-shadow: var(--service-card-shadow);
+  }
+
+  .scroll-to-top {
+    position: relative;
+    display: inline-flex;
+    width: 48px;
+    height: 48px;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--color-border);
+    border-radius: 999px;
+    background: var(--color-surface);
+    color: var(--color-primary);
+    box-shadow: var(--service-card-shadow);
+    opacity: 0;
+    transform: translateY(12px) scale(0.9);
+    pointer-events: none;
+    transition: opacity 250ms ease, transform 250ms ease, background-color 200ms ease, border-color 200ms ease, color 200ms ease;
+  }
+
+  .scroll-to-top[data-visible="true"] {
+    opacity: 1;
+    transform: none;
+    pointer-events: auto;
+  }
+
+  .scroll-to-top:hover {
+    border-color: var(--color-brand);
+    background: var(--color-brand);
+    color: #173650;
+  }
+
+  @media (min-width: 640px) {
+    .floating-controls {
+      right: max(32px, env(safe-area-inset-right));
+      bottom: max(32px, env(safe-area-inset-bottom));
+    }
+
+    .contact-toggle,
+    .contact-messenger {
+      width: 60px;
+      height: 60px;
+    }
+
+    .scroll-to-top {
+      width: 52px;
+      height: 52px;
+    }
   }
 
   .header-icon-button {
@@ -380,6 +543,14 @@
   .document-dialog::backdrop {
     background: color-mix(in srgb, var(--color-service-card) 78%, transparent);
     backdrop-filter: blur(6px);
+  }
+
+  .document-viewport {
+    touch-action: pan-y pinch-zoom;
+  }
+
+  .document-viewport[data-zoomed="true"] {
+    touch-action: auto;
   }
 
   .document-toolbar-button {

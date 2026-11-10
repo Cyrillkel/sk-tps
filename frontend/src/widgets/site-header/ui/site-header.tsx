@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 
 import { company } from "@/entities/company";
-import { SiteNavigation } from "@/features/site-navigation";
+import { LogoLink, SiteNavigation } from "@/features/site-navigation";
 import { ThemeToggle } from "@/features/theme-toggle";
 import { Container, MaxIcon, PhoneIcon, TelegramIcon, WhatsAppIcon } from "@/shared/ui";
 
@@ -10,13 +10,9 @@ export function SiteHeader() {
   return (
     <header className="site-header">
       <Container className="flex h-full items-center justify-between gap-2 sm:gap-4">
-        <Link
-          href="/"
-          aria-label={`${company.name} — главная`}
-          className="block shrink-0"
-        >
+        <LogoLink>
           <BrandImage />
-        </Link>
+        </LogoLink>
         <SiteNavigation
           mobileLogo={<BrandImage />}
           mobileControls={

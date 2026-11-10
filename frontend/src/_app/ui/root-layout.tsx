@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import type { ReactNode } from "react";
 
 import { company } from "@/entities/company";
+import { ContactMessengers } from "@/features/contact-messengers";
+import { ScrollToTopButton } from "@/features/scroll-to-top";
 import { SiteFooter } from "@/widgets/site-footer";
 import { SiteHeader } from "@/widgets/site-header";
 
@@ -20,7 +22,7 @@ export const metadata: Metadata = {
 
 export function RootLayout({ children }: Readonly<{ children: ReactNode }>) {
   return (
-    <html lang="ru" suppressHydrationWarning>
+    <html lang="ru" data-scroll-behavior="smooth" suppressHydrationWarning>
       <head><script dangerouslySetInnerHTML={{ __html: themeScript }} /></head>
       <body className="flex min-h-dvh flex-col bg-background font-sans text-foreground antialiased">
         <a
@@ -34,6 +36,10 @@ export function RootLayout({ children }: Readonly<{ children: ReactNode }>) {
           {children}
         </main>
         <SiteFooter />
+        <div className="floating-controls">
+          <ScrollToTopButton />
+          <ContactMessengers />
+        </div>
       </body>
     </html>
   );

@@ -7,6 +7,7 @@ import { useEffect, useRef, useState, type ReactNode } from "react";
 import { company } from "@/entities/company";
 import { ChevronDownIcon, CloseIcon, Container, MaxIcon, MenuIcon, TelegramIcon, WhatsAppIcon } from "@/shared/ui";
 
+import { LogoLink } from "./logo-link";
 import { ServiceLinks } from "./service-links";
 
 export function MobileNavigation({ controls, logo }: { controls: ReactNode; logo: ReactNode }) {
@@ -98,7 +99,7 @@ export function MobileNavigation({ controls, logo }: { controls: ReactNode; logo
         }}
       >
         <Container className="mobile-menu-toolbar flex shrink-0 items-center justify-between gap-2 border-b border-border">
-          <Link href="/" aria-label={`${company.name} — главная`} onClick={closeMenu} className="block shrink-0">{logo}</Link>
+          <LogoLink onNavigate={closeMenu}>{logo}</LogoLink>
           <div className="mobile-header-actions ml-auto flex items-center gap-2">
             {controls}
             <button ref={closeRef} type="button" aria-label="Закрыть меню" onClick={closeMenu} className="header-icon-button"><CloseIcon /></button>

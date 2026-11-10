@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, type ReactNode } from "react";
+import { useState, useSyncExternalStore, type ReactNode } from "react";
 import type { Swiper as SwiperInstance } from "swiper";
 import { A11y, Keyboard } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -10,24 +10,41 @@ type ServicesSliderProps = {
   label: string;
 };
 
-/**
- * Slider below 768px. From `md` Swiper disables itself and CSS lays the same
- * slides out as a grid (see `.services-slider` in globals.css).
- */
+const mobileQuery = "(max-width: 767px)";
+
+function subscribeViewport(listener: () => void) {
+  const viewport = window.matchMedia(mobileQuery);
+  viewport.addEventListener("change", listener);
+  return () => viewport.removeEventListener("change", listener);
+}
+
+function isMobileViewport() {
+  return window.matchMedia(mobileQuery).matches;
+}
+
+function serverViewport() {
+  return false;
+}
+
+/** Recreate Swiper at the breakpoint so loop's DOM order never reaches the desktop grid. */
 export function ServicesSlider({ slides, label }: ServicesSliderProps) {
+  const isMobile = useSyncExternalStore(subscribeViewport, isMobileViewport, serverViewport);
   const [swiper, setSwiper] = useState<SwiperInstance | null>(null);
-  const [snap, setSnap] = useState({ index: 0, count: slides.length });
+  const [activeIndex, setActiveIndex] = useState(0);
 
   const sync = (instance: SwiperInstance) => {
     setSwiper(instance);
-    setSnap({ index: instance.snapIndex, count: instance.snapGrid.length });
+    setActiveIndex(instance.realIndex);
   };
 
   return (
     <div>
       <Swiper
+        key={isMobile ? "mobile" : "desktop"}
         className="services-slider"
         modules={[A11y, Keyboard]}
+        enabled={isMobile}
+        loop={isMobile && slides.length > 1}
         slidesPerView="auto"
         spaceBetween={12}
         slidesOffsetBefore={20}
@@ -49,8 +66,7 @@ export function ServicesSlider({ slides, label }: ServicesSliderProps) {
           lastSlideMessage: "Это последний слайд",
         }}
         onAfterInit={sync}
-        onSlideChange={sync}
-        onSnapGridLengthChange={sync}
+        onRealIndexChange={sync}
         onResize={sync}
       >
         {slides.map(({ key, content, className = "" }) => (
@@ -61,14 +77,14 @@ export function ServicesSlider({ slides, label }: ServicesSliderProps) {
       </Swiper>
 
       <div className="services-pagination md:hidden">
-        {Array.from({ length: snap.count }, (_, index) => (
+        {slides.map(({ key }, index) => (
           <button
-            key={index}
+            key={key}
             type="button"
             className="services-bullet"
             aria-label={`Перейти к слайду ${index + 1}`}
-            aria-current={index === snap.index ? "true" : undefined}
-            onClick={() => swiper?.slideTo(index)}
+            aria-current={index === activeIndex ? "true" : undefined}
+            onClick={() => swiper?.slideToLoop(index)}
           />
         ))}
       </div>

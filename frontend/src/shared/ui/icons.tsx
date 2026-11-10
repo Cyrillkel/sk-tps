@@ -53,6 +53,10 @@ export function ArrowRightIcon(props: IconProps) {
   return <SvgIcon {...props}><path d="M4 12h16m-6-6 6 6-6 6" /></SvgIcon>;
 }
 
+export function ArrowUpIcon(props: IconProps) {
+  return <SvgIcon {...props}><path d="M12 20V4m-6 6 6-6 6 6" /></SvgIcon>;
+}
+
 export function ArrowUpRightIcon(props: IconProps) {
   return <SvgIcon {...props}><path d="M6 18 18 6M6 6h12v12" /></SvgIcon>;
 }

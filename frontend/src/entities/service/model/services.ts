@@ -21,17 +21,10 @@ export const navigationServices = [
     image: "/images/services/electrical.webp",
   },
   {
-    slug: "prochistka-kanalizacii",
-    navigationLabel: "Обслуживание инженерных систем канализации",
-    title: "Прочистка и обслуживание канализации",
-    description: "Прочистка, промывка и устранение засоров. Телеинспекция трубопроводов.",
-    image: "/images/services/drainage.webp",
-  },
-  {
     slug: "servisnoe-obsluzhivanie",
     navigationLabel: "Комплексное сервисное обслуживание",
     title: "Обслуживание инженерных систем",
-    description: "Ремонт инженерных сетей и коммуникаций. Техническая поддержка производства.",
+    description: "Ремонт инженерных сетей и коммуникаций, включая обслуживание канализации: прочистку, промывку, устранение засоров и телеинспекцию.",
     image: "/images/services/maintenance.webp",
   },
   {
