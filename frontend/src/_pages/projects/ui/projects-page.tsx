@@ -1,6 +1,6 @@
 import { engineeringProjects, otherProjects, ProjectCard } from "@/entities/project";
 import { pageMetadata } from "@/shared/lib";
-import { Breadcrumbs, Container } from "@/shared/ui";
+import { Breadcrumbs, CardCarousel, Container } from "@/shared/ui";
 import { HomeFeedback } from "@/widgets/home-feedback";
 
 export const metadata = pageMetadata({ title: "Выполненные работы", description: "Выполненные работы компании «Техпромстрой»: инженерные сети, технологические системы и другие объекты. Фотографии монтажа, ремонта и реконструкции.", path: "/proekty/" });
@@ -21,10 +21,10 @@ export function ProjectsPage() {
         </Container>
       </section>
       <section id="engineering-projects" className="detail-section" aria-labelledby="engineering-projects-title">
-        <Container><h2 id="engineering-projects-title" className="section-title mb-8 sm:mb-10">Инженерные системы</h2><div className="project-grid">{engineeringProjects.map((project) => <ProjectCard key={project.slug} project={project} />)}</div></Container>
+        <Container><h2 id="engineering-projects-title" className="section-title mb-8 sm:mb-10">Инженерные системы</h2><CardCarousel label="Выполненные работы: инженерные системы" slides={engineeringProjects.map((project) => ({ key: project.slug, content: <ProjectCard project={project} /> }))} /></Container>
       </section>
       <section id="other-projects" className="detail-section border-t border-border" aria-labelledby="other-projects-title">
-        <Container><h2 id="other-projects-title" className="section-title mb-8 sm:mb-10">Другие выполненные работы</h2><div className="project-grid">{otherProjects.map((project) => <ProjectCard key={project.slug} project={project} />)}</div></Container>
+        <Container><h2 id="other-projects-title" className="section-title mb-8 sm:mb-10">Другие выполненные работы</h2><CardCarousel label="Другие выполненные работы компании" slides={otherProjects.map((project) => ({ key: project.slug, content: <ProjectCard project={project} /> }))} /></Container>
       </section>
       <HomeFeedback />
     </>

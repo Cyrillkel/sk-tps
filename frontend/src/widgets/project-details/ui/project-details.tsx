@@ -4,12 +4,12 @@ import { ProjectCard, projectCategoryLabels, projectCover, projects, type Projec
 import { services } from "@/entities/service";
 import { PhotoGallery } from "@/features/document-gallery";
 import { siteUrl } from "@/shared/config";
-import { ArrowUpRightIcon, Breadcrumbs, Container, ImageWithSkeleton, StructuredData } from "@/shared/ui";
+import { ArrowUpRightIcon, Breadcrumbs, CardCarousel, Container, ImageWithSkeleton, StructuredData } from "@/shared/ui";
 
 export function ProjectDetails({ project }: { project: Project }) {
   const cover = projectCover(project);
   const relatedServices = services.filter((service) => project.serviceSlugs.includes(service.slug));
-  const moreProjects = projects.filter((item) => item.category === project.category && item.slug !== project.slug).slice(0, 3);
+  const moreProjects = projects.filter((item) => item.category === project.category && item.slug !== project.slug);
 
   return (
     <>
@@ -45,7 +45,7 @@ export function ProjectDetails({ project }: { project: Project }) {
               <h2 id="more-projects-title" className="section-title">Другие выполненные работы</h2>
               <Link href="/proekty" className="text-sm font-semibold text-accent hover:text-accent-hover">Все выполненные работы →</Link>
             </div>
-            <div className="project-grid">{moreProjects.map((item) => <ProjectCard key={item.slug} project={item} />)}</div>
+            <CardCarousel label="Другие выполненные работы" slides={moreProjects.map((item) => ({ key: item.slug, content: <ProjectCard project={item} /> }))} />
           </Container>
         </section>
       )}

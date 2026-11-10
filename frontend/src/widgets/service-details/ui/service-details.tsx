@@ -5,7 +5,7 @@ import { workRegions } from "@/entities/geography";
 import { ProjectCard, projectCover, projectsForService } from "@/entities/project";
 import { serviceContent, services, type Service } from "@/entities/service";
 import { siteUrl } from "@/shared/config";
-import { ArrowUpRightIcon, Breadcrumbs, ChevronDownIcon, Container, ImageWithSkeleton, StructuredData } from "@/shared/ui";
+import { ArrowUpRightIcon, Breadcrumbs, CardCarousel, ChevronDownIcon, Container, ImageWithSkeleton, StructuredData } from "@/shared/ui";
 
 export function ServiceDetails({ service }: { service: Service }) {
   const content = serviceContent[service.slug];
@@ -65,7 +65,7 @@ export function ServiceDetails({ service }: { service: Service }) {
               <h2 id="service-projects-title" className="section-title">Выполненные работы</h2>
               <Link href="/proekty" className="text-sm font-semibold text-accent hover:text-accent-hover">Все работы компании →</Link>
             </div>
-            <div className="project-grid">{completed.map((project) => <ProjectCard key={project.slug} project={project} />)}</div>
+            <CardCarousel label={`Выполненные работы: ${service.navigationLabel}`} slides={completed.map((project) => ({ key: project.slug, content: <ProjectCard project={project} /> }))} />
           </Container>
         </section>
       )}

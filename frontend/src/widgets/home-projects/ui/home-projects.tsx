@@ -1,7 +1,7 @@
 import Link from "next/link";
 
 import { engineeringProjects, ProjectCard } from "@/entities/project";
-import { ArrowUpRightIcon, Container } from "@/shared/ui";
+import { ArrowUpRightIcon, CardCarousel, Container } from "@/shared/ui";
 
 export function HomeProjects() {
   return (
@@ -14,7 +14,7 @@ export function HomeProjects() {
             <Link href="/proekty" className="mt-4 inline-flex min-h-11 items-center gap-3 text-sm font-semibold text-accent hover:text-accent-hover">Все работы компании <ArrowUpRightIcon className="size-4" /></Link>
           </div>
         </div>
-        <div className="project-grid">{engineeringProjects.map((project) => <ProjectCard key={project.slug} project={project} />)}</div>
+        <CardCarousel label="Выполненные работы компании" slides={engineeringProjects.map((project) => ({ key: project.slug, content: <ProjectCard project={project} /> }))} />
       </Container>
     </section>
   );

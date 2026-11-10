@@ -1,5 +1,6 @@
 @import "tailwindcss";
 @import "swiper/css" layer(components);
+@import "swiper/css/a11y" layer(components);
 
 @custom-variant dark (&:where(.dark, .dark *));
 
@@ -73,7 +74,14 @@
   .detail-list li::before { content: ""; position: absolute; top: .65em; left: 0; width: 5px; height: 5px; background: var(--color-accent); }
   .detail-note { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px 24px; border-left: 2px solid var(--color-accent); padding-left: 20px; color: var(--color-muted); font-size: 14px; line-height: 1.7; }
 
-  .project-grid { display: grid; gap: 20px; }
+  .card-carousel { min-width: 0; }
+  .card-carousel-track .swiper-wrapper { transition-timing-function: cubic-bezier(0.22, 1, 0.36, 1); }
+  .card-carousel-track .swiper-slide { height: auto; }
+  .card-carousel-track .swiper-slide > * { height: 100%; }
+  .card-carousel-track:not(.swiper-initialized) .swiper-slide { width: calc((100% - 3.6px) / 1.3); margin-right: 12px; }
+  .card-carousel-controls { display: flex; gap: 10px; margin-top: 24px; }
+  .card-carousel-button { display: flex; width: 48px; height: 48px; align-items: center; justify-content: center; border: 1px solid var(--color-border); border-radius: 50%; background: var(--color-surface); color: var(--color-primary); transition: color 180ms ease, border-color 180ms ease, background-color 180ms ease; }
+  .card-carousel-button:hover { border-color: var(--color-brand); background: var(--color-brand); color: var(--color-service-card); }
   .project-card { overflow: hidden; border: 1px solid var(--color-border); border-radius: 16px; background: var(--color-surface); }
   .project-card-photo { aspect-ratio: 4 / 3; background: var(--color-service-card); }
   .project-card-open { position: absolute; right: 16px; bottom: 16px; display: flex; width: 40px; height: 40px; align-items: center; justify-content: center; border-radius: 50%; background: var(--color-surface); color: var(--color-primary); transition: background-color 180ms ease, color 180ms ease; }
@@ -108,9 +116,17 @@
     .detail-lead { font-size: 18px; }
     .detail-hero-photo { min-height: 380px; }
     .detail-section-heading, .geography-heading { margin-bottom: 40px; }
-    .project-grid, .related-services { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .related-services { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     .scope-card, .geography-region { padding: 32px; }
     .photo-dialog .document-viewport[data-zoomed="false"] .photo-media img { max-height: calc(100dvh - 220px); }
+  }
+
+  @media (min-width: 768px) {
+    .card-carousel-track:not(.swiper-initialized) .swiper-slide { width: calc((100% - 26px) / 2.3); margin-right: 20px; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .card-carousel-track .swiper-wrapper { transition-duration: 0ms !important; }
   }
 
   @media (min-width: 1024px) {
@@ -119,7 +135,8 @@
     .detail-hero-grid { grid-template-columns: 1.12fr .88fr; gap: 48px; }
     .detail-hero-photo { min-height: 430px; }
     .detail-section-heading, .geography-heading { grid-template-columns: 1fr 1.2fr; align-items: start; gap: 64px; margin-bottom: 48px; }
-    .project-grid, .geography-regions { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .geography-regions { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .card-carousel-track:not(.swiper-initialized) .swiper-slide { width: calc((100% - 46px) / 3.3); }
   }
 }
 
