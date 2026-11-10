@@ -82,6 +82,7 @@
   .card-carousel-controls { display: flex; gap: 10px; margin-top: 24px; }
   .card-carousel-button { display: flex; width: 48px; height: 48px; align-items: center; justify-content: center; border: 1px solid var(--color-border); border-radius: 50%; background: var(--color-surface); color: var(--color-primary); transition: color 180ms ease, border-color 180ms ease, background-color 180ms ease; }
   .card-carousel-button:hover { border-color: var(--color-brand); background: var(--color-brand); color: var(--color-service-card); }
+  .card-carousel-autoplay { width: auto; padding-inline: 18px; font-size: 12px; font-weight: 600; }
   .project-card { overflow: hidden; border: 1px solid var(--color-border); border-radius: 16px; background: var(--color-surface); }
   .project-card-photo { aspect-ratio: 4 / 3; background: var(--color-service-card); }
   .project-card-open { position: absolute; right: 16px; bottom: 16px; display: flex; width: 40px; height: 40px; align-items: center; justify-content: center; border-radius: 50%; background: var(--color-surface); color: var(--color-primary); transition: background-color 180ms ease, color 180ms ease; }
