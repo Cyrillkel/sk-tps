@@ -3,6 +3,7 @@ export { CardCarousel } from "./card-carousel";
 export { Breadcrumbs } from "./breadcrumbs";
 export { StructuredData } from "./structured-data";
 export { ImageWithSkeleton } from "./image-with-skeleton";
+export { ResponsiveImage } from "./responsive-image";
 export { Skeleton } from "./skeleton";
 export {
   ArrowRightIcon,

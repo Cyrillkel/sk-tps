@@ -57,7 +57,7 @@ export function WorkStages() {
             <h2 className="flex-1 text-lg font-bold text-hero-foreground sm:text-xl">{item.title}</h2>
           </div>
           <p className="text-sm leading-relaxed text-hero-muted">{item.description}</p>
-          <button type="button" onClick={() => selectStage((activeIndex + 1) % workStages.length, true)} aria-label={`Следующий этап: ${workStages[(activeIndex + 1) % workStages.length]?.label ?? stage.label}`} className="mt-3 ml-auto flex min-h-8 items-center gap-3 text-xs text-hero-muted hover:text-accent">
+          <button type="button" onClick={() => selectStage((activeIndex + 1) % workStages.length, true)} aria-label={`Следующий этап 0${(activeIndex + 1) % workStages.length + 1}: ${workStages[(activeIndex + 1) % workStages.length]?.label ?? stage.label}`} className="mt-3 ml-auto flex min-h-11 items-center gap-3 text-xs text-hero-muted hover:text-accent">
             0{(activeIndex + 1) % workStages.length + 1} <ArrowRightIcon className="size-5 text-accent" />
           </button>
         </div>

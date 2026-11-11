@@ -1,11 +1,20 @@
 import Image from "next/image";
 import Link from "next/link";
+import type { ReactNode } from "react";
 
 import { company } from "@/entities/company";
 import { WorkStages } from "@/features/work-stages";
 import { ArrowRightIcon, Container } from "@/shared/ui";
 
-export function HomeHero() {
+type HomeHeroProps = {
+  title?: string;
+  description?: string;
+  location?: string;
+  actionHref?: string;
+  breadcrumbs?: ReactNode;
+};
+
+export function HomeHero({ title, description, location, actionHref = "/contacts", breadcrumbs }: HomeHeroProps = {}) {
   return (
     <section className="home-hero" aria-labelledby="hero-title">
       <div className="hero-photo" aria-hidden="true">
@@ -26,33 +35,33 @@ export function HomeHero() {
         <span />
       </div>
       <Container className="hero-content relative z-10 flex min-h-[inherit] flex-col pb-8 sm:pb-10 lg:pb-8">
+        {breadcrumbs}
         <div className="grid items-start gap-8 sm:gap-10 lg:grid-cols-[1.8fr_1fr] lg:gap-12">
           <div className="lg:pt-2">
             <h1 id="hero-title" className="hero-title">
-              <span>Монтаж и обслуживание</span>
-              <span>инженерных и технологических</span>
-              <span>
-                систем под ключ
-                <span
-                  className="ml-3 inline-block size-2 bg-brand align-middle sm:size-2.5"
-                  aria-hidden="true"
-                />
-              </span>
+              {title ? <span>{title}</span> : (
+                <>
+                  <span>Монтаж и обслуживание</span>
+                  <span>инженерных и технологических</span>
+                  <span>
+                    систем под ключ
+                    <span className="ml-3 inline-block size-2 bg-brand align-middle sm:size-2.5" aria-hidden="true" />
+                  </span>
+                </>
+              )}
             </h1>
             <p className="mt-4 max-w-2xl text-base leading-relaxed text-hero-muted sm:mt-6 sm:text-lg">
-              Инженерные сети предприятий и коммерческих объектов. От нового
-              монтажа до ремонта и сервисного обслуживания.
+              {description ?? "Инженерные сети предприятий и коммерческих объектов. От нового монтажа до ремонта и сервисного обслуживания."}
             </p>
             <div className="mt-6 flex flex-wrap items-center gap-x-6 gap-y-4 sm:mt-8 sm:gap-y-5">
               <Link
-                href="/contacts"
+                href={actionHref}
                 className="button-brand min-h-14 gap-6 px-7 text-sm sm:px-8"
               >
                 Запросить КП <ArrowRightIcon className="size-5" />
               </Link>
               <p className="border-l border-hero-border pl-4 text-xs leading-relaxed text-hero-muted">
-                Работаем в Калужской, Тульской
-                <br />и Московской областях
+                {location ?? <>Работаем в Калужской, Тульской<br />и Московской областях</>}
               </p>
             </div>
           </div>

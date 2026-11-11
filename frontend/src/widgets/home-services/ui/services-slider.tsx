@@ -59,6 +59,7 @@ export function ServicesSlider({ slides, label }: ServicesSliderProps) {
         }}
         a11y={{
           containerMessage: label,
+          containerRole: "region",
           containerRoleDescriptionMessage: "карусель",
           itemRoleDescriptionMessage: "слайд",
           slideLabelMessage: "{{index}} из {{slidesLength}}",

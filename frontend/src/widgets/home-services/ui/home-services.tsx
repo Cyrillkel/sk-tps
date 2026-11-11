@@ -6,16 +6,21 @@ import { ArrowUpRightIcon, Container } from "@/shared/ui";
 import { ServiceCard } from "./service-card";
 import { ServicesSlider } from "./services-slider";
 
-export function HomeServices() {
+type HomeServicesProps = {
+  heading?: string;
+  description?: string;
+};
+
+export function HomeServices({ heading, description }: HomeServicesProps = {}) {
   return (
     <section id="services" aria-labelledby="services-title" className="home-services py-12 sm:py-16 lg:py-20">
       <Container>
         <div className="mb-6 grid gap-4 sm:mb-8 sm:gap-5 lg:mb-10 lg:grid-cols-[1.3fr_1fr] lg:items-end lg:gap-16">
           <h2 id="services-title" className="text-3xl leading-[1.1] font-semibold tracking-[-0.035em] text-primary sm:text-4xl lg:text-5xl">
-            Инженерные системы<br className="hidden sm:block" /> для вашего объекта
+            {heading ?? <>Инженерные системы<br className="hidden sm:block" /> для вашего объекта</>}
           </h2>
           <p className="max-w-lg text-sm leading-relaxed text-muted sm:text-base">
-            Монтируем новые сети, реконструируем действующие и поддерживаем их в рабочем состоянии. Выберите направление под вашу задачу.
+            {description ?? "Монтируем новые сети, реконструируем действующие и поддерживаем их в рабочем состоянии. Выберите направление под вашу задачу."}
           </p>
         </div>
 

@@ -22,12 +22,16 @@ class Page(HTMLParser):
     def __init__(self, source):
         super().__init__()
         self.h1_count = 0
+        self.h1_text = ""
+        self.in_h1 = False
         self.images = []
         self.links = []
         self.canonicals = []
         self.descriptions = []
         self.ids = []
         self.section_ids = []
+        self.image_sources = []
+        self.aria_references = []
         self.title = ""
         self.in_title = False
         self.feed(source)
@@ -38,10 +42,17 @@ class Page(HTMLParser):
             self.ids.append(attrs["id"])
             if tag == "section":
                 self.section_ids.append(attrs["id"])
+        for attribute in ("aria-labelledby", "aria-describedby", "aria-controls"):
+            self.aria_references.extend(attrs.get(attribute, "").split())
         if tag == "h1":
             self.h1_count += 1
+            self.in_h1 = True
         elif tag == "img":
             self.images.append(attrs.get("src", ""))
+            if attrs.get("srcset"):
+                self.image_sources.extend(item.strip().split()[0] for item in attrs["srcset"].split(","))
+        elif tag == "source" and attrs.get("srcset"):
+            self.image_sources.extend(item.strip().split()[0] for item in attrs["srcset"].split(","))
         elif tag == "a":
             self.links.append(attrs.get("href", ""))
         elif tag == "link" and attrs.get("rel") == "canonical":
@@ -52,10 +63,14 @@ class Page(HTMLParser):
             self.in_title = True
 
     def handle_endtag(self, tag):
+        if tag == "h1":
+            self.in_h1 = False
         if tag == "title":
             self.in_title = False
 
     def handle_data(self, data):
+        if self.in_h1:
+            self.h1_text += data
         if self.in_title:
             self.title += data
 
@@ -115,9 +130,20 @@ def verify_inventory():
 
 def verify_build(projects, service_slugs):
     output = ROOT / "frontend/out"
+    geography_source = (ROOT / "frontend/src/entities/geography/model/geography.ts").read_text()
+    listed_cities = re.findall(r'\{ slug: "([^"]+)", name: "[^"]+", inCity:', geography_source)
+    city_records = []
+    for source in sorted((ROOT / "frontend/src/entities/geography/model").glob("city-content-*.ts")):
+        city_records.extend(re.findall(r'citySlug: "([^"]+)",\s*status: "(published|draft)"', source.read_text()))
+    require(len(city_records) == len(listed_cities) == 28, "Missing city content")
+    require(len({slug for slug, _ in city_records}) == len(city_records), "Duplicate city content")
+    require({slug for slug, _ in city_records} == set(listed_cities), "City content differs from work geography")
+    city_slugs = [slug for slug, status in city_records if status == "published"]
+    city_paths = [f"/goroda/{slug}/" for slug in city_slugs]
     paths = ["/", "/seti/", "/proekty/", "/contacts/", "/soglasie/"]
     paths += [f"/{slug}/" for slug in service_slugs]
     paths += [f"/{project['slug']}/" for project in projects]
+    paths += city_paths
     pages = {}
     titles = []
     for path in paths:
@@ -126,10 +152,10 @@ def verify_build(projects, service_slugs):
         require(page.h1_count == 1, f"Expected one h1: {path}")
         duplicate_ids = [identifier for identifier, count in Counter(page.ids).items() if count > 1]
         require(not duplicate_ids, f"Duplicate HTML IDs on {path}: {duplicate_ids}")
+        require(set(page.aria_references) <= set(page.ids), f"Broken ARIA references: {path}")
         require(page.canonicals == [SITE_URL + path], f"Incorrect canonical: {path}")
         require(len(page.descriptions) == 1 and bool(page.descriptions[0].strip()), f"Missing description: {path}")
-        require(not any("/goroda/" in link for link in page.links), f"Premature city links: {path}")
-        for image in page.images:
+        for image in page.images + page.image_sources:
             require(image.startswith("/"), f"Remote runtime image: {image}")
             require((output / urlparse(image).path.lstrip("/")).is_file(), f"Missing exported image: {image}")
         pages[path] = page
@@ -159,13 +185,29 @@ def verify_build(projects, service_slugs):
     require(geography is not None, "Missing homepage geography")
     require(geography[0].count('class="geography-region"') == 3, "Missing work regions")
     require(len(re.findall(r'<li\b', geography[0])) == 28, "Missing city names")
-    require(not (output / "goroda").exists(), "Draft city routes must not be exported")
+    require(set(re.findall(r'href="(/goroda/[^\"]+/)"', geography[0])) == set(city_paths), "Geography must link to every published city")
+    city_descriptions = []
+    city_sections = [section for section in pages["/"].section_ids if section != "projects"]
+    for path in city_paths:
+        page = pages[path]
+        require([section for section in page.section_ids if section in city_sections] == city_sections, f"Missing or repeated company sections on city page: {path}")
+        require("city-conditions" in page.ids and "city-questions" in page.ids, f"Missing city-specific content: {path}")
+        require('"@type":"City"' in (output / path.lstrip("/") / "index.html").read_text(), f"Missing service area markup: {path}")
+        for link in page.links:
+            if link.startswith("#"):
+                require(link[1:] in page.ids, f"Broken city page anchor {link}: {path}")
+        city_descriptions.extend(page.descriptions)
+    require(len(set(city_descriptions)) == len(city_descriptions), "Duplicate city descriptions")
+    require(len({pages[path].h1_text for path in city_paths}) == len(city_paths), "Duplicate city H1 headings")
+    actual_city_slugs = {path.name for path in (output / "goroda").iterdir() if path.is_dir()}
+    require(actual_city_slugs == set(city_slugs), "Unexpected city routes were exported")
+    print(f"PASS: {len(city_paths)} city pages with unique metadata, complete sections, local anchors and links from geography")
     require(not (output / "prochistka-kanalizacii").exists(), "Removed standalone sewer maintenance route was exported")
 
     sitemap = ET.parse(output / "sitemap.xml")
     urls = [element.text for element in sitemap.iter("{http://www.sitemaps.org/schemas/sitemap/0.9}loc")]
     require(set(urls) == {SITE_URL + path for path in paths} and len(urls) == len(paths), "Sitemap differs from published pages")
-    print(f"PASS: {len(paths)} static pages, unique titles, self canonicals, complete galleries and sitemap; no draft city routes")
+    print(f"PASS: {len(paths)} static pages, unique titles, self canonicals, complete galleries and sitemap")
 
 
 if __name__ == "__main__":

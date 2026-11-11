@@ -5,10 +5,10 @@ import {
   ArrowUpRightIcon,
   ElectricalIcon,
   HeatingIcon,
-  ImageWithSkeleton,
   InsulationIcon,
   MaintenanceIcon,
   PipelineIcon,
+  ResponsiveImage,
 } from "@/shared/ui";
 
 type NavigationService = (typeof navigationServices)[number];
@@ -21,6 +21,15 @@ const serviceIcons = {
   "servisnoe-obsluzhivanie": MaintenanceIcon,
 } satisfies Record<NavigationService["slug"], typeof HeatingIcon>;
 
+// Largest prepared source, capped at the original width to avoid upscaling.
+const serviceImageMaxWidths = {
+  "promyshlennye-sistemy": 1280,
+  "tekhnologicheskie-truboprovody": 1280,
+  elektromontazh: 1200,
+  teploizolyaciya: 1250,
+  "servisnoe-obsluzhivanie": 1280,
+} satisfies Record<NavigationService["slug"], number>;
+
 type ServiceCardProps = {
   service: NavigationService;
   featured?: boolean;
@@ -29,10 +38,14 @@ type ServiceCardProps = {
 
 export function ServiceCard({ service, featured = false, sizes }: ServiceCardProps) {
   const Icon = serviceIcons[service.slug];
+  const variants = [480, 768, serviceImageMaxWidths[service.slug]].map((width) => ({
+    src: service.image.replace(/\.webp$/, `-variants-${width}.webp`),
+    width,
+  }));
 
   return (
     <Link href={`/${service.slug}`} className={`service-card ${featured ? "service-card-featured" : ""}`}>
-      <ImageWithSkeleton src={service.image} alt="" fill sizes={sizes} className="service-card-image object-cover" skeletonClassName="skeleton-on-dark" />
+      <ResponsiveImage src={service.image} alt="" variants={variants} fill sizes={sizes} className="service-card-image object-cover" />
       <div className="relative z-10 flex items-start justify-end gap-4">
         <span className="service-card-symbol" aria-hidden="true"><Icon className="size-9" strokeWidth={1.2} /></span>
       </div>

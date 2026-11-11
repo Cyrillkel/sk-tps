@@ -892,6 +892,16 @@
   }
 
   .services-bullet {
+    display: flex;
+    width: 44px;
+    height: 44px;
+    align-items: center;
+    justify-content: center;
+    border-radius: 999px;
+  }
+
+  .services-bullet::before {
+    content: "";
     width: 8px;
     height: 8px;
     border-radius: 999px;
@@ -899,7 +909,7 @@
     transition: width 300ms ease, background-color 300ms ease;
   }
 
-  .services-bullet[aria-current="true"] {
+  .services-bullet[aria-current="true"]::before {
     width: 28px;
     background: var(--color-accent);
   }

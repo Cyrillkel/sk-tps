@@ -1,7 +1,11 @@
-import { workRegions } from "@/entities/geography";
+import Link from "next/link";
+
+import { cityPagePath, publishedCityLandings, workRegions } from "@/entities/geography";
 import { ArrowUpRightIcon, Container, SiteVisitIcon } from "@/shared/ui";
 
-export function HomeGeography() {
+const publishedCities = new Set(publishedCityLandings.map((content) => content.citySlug));
+
+export function HomeGeography({ currentCitySlug }: { currentCitySlug?: string } = {}) {
   return (
     <section id="geography" aria-labelledby="geography-title" className="home-geography py-16 sm:py-20 lg:py-24">
       <Container>
@@ -20,7 +24,15 @@ export function HomeGeography() {
                 <SiteVisitIcon className="size-7 shrink-0 text-accent" strokeWidth={1.4} />
               </div>
               <ul className="geography-cities" aria-label={`Города: ${region.name}`}>
-                {region.cities.map((city) => <li key={city.slug}>{city.name}</li>)}
+                {region.cities.map((city) => (
+                  <li key={city.slug}>
+                    {publishedCities.has(city.slug) ? (
+                      <Link href={cityPagePath(city.slug)} aria-current={city.slug === currentCitySlug ? "page" : undefined} className="inline-flex min-h-11 items-center underline decoration-border underline-offset-4 hover:text-accent hover:decoration-accent aria-[current=page]:font-semibold aria-[current=page]:text-accent">
+                        {city.name}
+                      </Link>
+                    ) : city.name}
+                  </li>
+                ))}
               </ul>
             </article>
           ))}

@@ -103,7 +103,7 @@ export function DocumentGallery({ documents, title, itemLabel = "Лист", vari
           <li key={document.src}>
             <button
               type="button"
-              aria-label={`Открыть: ${document.alt}`}
+              aria-label={`Открыть: ${document.caption ?? (isPhoto ? document.alt : `${itemLabel} ${index + 1}. ${document.alt}`)}`}
               aria-haspopup="dialog"
               className="document-thumbnail group w-full text-left"
               onClick={(event) => {
@@ -194,6 +194,7 @@ export function DocumentGallery({ documents, title, itemLabel = "Лист", vari
           <div
             ref={scrollRef}
             tabIndex={0}
+            role="group"
             aria-label={isPhoto ? "Просмотр фотографии объекта" : "Просмотр скана документа"}
             className={`document-viewport min-h-0 overflow-auto overscroll-contain ${isPhoto ? "bg-background p-2 sm:p-3" : "bg-surface"}`}
             data-zoomed={isZoomed}

@@ -1,3 +1,7 @@
+import { kalugaCityLandings } from "./city-content-kaluga";
+import { moscowCityLandings } from "./city-content-moscow";
+import { tulaCityLandings } from "./city-content-tula";
+
 export const workRegions = [
   {
     slug: "kaluzhskaya-oblast",
@@ -61,15 +65,34 @@ export function findCity(slug: string) {
   return undefined;
 }
 
-/** Editorial content for a future city page. A city name alone never creates a route. */
+/** City-specific copy and optional, verified local projects. */
 export type CityLandingContent = {
   citySlug: string;
   status: "draft" | "published";
+  title: string;
+  heading: string;
   description: string;
   introduction: readonly string[];
+  servicesHeading: string;
+  servicesDescription: string;
+  conditionsTitle: string;
   workConditions: readonly { title: string; description: string }[];
+  questions: readonly { question: string; answer: string }[];
   projectSlugs: readonly string[];
 };
 
-/** Publish only after adding actual local information and reviewing it. */
-export const cityLandings: readonly CityLandingContent[] = [];
+export const cityLandings: readonly CityLandingContent[] = [
+  ...kalugaCityLandings,
+  ...tulaCityLandings,
+  ...moscowCityLandings,
+];
+
+export const publishedCityLandings = cityLandings.filter((content) => content.status === "published");
+
+export function cityPagePath(slug: string) {
+  return `/goroda/${slug}/`;
+}
+
+export function findCityLanding(slug: string) {
+  return publishedCityLandings.find((content) => content.citySlug === slug);
+}
