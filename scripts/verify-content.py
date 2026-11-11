@@ -137,15 +137,17 @@ def verify_build(projects, service_slugs):
     require(all(title.strip() for title in titles), "Missing page title")
     require(not [title for title, count in Counter(titles).items() if count > 1], "Duplicate page titles")
 
-    shared_sections = [section for section in pages["/"].section_ids if section != "projects"]
+    require("about" in pages["/"].section_ids, "Missing homepage company section")
+    shared_sections = [section for section in pages["/"].section_ids if section not in {"projects", "about"}]
     detail_paths = [f"/{slug}/" for slug in service_slugs] + [f"/{project['slug']}/" for project in projects]
     for path in detail_paths:
         page = pages[path]
+        require("about" not in page.ids, f"Company section must not appear on detail pages: {path}")
         require([section for section in page.section_ids if section in shared_sections] == shared_sections, f"Homepage sections missing, duplicated or out of order: {path}")
         for link in page.links:
             if link.startswith("#"):
                 require(link[1:] in page.ids, f"Broken page anchor {link}: {path}")
-    print(f"PASS: {len(detail_paths)} detail pages include homepage sections once and in order, with valid local anchors")
+    print(f"PASS: {len(detail_paths)} detail pages include shared sections once and in order, without the company section, with valid local anchors")
 
     for project in projects:
         page = pages[f"/{project['slug']}/"]

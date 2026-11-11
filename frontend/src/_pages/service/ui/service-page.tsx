@@ -3,7 +3,6 @@ import { notFound } from "next/navigation";
 
 import { serviceContent, services } from "@/entities/service";
 import { pageMetadata } from "@/shared/lib";
-import { HomeAbout } from "@/widgets/home-about";
 import { HomeAdvantages } from "@/widgets/home-advantages";
 import { HomeClients } from "@/widgets/home-clients";
 import { HomeCooperation } from "@/widgets/home-cooperation";
@@ -44,7 +43,6 @@ export async function ServicePage({ params }: ServicePageProps) {
     <>
       <ServiceDetails service={service} />
       <HomeServices />
-      <HomeAbout />
       <HomeCredentials />
       <HomeCooperation />
       <HomeProcess />
