@@ -26,12 +26,18 @@ class Page(HTMLParser):
         self.links = []
         self.canonicals = []
         self.descriptions = []
+        self.ids = []
+        self.section_ids = []
         self.title = ""
         self.in_title = False
         self.feed(source)
 
     def handle_starttag(self, tag, attributes):
         attrs = dict(attributes)
+        if attrs.get("id"):
+            self.ids.append(attrs["id"])
+            if tag == "section":
+                self.section_ids.append(attrs["id"])
         if tag == "h1":
             self.h1_count += 1
         elif tag == "img":
@@ -118,6 +124,8 @@ def verify_build(projects, service_slugs):
         html = output / path.lstrip("/") / "index.html"
         page = Page(html.read_text())
         require(page.h1_count == 1, f"Expected one h1: {path}")
+        duplicate_ids = [identifier for identifier, count in Counter(page.ids).items() if count > 1]
+        require(not duplicate_ids, f"Duplicate HTML IDs on {path}: {duplicate_ids}")
         require(page.canonicals == [SITE_URL + path], f"Incorrect canonical: {path}")
         require(len(page.descriptions) == 1 and bool(page.descriptions[0].strip()), f"Missing description: {path}")
         require(not any("/goroda/" in link for link in page.links), f"Premature city links: {path}")
@@ -128,6 +136,16 @@ def verify_build(projects, service_slugs):
         titles.append(page.title)
     require(all(title.strip() for title in titles), "Missing page title")
     require(not [title for title, count in Counter(titles).items() if count > 1], "Duplicate page titles")
+
+    shared_sections = [section for section in pages["/"].section_ids if section != "projects"]
+    detail_paths = [f"/{slug}/" for slug in service_slugs] + [f"/{project['slug']}/" for project in projects]
+    for path in detail_paths:
+        page = pages[path]
+        require([section for section in page.section_ids if section in shared_sections] == shared_sections, f"Homepage sections missing, duplicated or out of order: {path}")
+        for link in page.links:
+            if link.startswith("#"):
+                require(link[1:] in page.ids, f"Broken page anchor {link}: {path}")
+    print(f"PASS: {len(detail_paths)} detail pages include homepage sections once and in order, with valid local anchors")
 
     for project in projects:
         page = pages[f"/{project['slug']}/"]

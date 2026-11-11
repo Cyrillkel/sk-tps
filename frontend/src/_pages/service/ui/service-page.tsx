@@ -3,7 +3,17 @@ import { notFound } from "next/navigation";
 
 import { serviceContent, services } from "@/entities/service";
 import { pageMetadata } from "@/shared/lib";
+import { HomeAbout } from "@/widgets/home-about";
+import { HomeAdvantages } from "@/widgets/home-advantages";
+import { HomeClients } from "@/widgets/home-clients";
+import { HomeCooperation } from "@/widgets/home-cooperation";
+import { HomeCredentials } from "@/widgets/home-credentials";
 import { HomeFeedback } from "@/widgets/home-feedback";
+import { HomeGeography } from "@/widgets/home-geography";
+import { HomeLetters } from "@/widgets/home-letters";
+import { HomeProcess } from "@/widgets/home-process";
+import { HomeReviews } from "@/widgets/home-reviews";
+import { HomeServices } from "@/widgets/home-services";
 import { ServiceDetails } from "@/widgets/service-details";
 
 type ServicePageProps = {
@@ -33,7 +43,17 @@ export async function ServicePage({ params }: ServicePageProps) {
   return (
     <>
       <ServiceDetails service={service} />
+      <HomeServices />
+      <HomeAbout />
+      <HomeCredentials />
+      <HomeCooperation />
+      <HomeProcess />
+      <HomeGeography />
       <HomeFeedback />
+      <HomeAdvantages />
+      <HomeLetters />
+      <HomeClients />
+      <HomeReviews />
     </>
   );
 }

@@ -53,7 +53,7 @@ export function ServiceDetails({ service }: { service: Service }) {
           </div>
           <div className="detail-note mt-6">
             <p>Согласуем смету до начала работ. Выполненные работы сдаём по акту.</p>
-            <Link href="/#documents" className="inline-flex min-h-11 items-center gap-2 font-semibold text-accent">Допуски и лицензии <ArrowUpRightIcon className="size-4" /></Link>
+            <Link href="#documents" className="inline-flex min-h-11 items-center gap-2 font-semibold text-accent">Допуски и лицензии <ArrowUpRightIcon className="size-4" /></Link>
           </div>
         </Container>
       </section>
