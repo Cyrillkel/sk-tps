@@ -74,13 +74,13 @@
   .detail-list li::before { content: ""; position: absolute; top: .65em; left: 0; width: 5px; height: 5px; background: var(--color-accent); }
   .detail-note { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px 24px; border-left: 2px solid var(--color-accent); padding-left: 20px; color: var(--color-muted); font-size: 14px; line-height: 1.7; }
 
-  .card-carousel { min-width: 0; }
+  .card-carousel { position: relative; min-width: 0; }
   .card-carousel-track .swiper-wrapper { transition-timing-function: cubic-bezier(0.45, 0, 0.55, 1); }
   .card-carousel-track .swiper-slide { height: auto; }
   .card-carousel-track .swiper-slide > * { height: 100%; }
   .card-carousel-track:not(.swiper-initialized) .swiper-slide { width: calc((100% - 3.6px) / 1.3); margin-right: 12px; }
-  .card-carousel-controls { display: flex; gap: 10px; margin-top: 24px; }
-  .card-carousel-button { display: flex; width: 48px; height: 48px; align-items: center; justify-content: center; border: 1px solid var(--color-border); border-radius: 50%; background: var(--color-surface); color: var(--color-primary); transition: color 180ms ease, border-color 180ms ease, background-color 180ms ease; }
+  .card-carousel-controls { position: absolute; z-index: 2; inset: 0; display: flex; align-items: center; justify-content: space-between; padding-inline: 8px; pointer-events: none; }
+  .card-carousel-button { display: flex; width: 48px; height: 48px; flex-shrink: 0; align-items: center; justify-content: center; border: 1px solid var(--color-border); border-radius: 50%; background: var(--color-surface); color: var(--color-primary); box-shadow: 0 3px 16px color-mix(in srgb, var(--color-service-card) 24%, transparent); pointer-events: auto; transition: color 180ms ease, border-color 180ms ease, background-color 180ms ease; }
   .card-carousel-button:hover { border-color: var(--color-brand); background: var(--color-brand); color: var(--color-service-card); }
   .project-card { overflow: hidden; border: 1px solid var(--color-border); border-radius: 16px; background: var(--color-surface); }
   .project-card-photo { aspect-ratio: 4 / 3; background: var(--color-service-card); }
@@ -89,8 +89,6 @@
   .home-projects { border-top: 1px solid var(--color-border); background: color-mix(in srgb, var(--color-surface) 45%, var(--color-background)); }
   .project-photo-grid .document-thumbnail { display: block; border-radius: 10px; }
   .project-photo-grid .document-paper { background: var(--color-service-card); }
-  .photo-dialog .document-viewport[data-zoomed="false"] .photo-media { display: flex; justify-content: center; background: transparent; }
-  .photo-dialog .document-viewport[data-zoomed="false"] .photo-media img { width: auto; height: auto; max-width: 100%; max-height: calc(100dvh - 260px); object-fit: contain; }
 
   .faq-list { min-width: 0; border-top: 1px solid var(--color-border); }
   .faq-item { border-bottom: 1px solid var(--color-border); }
@@ -118,11 +116,12 @@
     .detail-section-heading, .geography-heading { margin-bottom: 40px; }
     .related-services { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     .scope-card, .geography-region { padding: 32px; }
-    .photo-dialog .document-viewport[data-zoomed="false"] .photo-media img { max-height: calc(100dvh - 220px); }
   }
 
   @media (min-width: 768px) {
     .card-carousel-track:not(.swiper-initialized) .swiper-slide { width: calc((100% - 26px) / 2.3); margin-right: 20px; }
+    .card-carousel-controls { padding-inline: 12px; }
+    .card-carousel-button { width: 56px; height: 56px; }
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -637,6 +636,7 @@
 
   .document-dialog {
     width: min(1120px, calc(100vw - 24px));
+    height: calc(100dvh - 24px);
     max-width: none;
     max-height: calc(100dvh - 24px);
     margin: auto;
@@ -653,8 +653,27 @@
     backdrop-filter: blur(6px);
   }
 
+  .document-dialog-panel {
+    display: flex;
+    height: 100%;
+    min-height: 0;
+    flex-direction: column;
+  }
+
   .document-viewport {
+    flex: 1;
+    container-type: size;
     touch-action: pan-y pinch-zoom;
+  }
+
+  .document-viewport[data-zoomed="false"] {
+    display: grid;
+    place-items: center;
+  }
+
+  .document-viewport[data-zoomed="false"] .document-media {
+    width: min(100cqw, calc(100cqh * var(--document-aspect-ratio)));
+    max-width: 100%;
   }
 
   .document-viewport[data-zoomed="true"] {

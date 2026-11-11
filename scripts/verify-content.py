@@ -138,7 +138,7 @@ def verify_build(projects, service_slugs):
     geography = re.search(r'<section[^>]+id="geography".*?</section>', home_source, re.DOTALL)
     require(geography is not None, "Missing homepage geography")
     require(geography[0].count('class="geography-region"') == 3, "Missing work regions")
-    require(len(re.findall(r'<li\b', geography[0])) == 22, "Missing city names")
+    require(len(re.findall(r'<li\b', geography[0])) == 28, "Missing city names")
     require(not (output / "goroda").exists(), "Draft city routes must not be exported")
     require(not (output / "prochistka-kanalizacii").exists(), "Removed standalone sewer maintenance route was exported")
 

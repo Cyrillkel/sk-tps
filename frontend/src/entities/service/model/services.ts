@@ -21,18 +21,18 @@ export const navigationServices = [
     image: "/images/services/electrical.webp",
   },
   {
-    slug: "servisnoe-obsluzhivanie",
-    navigationLabel: "Комплексное сервисное обслуживание",
-    title: "Обслуживание инженерных систем",
-    description: "Ремонт инженерных сетей и коммуникаций, включая обслуживание канализации: прочистку, промывку, устранение засоров и телеинспекцию.",
-    image: "/images/services/maintenance.webp",
-  },
-  {
     slug: "teploizolyaciya",
     navigationLabel: "Теплоизоляционные работы",
     title: "Теплоизоляционные работы",
     description: "Теплоизоляция оборудования и ёмкостей, в том числе с высотным монтажом.",
     image: "/images/services/insulation.webp",
+  },
+  {
+    slug: "servisnoe-obsluzhivanie",
+    navigationLabel: "Комплексное сервисное обслуживание",
+    title: "Обслуживание инженерных систем",
+    description: "Ремонт инженерных сетей и коммуникаций, включая обслуживание канализации: прочистку, промывку, устранение засоров и телеинспекцию.",
+    image: "/images/services/maintenance.webp",
   },
 ] as const;
 

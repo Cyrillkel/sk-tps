@@ -10,8 +10,8 @@ export const workRegions = [
       { slug: "borovsk", name: "Боровск", inCity: "Боровске" },
       { slug: "balabanovo", name: "Балабаново", inCity: "Балабанове" },
       { slug: "zhukov", name: "Жуков", inCity: "Жукове" },
-      { slug: "kremenki", name: "Кремёнки", inCity: "Кремёнках" },
-      { slug: "yukhnov", name: "Юхнов", inCity: "Юхнове" },
+      { slug: "kondrovo", name: "Кондрово", inCity: "Кондрове" },
+      { slug: "tarusa", name: "Таруса", inCity: "Тарусе" },
     ],
   },
   {
@@ -25,6 +25,9 @@ export const workRegions = [
       { slug: "yasnogorsk", name: "Ясногорск", inCity: "Ясногорске" },
       { slug: "shchekino", name: "Щёкино", inCity: "Щёкине" },
       { slug: "suvorov", name: "Суворов", inCity: "Суворове" },
+      { slug: "donskoy", name: "Донской", inCity: "Донском" },
+      { slug: "uzlovaya", name: "Узловая", inCity: "Узловой" },
+      { slug: "efremov", name: "Ефремов", inCity: "Ефремове" },
     ],
   },
   {
@@ -40,6 +43,9 @@ export const workRegions = [
       { slug: "pushchino", name: "Пущино", inCity: "Пущине" },
       { slug: "odintsovo", name: "Одинцово", inCity: "Одинцове" },
       { slug: "mozhaysk", name: "Можайск", inCity: "Можайске" },
+      { slug: "aprelevka", name: "Апрелевка", inCity: "Апрелевке" },
+      { slug: "troitsk", name: "Троицк", inCity: "Троицке" },
+      { slug: "kubinka", name: "Кубинка", inCity: "Кубинке" },
     ],
   },
 ] as const;

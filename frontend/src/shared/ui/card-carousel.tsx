@@ -56,8 +56,9 @@ export function CardCarousel({ slides, label }: CardCarouselProps) {
   function move(direction: "previous" | "next") {
     const swiper = swiperRef.current;
     if (!swiper || swiper.destroyed || !canSlide) return;
-    if (direction === "previous") swiper.slidePrev(speed);
-    else swiper.slideNext(speed);
+    const navigationSpeed = reducedMotion ? 0 : 450;
+    if (direction === "previous") swiper.slidePrev(navigationSpeed);
+    else swiper.slideNext(navigationSpeed);
   }
 
   function handleKeyDown(event: KeyboardEvent<HTMLDivElement>) {
@@ -110,17 +111,17 @@ export function CardCarousel({ slides, label }: CardCarouselProps) {
             {content}
           </SwiperSlide>
         )))}
+        {canSlide && (
+          <div slot="container-end" className="card-carousel-controls">
+            <button type="button" className="card-carousel-button card-carousel-previous" aria-label="Предыдущая карточка" aria-controls={id} onClick={() => move("previous")}>
+              <ArrowRightIcon className="size-5 rotate-180" />
+            </button>
+            <button type="button" className="card-carousel-button card-carousel-next" aria-label="Следующая карточка" aria-controls={id} onClick={() => move("next")}>
+              <ArrowRightIcon className="size-5" />
+            </button>
+          </div>
+        )}
       </Swiper>
-      {canSlide && (
-        <div className="card-carousel-controls">
-          <button type="button" className="card-carousel-button card-carousel-previous" aria-label="Предыдущая карточка" aria-controls={id} onClick={() => move("previous")}>
-            <ArrowRightIcon className="size-5 rotate-180" />
-          </button>
-          <button type="button" className="card-carousel-button card-carousel-next" aria-label="Следующая карточка" aria-controls={id} onClick={() => move("next")}>
-            <ArrowRightIcon className="size-5" />
-          </button>
-        </div>
-      )}
     </div>
   );
 }

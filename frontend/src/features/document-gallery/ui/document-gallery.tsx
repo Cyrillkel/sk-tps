@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useId, useRef, useState, type KeyboardEvent, type TouchEvent } from "react";
+import { useEffect, useId, useRef, useState, type CSSProperties, type KeyboardEvent, type TouchEvent } from "react";
 
 import { ArrowRightIcon, ArrowUpRightIcon, CloseIcon, ImageWithSkeleton } from "@/shared/ui";
 
@@ -31,14 +31,16 @@ export function DocumentGallery({ documents, title, itemLabel = "Лист", vari
   const previousLabel = isPhoto ? "Предыдущее фото" : "Предыдущий документ";
   const nextLabel = isPhoto ? "Следующее фото" : "Следующий документ";
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
-  const [isZoomed, setIsZoomed] = useState(false);
+  const [zoomWidth, setZoomWidth] = useState<number | null>(null);
   const dialogRef = useRef<HTMLDialogElement>(null);
   const closeRef = useRef<HTMLButtonElement>(null);
   const triggerRef = useRef<HTMLButtonElement | null>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
+  const mediaRef = useRef<HTMLDivElement>(null);
   const touchStartRef = useRef<{ id: number; x: number; y: number } | null>(null);
   const titleId = useId();
   const isOpen = activeIndex !== null;
+  const isZoomed = zoomWidth !== null;
   const activeDocument = activeIndex === null ? undefined : documents[activeIndex];
 
   useEffect(() => {
@@ -58,7 +60,7 @@ export function DocumentGallery({ documents, title, itemLabel = "Лист", vari
   function selectDocument(index: number) {
     if (!documents.length) return;
     setActiveIndex((index + documents.length) % documents.length);
-    setIsZoomed(false);
+    setZoomWidth(null);
     touchStartRef.current = null;
     scrollRef.current?.scrollTo({ top: 0, left: 0 });
   }
@@ -149,14 +151,14 @@ export function DocumentGallery({ documents, title, itemLabel = "Лист", vari
         }}
         onClose={() => {
           setActiveIndex(null);
-          setIsZoomed(false);
+          setZoomWidth(null);
           touchStartRef.current = null;
           triggerRef.current?.focus();
         }}
       >
-        <div className="flex max-h-[calc(100dvh-24px)] flex-col">
+        <div className="document-dialog-panel">
           <div className="flex shrink-0 flex-wrap items-center gap-x-4 gap-y-3 border-b border-border p-4 sm:px-6">
-            <h2 id={titleId} className="order-1 min-w-0 flex-1 text-sm font-semibold text-primary sm:text-base">
+            <h2 id={titleId} title={activeDocument?.caption ?? title} className="order-1 line-clamp-2 min-w-0 flex-1 text-sm font-semibold text-primary sm:text-base">
               {activeDocument?.caption ?? title}
             </h2>
             <div className="order-3 flex basis-full items-center gap-3 sm:order-2 sm:basis-auto">
@@ -166,7 +168,12 @@ export function DocumentGallery({ documents, title, itemLabel = "Лист", vari
                 className="document-toolbar-button px-3 text-xs font-semibold"
                 onClick={() => {
                   touchStartRef.current = null;
-                  setIsZoomed((zoomed) => !zoomed);
+                  if (isZoomed) {
+                    setZoomWidth(null);
+                  } else if (activeDocument) {
+                    const fittedWidth = mediaRef.current?.getBoundingClientRect().width ?? 0;
+                    setZoomWidth(Math.max(activeDocument.width, fittedWidth * 1.5));
+                  }
                 }}
               >
                 {isZoomed ? "Уменьшить" : "Увеличить"}
@@ -186,7 +193,7 @@ export function DocumentGallery({ documents, title, itemLabel = "Лист", vari
             ref={scrollRef}
             tabIndex={0}
             aria-label={isPhoto ? "Просмотр фотографии объекта" : "Просмотр скана документа"}
-            className="document-viewport min-h-0 overflow-auto overscroll-contain bg-background p-3 sm:p-6"
+            className="document-viewport min-h-0 overflow-auto overscroll-contain bg-background p-2 sm:p-3"
             data-zoomed={isZoomed}
             onTouchStart={handleTouchStart}
             onTouchMove={(event) => {
@@ -198,8 +205,12 @@ export function DocumentGallery({ documents, title, itemLabel = "Лист", vari
             {activeDocument && (
               <div
                 key={activeDocument.src}
-                className={`document-paper ${isPhoto ? "photo-media" : ""} relative mx-auto overflow-hidden ${isZoomed ? "max-w-none" : "w-full"}`}
-                style={isZoomed ? { width: activeDocument.width } : undefined}
+                ref={mediaRef}
+                className="document-paper document-media relative mx-auto overflow-hidden"
+                style={{
+                  "--document-aspect-ratio": activeDocument.width / activeDocument.height,
+                  ...(zoomWidth !== null ? { width: zoomWidth } : {}),
+                } as CSSProperties}
               >
                 <ImageWithSkeleton
                   src={activeDocument.src}
@@ -208,7 +219,7 @@ export function DocumentGallery({ documents, title, itemLabel = "Лист", vari
                   height={activeDocument.height}
                   unoptimized
                   loading="eager"
-                  className="block h-auto w-full"
+                  className="document-media-image block h-auto w-full object-contain"
                 />
               </div>
             )}
