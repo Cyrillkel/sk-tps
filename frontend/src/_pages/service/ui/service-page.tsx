@@ -12,7 +12,6 @@ import { HomeGeography } from "@/widgets/home-geography";
 import { HomeLetters } from "@/widgets/home-letters";
 import { HomeProcess } from "@/widgets/home-process";
 import { HomeReviews } from "@/widgets/home-reviews";
-import { HomeServices } from "@/widgets/home-services";
 import { ServiceDetails } from "@/widgets/service-details";
 
 type ServicePageProps = {
@@ -42,7 +41,6 @@ export async function ServicePage({ params }: ServicePageProps) {
   return (
     <>
       <ServiceDetails service={service} />
-      <HomeServices />
       <HomeCredentials />
       <HomeCooperation />
       <HomeProcess />
