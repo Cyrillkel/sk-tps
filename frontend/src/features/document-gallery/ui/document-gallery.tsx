@@ -2,7 +2,7 @@
 
 import { useEffect, useId, useRef, useState, type CSSProperties, type KeyboardEvent, type TouchEvent } from "react";
 
-import { ArrowRightIcon, ArrowUpRightIcon, CloseIcon, ImageWithSkeleton } from "@/shared/ui";
+import { ArrowRightIcon, ArrowUpRightIcon, CloseIcon, ImageWithSkeleton, ZoomInIcon, ZoomOutIcon } from "@/shared/ui";
 
 export type GalleryImage = {
   src: string;
@@ -144,7 +144,7 @@ export function DocumentGallery({ documents, title, itemLabel = "Лист", vari
       <dialog
         ref={dialogRef}
         aria-labelledby={titleId}
-        className={`document-dialog ${isPhoto ? "photo-dialog" : ""}`}
+        className={`document-dialog ${isPhoto ? "photo-dialog" : "document-fullscreen"}`}
         onKeyDown={handleKeyDown}
         onClick={(event) => {
           if (event.target === event.currentTarget) dialogRef.current?.close();
@@ -157,15 +157,17 @@ export function DocumentGallery({ documents, title, itemLabel = "Лист", vari
         }}
       >
         <div className="document-dialog-panel">
-          <div className="flex shrink-0 flex-wrap items-center gap-x-4 gap-y-3 border-b border-border p-4 sm:px-6">
-            <h2 id={titleId} title={activeDocument?.caption ?? title} className="order-1 line-clamp-2 min-w-0 flex-1 text-sm font-semibold text-primary sm:text-base">
+          <div className={isPhoto ? "flex shrink-0 flex-wrap items-center gap-x-4 gap-y-3 border-b border-border p-4 sm:px-6" : "document-fullscreen-toolbar"}>
+            <h2 id={titleId} title={activeDocument?.caption ?? title} className={isPhoto ? "order-1 line-clamp-2 min-w-0 flex-1 text-sm font-semibold text-primary sm:text-base" : "sr-only"}>
               {activeDocument?.caption ?? title}
             </h2>
-            <div className="order-3 flex basis-full items-center gap-3 sm:order-2 sm:basis-auto">
+            <div className={isPhoto ? "order-3 flex basis-full items-center gap-3 sm:order-2 sm:basis-auto" : "flex items-center gap-2"}>
               <button
                 type="button"
                 aria-pressed={isZoomed}
-                className="document-toolbar-button px-3 text-xs font-semibold"
+                aria-label={isZoomed ? "Уменьшить" : "Увеличить"}
+                title={isZoomed ? "Уменьшить" : "Увеличить"}
+                className={isPhoto ? "document-toolbar-button px-3 text-xs font-semibold" : "document-toolbar-button document-fullscreen-button"}
                 onClick={() => {
                   touchStartRef.current = null;
                   if (isZoomed) {
@@ -176,15 +178,15 @@ export function DocumentGallery({ documents, title, itemLabel = "Лист", vari
                   }
                 }}
               >
-                {isZoomed ? "Уменьшить" : "Увеличить"}
+                {isPhoto ? (isZoomed ? "Уменьшить" : "Увеличить") : isZoomed ? <ZoomOutIcon className="size-5" /> : <ZoomInIcon className="size-5" />}
               </button>
               {activeDocument && (
-                <a href={activeDocument.src} target="_blank" rel="noopener noreferrer" className="document-toolbar-button gap-2 px-3 text-xs font-semibold">
-                  {isPhoto ? "Открыть фото" : "Оригинал"} <ArrowUpRightIcon className="size-4" />
+                <a href={activeDocument.src} target="_blank" rel="noopener noreferrer" aria-label={isPhoto ? "Открыть фото" : "Открыть оригинал документа"} title={isPhoto ? "Открыть фото" : "Открыть оригинал документа"} className={isPhoto ? "document-toolbar-button gap-2 px-3 text-xs font-semibold" : "document-toolbar-button document-fullscreen-button"}>
+                  {isPhoto && "Открыть фото"} <ArrowUpRightIcon className={isPhoto ? "size-4" : "size-5"} />
                 </a>
               )}
             </div>
-            <button ref={closeRef} type="button" aria-label="Закрыть просмотр" onClick={() => dialogRef.current?.close()} className="document-toolbar-button order-2 ml-auto w-11 sm:order-3">
+            <button ref={closeRef} type="button" aria-label="Закрыть просмотр" title="Закрыть просмотр" onClick={() => dialogRef.current?.close()} className={isPhoto ? "document-toolbar-button order-2 ml-auto w-11 sm:order-3" : "document-toolbar-button document-fullscreen-button"}>
               <CloseIcon className="size-5" />
             </button>
           </div>
@@ -193,7 +195,7 @@ export function DocumentGallery({ documents, title, itemLabel = "Лист", vari
             ref={scrollRef}
             tabIndex={0}
             aria-label={isPhoto ? "Просмотр фотографии объекта" : "Просмотр скана документа"}
-            className="document-viewport min-h-0 overflow-auto overscroll-contain bg-background p-2 sm:p-3"
+            className={`document-viewport min-h-0 overflow-auto overscroll-contain ${isPhoto ? "bg-background p-2 sm:p-3" : "bg-surface"}`}
             data-zoomed={isZoomed}
             onTouchStart={handleTouchStart}
             onTouchMove={(event) => {
@@ -225,14 +227,14 @@ export function DocumentGallery({ documents, title, itemLabel = "Лист", vari
             )}
           </div>
 
-          <div className="flex shrink-0 items-center justify-between gap-3 border-t border-border px-4 py-3 sm:px-6">
-            <button type="button" disabled={activeIndex === null || documents.length < 2} aria-label={previousLabel} onClick={() => activeIndex !== null && selectDocument(activeIndex - 1)} className="document-toolbar-button w-11">
+          <div className={isPhoto ? "flex shrink-0 items-center justify-between gap-3 border-t border-border px-4 py-3 sm:px-6" : "document-fullscreen-navigation"}>
+            <button type="button" disabled={activeIndex === null || documents.length < 2} aria-label={previousLabel} onClick={() => activeIndex !== null && selectDocument(activeIndex - 1)} className={isPhoto ? "document-toolbar-button w-11" : "document-toolbar-button document-fullscreen-button document-fullscreen-previous"}>
               <ArrowRightIcon className="size-5 rotate-180" />
             </button>
-            <p aria-live="polite" className="text-sm text-muted">
+            <p aria-live="polite" className={isPhoto ? "text-sm text-muted" : "sr-only"}>
               {itemLabel} {(activeIndex ?? 0) + 1} из {documents.length}
             </p>
-            <button type="button" disabled={activeIndex === null || documents.length < 2} aria-label={nextLabel} onClick={() => activeIndex !== null && selectDocument(activeIndex + 1)} className="document-toolbar-button w-11">
+            <button type="button" disabled={activeIndex === null || documents.length < 2} aria-label={nextLabel} onClick={() => activeIndex !== null && selectDocument(activeIndex + 1)} className={isPhoto ? "document-toolbar-button w-11" : "document-toolbar-button document-fullscreen-button document-fullscreen-next"}>
               <ArrowRightIcon className="size-5" />
             </button>
           </div>

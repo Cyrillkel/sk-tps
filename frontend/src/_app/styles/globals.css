@@ -702,6 +702,66 @@
     opacity: .35;
   }
 
+  .document-fullscreen {
+    position: fixed;
+    inset: 0;
+    width: 100vw;
+    height: 100dvh;
+    max-height: none;
+    margin: 0;
+    border: 0;
+    border-radius: 0;
+  }
+
+  .document-fullscreen::backdrop {
+    background: var(--color-surface);
+    backdrop-filter: none;
+  }
+
+  .document-fullscreen .document-dialog-panel {
+    position: relative;
+  }
+
+  .document-fullscreen-toolbar {
+    position: absolute;
+    z-index: 3;
+    top: max(13px, env(safe-area-inset-top));
+    right: max(13px, env(safe-area-inset-right));
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .document-fullscreen-navigation {
+    position: absolute;
+    z-index: 2;
+    inset: 0;
+    pointer-events: none;
+  }
+
+  .document-fullscreen-button {
+    width: 44px;
+    border-radius: 50%;
+    background: color-mix(in srgb, var(--color-surface) 90%, transparent);
+    box-shadow: 0 1px 6px color-mix(in srgb, var(--color-service-card) 15%, transparent);
+    pointer-events: auto;
+  }
+
+  .document-fullscreen-previous, .document-fullscreen-next {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+
+  .document-fullscreen-previous { left: max(13px, env(safe-area-inset-left)); }
+  .document-fullscreen-next { right: max(13px, env(safe-area-inset-right)); }
+
+  .document-fullscreen .document-viewport:focus-visible { outline-offset: -3px; }
+
+  @media (min-width: 769px) {
+    .document-fullscreen .document-viewport { padding: 15px; }
+  }
+
   .service-card {
     position: relative;
     isolation: isolate;

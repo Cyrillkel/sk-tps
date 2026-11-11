@@ -39,4 +39,6 @@ export {
   TelegramIcon,
   VanIcon,
   WhatsAppIcon,
+  ZoomInIcon,
+  ZoomOutIcon,
 } from "./icons";
