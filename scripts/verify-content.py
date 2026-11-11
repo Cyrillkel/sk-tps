@@ -139,7 +139,7 @@ def verify_build(projects, service_slugs):
     require(len({slug for slug, _ in city_records}) == len(city_records), "Duplicate city content")
     require({slug for slug, _ in city_records} == set(listed_cities), "City content differs from work geography")
     city_slugs = [slug for slug, status in city_records if status == "published"]
-    city_paths = [f"/goroda/{slug}/" for slug in city_slugs]
+    city_paths = [f"/uslugi-{slug}/" for slug in city_slugs]
     paths = ["/", "/seti/", "/proekty/", "/contacts/", "/soglasie/"]
     paths += [f"/{slug}/" for slug in service_slugs]
     paths += [f"/{project['slug']}/" for project in projects]
@@ -155,6 +155,7 @@ def verify_build(projects, service_slugs):
         require(set(page.aria_references) <= set(page.ids), f"Broken ARIA references: {path}")
         require(page.canonicals == [SITE_URL + path], f"Incorrect canonical: {path}")
         require(len(page.descriptions) == 1 and bool(page.descriptions[0].strip()), f"Missing description: {path}")
+        require(not any(urlparse(link).path == "/goroda" or urlparse(link).path.startswith("/goroda/") for link in page.links), f"Old city URL linked from content: {path}")
         for image in page.images + page.image_sources:
             require(image.startswith("/"), f"Remote runtime image: {image}")
             require((output / urlparse(image).path.lstrip("/")).is_file(), f"Missing exported image: {image}")
@@ -188,7 +189,7 @@ def verify_build(projects, service_slugs):
     require(geography is not None, "Missing homepage geography")
     require(geography[0].count('class="geography-region"') == 3, "Missing work regions")
     require(len(re.findall(r'<li\b', geography[0])) == 28, "Missing city names")
-    require(set(re.findall(r'href="(/goroda/[^\"]+/)"', geography[0])) == set(city_paths), "Geography must link to every published city")
+    require(set(re.findall(r'href="(/uslugi-[^\"]+/)"', geography[0])) == set(city_paths), "Geography must link to every published city")
     city_descriptions = []
     city_sections = [section for section in pages["/"].section_ids if section != "projects"]
     for path in city_paths:
@@ -202,9 +203,11 @@ def verify_build(projects, service_slugs):
         city_descriptions.extend(page.descriptions)
     require(len(set(city_descriptions)) == len(city_descriptions), "Duplicate city descriptions")
     require(len({pages[path].h1_text for path in city_paths}) == len(city_paths), "Duplicate city H1 headings")
-    actual_city_slugs = {path.name for path in (output / "goroda").iterdir() if path.is_dir()}
-    require(actual_city_slugs == set(city_slugs), "Unexpected city routes were exported")
+    actual_city_paths = {f"/{path.name}/" for path in output.glob("uslugi-*") if path.is_dir()}
+    require(actual_city_paths == set(city_paths), "Unexpected city routes were exported")
     print(f"PASS: {len(city_paths)} city pages with unique metadata, complete sections, local anchors and links from geography")
+
+    require(not any((output / "goroda").rglob("*.html")), "Removed /goroda/ pages were exported")
     require(not (output / "prochistka-kanalizacii").exists(), "Removed standalone sewer maintenance route was exported")
 
     sitemap = ET.parse(output / "sitemap.xml")

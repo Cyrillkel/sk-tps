@@ -1,1 +1,1 @@
-export { cityLandings, cityPagePath, findCity, findCityLanding, publishedCityLandings, workRegions, type CityLandingContent, type WorkCity, type WorkRegion } from "./model/geography";
+export { cityLandings, cityPagePath, cityPageSlug, findCity, findCityLanding, findCityLandingByPageSlug, publishedCityLandings, workRegions, type CityLandingContent, type WorkCity, type WorkRegion } from "./model/geography";

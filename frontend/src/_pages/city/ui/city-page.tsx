@@ -1,9 +1,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { notFound } from "next/navigation";
 
 import { company } from "@/entities/company";
-import { cityPagePath, findCity, findCityLanding, publishedCityLandings, type CityLandingContent } from "@/entities/geography";
+import { cityPagePath, findCity, type CityLandingContent } from "@/entities/geography";
 import { findProject, ProjectCard, type Project } from "@/entities/project";
 import { pageMetadata } from "@/shared/lib";
 import { Breadcrumbs, CardCarousel, ChevronDownIcon, Container, StructuredData } from "@/shared/ui";
@@ -19,8 +18,6 @@ import { HomeLetters } from "@/widgets/home-letters";
 import { HomeProcess } from "@/widgets/home-process";
 import { HomeReviews } from "@/widgets/home-reviews";
 import { HomeServices } from "@/widgets/home-services";
-
-type CityRouteProps = { params: Promise<{ city: string }> };
 
 function cityContext(content: CityLandingContent) {
   const location = findCity(content.citySlug);
@@ -42,26 +39,6 @@ export function generateCityMetadata(content: CityLandingContent): Metadata {
     ...pageMetadata({ title: content.title, description: content.description, path: cityPagePath(content.citySlug), image: "/images/hero.webp" }),
     robots: { index: content.status === "published", follow: true },
   };
-}
-
-export function generateCityStaticParams() {
-  return publishedCityLandings.map(({ citySlug }) => ({ city: citySlug }));
-}
-
-function publishedContent(slug: string) {
-  const content = findCityLanding(slug);
-  if (!content) notFound();
-  return content;
-}
-
-export async function generateCityRouteMetadata({ params }: CityRouteProps): Promise<Metadata> {
-  const { city } = await params;
-  return generateCityMetadata(publishedContent(city));
-}
-
-export async function CityRoute({ params }: CityRouteProps) {
-  const { city } = await params;
-  return <CityPage content={publishedContent(city)} />;
 }
 
 export function CityPage({ content }: { content: CityLandingContent }) {

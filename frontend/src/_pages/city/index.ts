@@ -1,1 +1,1 @@
-export { CityPage, CityRoute, generateCityMetadata, generateCityRouteMetadata, generateCityStaticParams } from "./ui/city-page";
+export { CityPage, generateCityMetadata } from "./ui/city-page";

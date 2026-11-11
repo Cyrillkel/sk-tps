@@ -1,0 +1,254 @@
+.section {
+  position: relative;
+  overflow: hidden;
+  padding-block: 44px 56px;
+  background: radial-gradient(ellipse at 85% 30%, color-mix(in srgb, var(--color-cyan) 6%, transparent), transparent 60%);
+}
+
+.layout {
+  display: grid;
+  gap: 36px;
+  align-items: center;
+}
+
+.content {
+  min-width: 0;
+}
+
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
+  color: var(--color-accent);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+}
+
+.eyebrow::before {
+  width: 24px;
+  height: 2px;
+  background: currentColor;
+  content: "";
+}
+
+.title {
+  max-width: 10em;
+  color: var(--color-primary);
+  font-size: clamp(2.25rem, 4.8vw, 5rem);
+  font-weight: 600;
+  line-height: 1.05;
+  letter-spacing: -.045em;
+  overflow-wrap: anywhere;
+}
+
+.description {
+  max-width: 33em;
+  margin-top: 24px;
+  color: var(--color-muted);
+  font-size: 16px;
+  line-height: 1.75;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 32px;
+}
+
+.primaryAction,
+.secondaryAction {
+  display: inline-flex;
+  min-height: 52px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  border: 1px solid transparent;
+  border-radius: 12px;
+  padding: 14px 20px;
+  font-size: 14px;
+  font-weight: 600;
+  transition: background-color 180ms ease, border-color 180ms ease;
+}
+
+.primaryAction {
+  background: var(--color-brand);
+  color: var(--color-service-card);
+}
+
+.primaryAction:hover {
+  background: color-mix(in srgb, var(--color-brand) 85%, var(--color-surface));
+}
+
+.secondaryAction {
+  border-color: var(--color-border);
+  background: var(--color-surface);
+  color: var(--color-primary);
+}
+
+.secondaryAction:hover {
+  border-color: var(--color-accent);
+}
+
+.helpfulLinks {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 28px;
+  margin-top: 24px;
+}
+
+.helpfulLinks a {
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
+  gap: 8px;
+  color: var(--color-muted);
+  font-size: 13px;
+  font-weight: 500;
+  text-underline-offset: 4px;
+}
+
+.helpfulLinks a:hover {
+  color: var(--color-accent);
+  text-decoration: underline;
+}
+
+.diagram {
+  position: relative;
+  min-width: 0;
+  overflow: hidden;
+  border: 1px solid var(--color-border);
+  border-radius: 20px;
+  padding: 20px 16px;
+  background-color: var(--color-surface);
+  background-image: linear-gradient(var(--color-border) 1px, transparent 1px), linear-gradient(90deg, var(--color-border) 1px, transparent 1px);
+  background-position: center;
+  background-size: 32px 32px;
+}
+
+.diagram::before {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at center, transparent, var(--color-surface) 80%);
+  pointer-events: none;
+  content: "";
+}
+
+.diagramLabel,
+.diagramFooter {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--color-muted);
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: .12em;
+}
+
+.diagramMark {
+  width: 7px;
+  height: 7px;
+  background: var(--color-accent);
+}
+
+.drawing {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: auto;
+  margin-block: 10px;
+}
+
+.guides {
+  stroke: var(--color-muted);
+  opacity: .2;
+}
+
+.route {
+  stroke: var(--color-cyan);
+  opacity: .65;
+}
+
+.pipeShadow {
+  stroke: var(--color-surface);
+}
+
+.pipes {
+  stroke: var(--color-primary);
+}
+
+.loop {
+  stroke: var(--color-brand);
+}
+
+.flanges {
+  stroke: var(--color-muted);
+}
+
+.valve {
+  stroke: var(--color-accent);
+}
+
+.diagramRule {
+  height: 1px;
+  flex: 1;
+  background: var(--color-border);
+}
+
+@media (max-width: 399px) {
+  .actions > a {
+    width: 100%;
+  }
+}
+
+@media (min-width: 640px) {
+  .section {
+    padding-block: 64px 80px;
+  }
+
+  .diagram {
+    padding: 28px;
+  }
+
+  .diagramLabel,
+  .diagramFooter {
+    font-size: 10px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .section {
+    display: flex;
+    min-height: min(720px, calc(100svh - var(--site-header-height)));
+    align-items: center;
+    padding-block: 88px;
+  }
+
+  .layout {
+    grid-template-columns: 1fr 1fr;
+    gap: 48px;
+  }
+
+  .description {
+    font-size: 18px;
+  }
+
+  .actions {
+    margin-top: 36px;
+  }
+
+  .diagram {
+    border-radius: 24px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .primaryAction,
+  .secondaryAction {
+    transition: none;
+  }
+}

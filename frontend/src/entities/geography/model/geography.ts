@@ -89,10 +89,18 @@ export const cityLandings: readonly CityLandingContent[] = [
 
 export const publishedCityLandings = cityLandings.filter((content) => content.status === "published");
 
+export function cityPageSlug(slug: string) {
+  return `uslugi-${slug}`;
+}
+
 export function cityPagePath(slug: string) {
-  return `/goroda/${slug}/`;
+  return `/${cityPageSlug(slug)}/`;
 }
 
 export function findCityLanding(slug: string) {
   return publishedCityLandings.find((content) => content.citySlug === slug);
+}
+
+export function findCityLandingByPageSlug(slug: string) {
+  return publishedCityLandings.find((content) => cityPageSlug(content.citySlug) === slug);
 }
