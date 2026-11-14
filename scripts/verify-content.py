@@ -128,6 +128,30 @@ def verify_inventory():
     return projects, service_slugs
 
 
+def verify_portfolio(service_slugs):
+    """Client-supplied works: portfolio-sources/<slug>/ → WebP files listed in portfolio-photos.json."""
+    manifest = json.loads((ROOT / "frontend/src/entities/project/model/portfolio-photos.json").read_text())
+    entries = (ROOT / "frontend/src/entities/project/model/portfolio.ts").read_text()
+    sources = {path.name for path in (ROOT / "frontend/portfolio-sources").iterdir() if path.is_dir()}
+    require(set(manifest) == sources, "Run node scripts/prepare-portfolio-images.mjs: portfolio photos are out of date")
+    require(set(re.findall(r'slug: "([^"]+)"', entries)) == set(manifest), "Every portfolio folder needs one entry in portfolio.ts")
+    for slug in re.findall(r'serviceSlugs: \[([^\]]*)\]', entries):
+        require(set(re.findall(r'"([^"]+)"', slug)) <= set(service_slugs), "Unknown service in portfolio.ts")
+    files = set()
+    for slug, photos in manifest.items():
+        require(photos, f"Portfolio without photos: {slug}")
+        require(len({photo["file"] for photo in photos}) == len(photos), f"Duplicate portfolio photo: {slug}")
+        for photo in photos:
+            for field in ("src", "preview"):
+                data = (ROOT / "frontend/public" / photo[field].lstrip("/")).read_bytes()
+                require(data[:4] == b"RIFF" and data[8:12] == b"WEBP", f"Invalid WebP file: {photo[field]}")
+                files.add(photo[field])
+    actual = {"/" + str(path.relative_to(ROOT / "frontend/public")) for path in (ROOT / "frontend/public/images/portfolio").rglob("*") if path.is_file()}
+    require(files == actual, "Unexpected or missing portfolio WebP files")
+    print(f"PASS: {len(manifest)} client portfolio works, {len(files)} WebP files")
+    return [{"slug": slug, "photos": photos} for slug, photos in manifest.items()]
+
+
 def verify_build(projects, service_slugs):
     output = ROOT / "frontend/out"
     geography_source = (ROOT / "frontend/src/entities/geography/model/geography.ts").read_text()
@@ -221,5 +245,6 @@ if __name__ == "__main__":
     parser.add_argument("--build", action="store_true", help="also check frontend/out after pnpm build:static")
     args = parser.parse_args()
     data, slugs = verify_inventory()
+    portfolio = verify_portfolio(slugs)
     if args.build:
-        verify_build(data, slugs)
+        verify_build(portfolio + data, slugs)

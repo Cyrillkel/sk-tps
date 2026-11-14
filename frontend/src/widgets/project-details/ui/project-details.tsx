@@ -23,6 +23,7 @@ export function ProjectDetails({ project }: { project: Project }) {
               <h1 id="project-title" className="detail-title">{project.title}</h1>
               <p className="detail-lead">{project.description || "Фотографии объекта и работ, выполненных компанией «Техпромстрой»."}</p>
               {project.paragraphs.map((paragraph) => <p key={paragraph} className="mt-4 text-sm leading-relaxed text-muted">{paragraph}</p>)}
+              {project.works && project.works.length > 0 && <ul className="detail-list mt-6 sm:text-base">{project.works.map((work) => <li key={work}>{work}</li>)}</ul>}
               <a href="#project-photos" className="button-brand mt-7 min-h-14 gap-7 px-7 text-sm">Фотографии объекта <ArrowUpRightIcon className="size-5" /></a>
               {relatedServices.length > 0 && <ul className="mt-6 flex flex-wrap gap-x-5 gap-y-2 text-sm text-accent">{relatedServices.map((service) => <li key={service.slug}><Link href={`/${service.slug}`} className="underline underline-offset-4 hover:text-accent-hover">{service.navigationLabel}</Link></li>)}</ul>}
             </div>

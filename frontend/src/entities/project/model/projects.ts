@@ -1,3 +1,4 @@
+import { portfolioEntries, portfolioPhotos } from "./portfolio";
 import importedProjects from "./projects.json";
 
 export type ProjectPhoto = {
@@ -8,26 +9,48 @@ export type ProjectPhoto = {
   height: number;
   previewWidth: number;
   previewHeight: number;
-  originalUrl: string;
-  isGalleryPhoto: boolean;
-  isListingCover: boolean;
+  /** Migration fields: set only for photos imported from sk-tps.ru. */
+  originalUrl?: string;
+  isGalleryPhoto?: boolean;
+  isListingCover?: boolean;
 };
 
 export type Project = {
   slug: string;
   title: string;
-  sourceTitle: string;
-  sourceUrl: string;
+  /** Migration fields: set only for projects imported from sk-tps.ru. */
+  sourceTitle?: string;
+  sourceUrl?: string;
   category: string;
   description: string;
   paragraphs: readonly string[];
+  /** Completed works listed on the project page. */
+  works?: readonly string[];
   serviceSlugs: readonly string[];
   citySlug: string | null;
   coverSrc: string;
   photos: readonly ProjectPhoto[];
 };
 
-export const projects: readonly Project[] = importedProjects;
+const portfolioProjects: readonly Project[] = portfolioEntries.map((entry) => {
+  const photos = portfolioPhotos[entry.slug];
+  const cover = photos.find((photo) => photo.file === entry.cover);
+  if (!cover) throw new Error(`Portfolio cover not found: ${entry.slug}/${entry.cover}`);
+  return {
+    slug: entry.slug,
+    title: entry.title,
+    category: entry.category,
+    description: entry.description,
+    paragraphs: [],
+    works: entry.works,
+    serviceSlugs: entry.serviceSlugs,
+    citySlug: null,
+    coverSrc: cover.src,
+    photos: photos.map(({ src, preview, width, height, previewWidth, previewHeight }, index) => ({ src, preview, width, height, previewWidth, previewHeight, alt: `${entry.title} — фото ${index + 1}` })),
+  };
+});
+
+export const projects: readonly Project[] = [...portfolioProjects, ...importedProjects];
 export const engineeringProjects = projects.filter((project) => project.category === "engineering");
 export const otherProjects = projects.filter((project) => project.category !== "engineering");
 
