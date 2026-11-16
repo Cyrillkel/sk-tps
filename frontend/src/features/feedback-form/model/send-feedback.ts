@@ -1,22 +1,23 @@
-export type FeedbackRequest = {
-  name: string;
-  phone: string;
-  email: string;
-  message: string;
+import type { FeedbackFields } from "./feedback-schema";
+
+export type FeedbackRequest = FeedbackFields & {
+  page: string;
+  /** Скрытое поле-ловушка: человек его не видит, боты заполняют. */
+  website: string;
 };
 
-/**
- * Временная отправка без backend: открывает почтовую программу с готовым письмом.
- * При появлении серверной обработки заменить эту функцию на запрос к API.
- */
-export function sendFeedback(request: FeedbackRequest, recipient: string) {
-  const body = [
-    `Имя: ${request.name}`,
-    `Телефон: ${request.phone}`,
-    request.email && `Email: ${request.email}`,
-    request.message && `\nВопрос:\n${request.message}`,
-  ].filter(Boolean).join("\n");
+/** Сервис отправки работает на VPS за Nginx (`backend/feedback`). */
+const FEEDBACK_ENDPOINT = "/api/feedback";
 
-  const subject = `Заявка с сайта — ${request.name}`;
-  window.location.href = `mailto:${recipient}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+export async function sendFeedback(request: FeedbackRequest): Promise<boolean> {
+  try {
+    const response = await fetch(FEEDBACK_ENDPOINT, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(request),
+    });
+    return response.ok;
+  } catch {
+    return false;
+  }
 }

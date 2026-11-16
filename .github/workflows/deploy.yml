@@ -5,6 +5,7 @@ on:
     branches: [main]
     paths:
       - frontend/**
+      - backend/**
       - deploy/**
       - .github/workflows/deploy.yml
   workflow_dispatch:
@@ -58,7 +59,10 @@ jobs:
         working-directory: .
         run: |
           python3 -B -m unittest discover -s deploy -p 'test_*.py'
+          python3 -B -m unittest discover -s backend/feedback -p 'test_*.py'
           bash -n deploy/bootstrap.sh
+          bash -n deploy/install-feedback.sh
+          bash -n deploy/enable-https.sh
 
       - name: Build static site
         run: pnpm build:static

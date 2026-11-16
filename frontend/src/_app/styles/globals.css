@@ -15,6 +15,7 @@
   --color-accent-hover: #784200;
   --color-brand: #ffb31b;
   --color-cyan: #24a8ce;
+  --color-danger: #b83232;
   --color-messenger-foreground: #ffffff;
   --color-messenger-telegram: #168ac0;
   --color-messenger-whatsapp: #128c5a;
@@ -164,6 +165,7 @@
     --color-border: #2b3b49;
     --color-accent: #ffd064;
     --color-accent-hover: #ffe09a;
+    --color-danger: #ff8f87;
     --color-hero: #071923;
     --color-hero-foreground: #f4f7fb;
     --color-hero-muted: #bcc8cf;
@@ -1469,8 +1471,9 @@
     box-shadow: 0 0 0 4px color-mix(in srgb, var(--color-accent) 18%, transparent);
   }
 
-  .field-input:user-invalid {
-    border-color: #d64545;
+  .field-input:user-invalid,
+  .field-input[aria-invalid="true"] {
+    border-color: var(--color-danger);
   }
 
   .field-textarea {

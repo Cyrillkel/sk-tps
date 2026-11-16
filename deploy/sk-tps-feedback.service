@@ -1,0 +1,30 @@
+[Unit]
+Description=SK-TPS feedback form mailer
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+EnvironmentFile=/etc/sk-tps/feedback.env
+ExecStart=/usr/bin/python3 -B /opt/sk-tps-feedback/server.py
+Restart=on-failure
+RestartSec=5
+
+DynamicUser=yes
+NoNewPrivileges=yes
+CapabilityBoundingSet=
+ProtectSystem=strict
+ProtectHome=yes
+PrivateTmp=yes
+PrivateDevices=yes
+ProtectKernelTunables=yes
+ProtectKernelModules=yes
+ProtectControlGroups=yes
+RestrictAddressFamilies=AF_UNIX AF_INET AF_INET6
+RestrictNamespaces=yes
+LockPersonality=yes
+SystemCallArchitectures=native
+MemoryMax=128M
+
+[Install]
+WantedBy=multi-user.target
