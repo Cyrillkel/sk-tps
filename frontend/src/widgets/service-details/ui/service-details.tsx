@@ -43,7 +43,7 @@ export function ServiceDetails({ service }: { service: Service }) {
             <h2 id="service-scope-title" className="section-title">Состав работ</h2>
             <div className="max-w-2xl space-y-4 text-sm leading-[1.8] text-muted sm:text-base">{content.paragraphs.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}</div>
           </div>
-          <div className="scope-grid">
+          <div className="scope-grid" data-count={content.scope.length}>
             {content.scope.map((section) => (
               <article key={section.title} className="scope-card">
                 <h3 className="text-xl font-semibold tracking-tight text-primary">{section.title}</h3>

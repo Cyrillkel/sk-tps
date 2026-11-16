@@ -1,7 +1,9 @@
 import * as z from "zod/mini";
 
-const PHONE_DIGITS_MIN = 10;
+import { isCompletePhone } from "../lib/phone-mask";
+
 // Same rules as backend/feedback/request.py, so the server accepts everything the form lets through.
+// The phone is stricter: the +7 mask needs all ten digits after the country code.
 const EMAIL_PATTERN = /^[^@\s]+@[^@\s]+\.[^@\s]+$/;
 
 const feedbackSchema = z.object({
@@ -12,7 +14,7 @@ const feedbackSchema = z.object({
   ),
   phone: z.string().check(
     z.trim(),
-    z.refine((value) => value.replace(/\D/g, "").length >= PHONE_DIGITS_MIN, "Укажите номер телефона полностью"),
+    z.refine(isCompletePhone, "Укажите номер телефона полностью"),
     z.maxLength(20, "Не длиннее 20 символов"),
   ),
   email: z.string().check(

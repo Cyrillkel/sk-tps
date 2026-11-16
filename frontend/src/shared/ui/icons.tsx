@@ -231,6 +231,10 @@ export function ClipboardCheckIcon(props: IconProps) {
   );
 }
 
+export function CheckCircleIcon(props: IconProps) {
+  return <SvgIcon {...props}><circle cx="12" cy="12" r="9" /><path d="m8 12.5 2.7 2.7L16 9.8" /></SvgIcon>;
+}
+
 export function ShieldCheckIcon(props: IconProps) {
   return (
     <SvgIcon {...props}>

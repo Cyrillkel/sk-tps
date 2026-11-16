@@ -10,7 +10,7 @@ export const navigationServices = [
     slug: "tekhnologicheskie-truboprovody",
     navigationLabel: "Технологические трубопроводы и паропроводы",
     title: "Монтаж, ремонт и реконструкция технологических трубопроводов и паропроводов",
-    description: "Паропроводы, пищевые и нержавеющие трубопроводы. От монтажа до ремонта и реконструкции.",
+    description: "Паропроводы, пищевые, нержавеющие и медные трубопроводы, трубопроводы для сжатого воздуха.",
     image: "/images/services/pipelines.webp",
   },
   {

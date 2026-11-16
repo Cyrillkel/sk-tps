@@ -3,6 +3,7 @@ import type { ReactNode } from "react";
 
 import { company } from "@/entities/company";
 import { ContactMessengers } from "@/features/contact-messengers";
+import { CookieConsent } from "@/features/cookie-consent";
 import { ScrollToTopButton } from "@/features/scroll-to-top";
 import { siteUrl } from "@/shared/config";
 import { SiteFooter } from "@/widgets/site-footer";
@@ -42,6 +43,7 @@ export function RootLayout({ children }: Readonly<{ children: ReactNode }>) {
           <ScrollToTopButton />
           <ContactMessengers />
         </div>
+        <CookieConsent />
       </body>
     </html>
   );

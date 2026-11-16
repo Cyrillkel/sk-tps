@@ -14,6 +14,7 @@ export {
   CalculatorIcon,
   CertificateIcon,
   ChatIcon,
+  CheckCircleIcon,
   ChevronDownIcon,
   ClipboardCheckIcon,
   ClockIcon,

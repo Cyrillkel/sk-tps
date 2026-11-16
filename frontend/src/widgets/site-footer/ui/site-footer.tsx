@@ -3,6 +3,7 @@ import Link from "next/link";
 
 import { company } from "@/entities/company";
 import { navigationServices } from "@/entities/service";
+import { CookieSettingsButton } from "@/features/cookie-consent";
 import { Container, MailIcon, MaxIcon, PhoneIcon, TelegramIcon, WhatsAppIcon } from "@/shared/ui";
 
 const navigationLinks = [
@@ -88,9 +89,12 @@ export function SiteFooter() {
         <div className="mt-12 flex flex-col gap-3 border-t border-service-border pt-6 text-xs text-service-muted sm:flex-row sm:flex-wrap sm:items-center sm:justify-between lg:mt-16">
           <p>© {company.legalName} {company.foundedYear}–{year}</p>
           <p>ИНН {company.inn}</p>
-          <Link href={company.privacyPolicyUrl} className="hover:text-service-foreground">
-            Политика обработки персональных данных
-          </Link>
+          <div className="flex flex-wrap gap-x-6 gap-y-3">
+            <Link href={company.privacyPolicyUrl} className="hover:text-service-foreground">
+              Политика обработки персональных данных
+            </Link>
+            <CookieSettingsButton className="text-left hover:text-service-foreground" />
+          </div>
         </div>
       </Container>
     </footer>
