@@ -30,7 +30,7 @@ export const portfolioEntries: readonly PortfolioEntry[] = [
       "Выполнили замену запорной арматуры и врезку в действующие стояки от Ду 15 мм до Ду 50 мм — 42 шт.",
       "Выполнили замену узла учёта.",
     ],
-    serviceSlugs: ["vodosnabzhenie"],
+    serviceSlugs: ["promyshlennye-sistemy", "vodosnabzhenie"],
     cover: "photo_2026-11-15_08-56-55.jpg",
   },
   {
