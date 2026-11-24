@@ -63,5 +63,61 @@
       "previewWidth": 640,
       "previewHeight": 480
     }
+  ],
+  "remont-vodoprovoda-kb-8-fmba-rossii": [
+    {
+      "file": "photo_2026-11-15_08-56-55.jpg",
+      "src": "/images/portfolio/remont-vodoprovoda-kb-8-fmba-rossii/01.webp",
+      "preview": "/images/portfolio/remont-vodoprovoda-kb-8-fmba-rossii/01-preview.webp",
+      "width": 1280,
+      "height": 960,
+      "previewWidth": 640,
+      "previewHeight": 480
+    },
+    {
+      "file": "photo_2026-11-23_21-27-38.jpg",
+      "src": "/images/portfolio/remont-vodoprovoda-kb-8-fmba-rossii/02.webp",
+      "preview": "/images/portfolio/remont-vodoprovoda-kb-8-fmba-rossii/02-preview.webp",
+      "width": 1280,
+      "height": 960,
+      "previewWidth": 640,
+      "previewHeight": 480
+    },
+    {
+      "file": "photo_2026-11-23_22-05-53.jpg",
+      "src": "/images/portfolio/remont-vodoprovoda-kb-8-fmba-rossii/03.webp",
+      "preview": "/images/portfolio/remont-vodoprovoda-kb-8-fmba-rossii/03-preview.webp",
+      "width": 960,
+      "height": 1280,
+      "previewWidth": 480,
+      "previewHeight": 640
+    },
+    {
+      "file": "photo_2026-11-23_22-05-54 (2).jpg",
+      "src": "/images/portfolio/remont-vodoprovoda-kb-8-fmba-rossii/04.webp",
+      "preview": "/images/portfolio/remont-vodoprovoda-kb-8-fmba-rossii/04-preview.webp",
+      "width": 960,
+      "height": 1280,
+      "previewWidth": 480,
+      "previewHeight": 640
+    },
+    {
+      "file": "photo_2026-11-23_22-05-54 (3).jpg",
+      "src": "/images/portfolio/remont-vodoprovoda-kb-8-fmba-rossii/05.webp",
+      "preview": "/images/portfolio/remont-vodoprovoda-kb-8-fmba-rossii/05-preview.webp",
+      "width": 960,
+      "height": 1280,
+      "previewWidth": 480,
+      "previewHeight": 640
+    },
+    {
+      "file": "photo_2026-11-23_22-05-54.jpg",
+      "src": "/images/portfolio/remont-vodoprovoda-kb-8-fmba-rossii/06.webp",
+      "preview": "/images/portfolio/remont-vodoprovoda-kb-8-fmba-rossii/06-preview.webp",
+      "width": 960,
+      "height": 1280,
+      "previewWidth": 480,
+      "previewHeight": 640
+    }
   ]
 }

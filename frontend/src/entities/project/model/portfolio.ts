@@ -21,6 +21,19 @@ export type PortfolioEntry = {
 /** Newest first: these cards open the project carousels. */
 export const portfolioEntries: readonly PortfolioEntry[] = [
   {
+    slug: "remont-vodoprovoda-kb-8-fmba-rossii",
+    title: "Ремонт водопровода в ФГБУЗ КБ № 8 ФМБА России",
+    category: "engineering",
+    description: "Выполнили ремонт системы холодного водоснабжения: горизонтально расположенного трубопровода («лежака») и вводного узла хирургического корпуса.",
+    works: [
+      "Выполнили замену, покраску и изоляцию трубопровода Ду 76 мм — 180 м.",
+      "Выполнили замену запорной арматуры и врезку в действующие стояки от Ду 15 мм до Ду 50 мм — 42 шт.",
+      "Выполнили замену узла учёта.",
+    ],
+    serviceSlugs: ["vodosnabzhenie"],
+    cover: "photo_2026-11-15_08-56-55.jpg",
+  },
+  {
     slug: "prokladka-kabelnoj-linii-0-4-kv",
     title: "Прокладка кабельной линии 0,4 кВ от ДГУ до щита АВР",
     category: "engineering",
